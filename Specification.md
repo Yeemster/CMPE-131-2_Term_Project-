@@ -40,36 +40,4 @@ N/A
 ### Alternate Postconditions
 The user is not allowed to enter the home page. 
  
-
-Use Case Name:
-## Summary
-write summary here
-## Actors
-actor 1
-actor 2
-….
-## Preconditions
-* precond 1
-* precond 2
-* ….
-## Triggers
-Explain trigger here
-## Primary Sequence
-step 1 action
-step 2 action
-etc
-## Primary Postconditions
-* postcondition
-* postcondition
-* etc
-## Alternate Sequences
-Only if you have alt seq
-* Step 1 alt. seq.
-* step 2 alt. seq.
-* etc
-### Alternate Trigger
-### Alternate Postconditions
- 
-
-
 >>>>>>> ac05aed1c2cab0af675063a852c9880b3067d5a9
