@@ -203,7 +203,7 @@ This gives the user the ability to search for a particular text or phrase in any
 ### Preconditions
 1. The client/user needs to be in connection with the website server or application
 1. The client/user needs to be correctly authenticated or logged in
-1. 1The server needs to display the notes and the client needs to have the notes bar selected
+1. The server needs to display the notes and the client needs to have the notes bar selected
 ### Triggers
 	User clicks on the search text button or short key.
 ### Primary Sequence
@@ -251,7 +251,6 @@ The system tracks how long each user has been actively engaging with the softwar
 ### Primary Postconditions
 After user requests the system for time info, 
 System redirects the User to a page with the tracked time data.
-* etc
 ### Alternate Sequences
 1. User does not activate the time tracking feature and requests the time information. 
 1. System does not track/add up the time worked 
@@ -277,7 +276,7 @@ The system tracks how long each user has been actively working on each project a
 * User requests the System to display hours worked for each project via a button.
 ### Primary Sequence
 1. User selects a project to be worked on
-1.User starts the pomodoro timer 
+1. User starts the pomodoro timer 
 1. The system checks whether the user is working on a particular project 
 1. If so, System adds up the minutes spent working on that project.
 1. System stores the time data in a database linked for each project or date.
@@ -286,18 +285,18 @@ The system tracks how long each user has been actively working on each project a
 ### Primary Postconditions
 * After user requests the system for time info, System redirects the User to a page with the tracked time data.
 ### Alternate Sequences
-1. User does not activate the time tracking feature and requests the time information for each project . 
-  a. System does not track/add up the time worked 
-  b. System does not display the time info 
-  c. System prompts the user with a message to turn the time tracking feature on and use pomodoro timer. 
+1. At step 5, User does not activate the time tracking feature and requests the time information for each project . 
+    - System does not track/add up the time worked 
+    - System does not display the time info , 
+    - System prompts the user with a message to turn the time tracking feature on and use pomodoro timer. 
 1. User does not select any project before tracking and requests the time information for each project . 
-  a. System does not track/add up the time worked 
-  b. System does not display the time info 
-  c. System prompts the user with a message telling it to select a project to receive the information.  
+    - System does not track/add up the time worked 
+    - System does not display the time info 
+    - System prompts the user with a message telling it to select a project to receive the information.  
 1. Both cases 1 and 2 occur. 
-  a. System does not track/add up the time worked.
-  b. System does not display the time info 
-  c. System prompts the user with a message to select a project to  		    receive the information and turn the time tracking feature on/use 	    the pomodoro timer.
+    - System does not track/add up the time worked.
+    - System does not display the time info 
+    - System prompts the user with a message to select a project to  		    receive the information and turn the time tracking feature on/use 	    the pomodoro timer.
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -310,11 +309,11 @@ The system tracks each activity’s designated time allotted and whether  the ac
 User
 System
 ### Preconditions
-The client/user needs to be in connection with the website server or application
-The client/user needs to be correctly authenticated or logged in to application
-The client/user needs to have the to-do tracker activated via settings
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in to application
+* The client/user needs to have the to-do tracker activated via settings
 ### Triggers
-	The To-do list option is activated in the settings or clicked by a button
+The To-do list option is activated in the settings or clicked by a button
 ### Primary Sequence
 1. The system displays the To-do list on the dashboard
 1. User adds an activity to the time block section.
@@ -336,21 +335,22 @@ N/A
 
 ## Use Case Name: Visualize time-blocks
 ### Summary
-The system tracks each activity’s designated time allotted and whether  the activity was completed through the pomodoro timer or marked down as completed. 
+System displays the time blocks to the user.
 ### Actors
 User
 System
+
 ### Preconditions
-The client/user needs to be in connection with the website server or application
-The client/user needs to be correctly authenticated or logged in to application
-The client/user needs to have the time-blocks feature activated via settings
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in to application
+* The client/user needs to have the time-blocks feature activated via settings
+
 ### Triggers
-	The Time-blocks option is activated in the settings and clicked on by a button
+* The Time-blocks option is activated in the settings and clicked on by a button
 ### Primary Sequence
-1. The system displays the Time-blocks on a separate page 
-1. User adds an activity to the time block section and choosing a color to represent the time block.
-1. The system updates the time-block database  
-1. The system displays the Time-blocks wit the settings specified by the user (includes date, time, color, activity etc.)
+1. User clicks on the time-block button.
+1. System updates the time-block database  
+1. System displays the Time-blocks on a separate page 
 1. User hovers over a time block 
 1. System then shows the custom time-block settings 
 1. User exits the time-block page via a button 
@@ -369,15 +369,15 @@ N/A
 ### Preconditions
 1. The client/user needs to be in connection with the website server or application
 1. The client/user needs to be correctly authenticated or logged in to application
-## Triggers
+### Triggers
 	* 
-## Primary Sequence
+### Primary Sequence
 
-## Primary Postconditions
+### Primary Postconditions
 
-## Alternate Sequences
+### Alternate Sequences
 
- ### Alternate Trigger
+### Alternate Trigger
 N/A
 ### Alternate Postconditions
 N/A
