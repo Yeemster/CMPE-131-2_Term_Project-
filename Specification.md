@@ -123,7 +123,7 @@ This takes the users inputted mark down file and creates flash cards
 1. The system displays a screen displaying flash cards. 
 ### Alternate Sequences
 1. The user does not input a correctly formatted file
-* The system prompts the user that the file they uploaded is invalid
+    - The system prompts the user that the file they uploaded is invalid
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -152,11 +152,11 @@ This lets the user share their flash cards to other accounts
 4. The user clicks send button
 5. The system shares the flash card file with the inputted email account
 ### Primary Postconditions
-1. The system displays a message saying it was shared successfully.
+* The system displays a message saying it was shared successfully.
 ### Alternate Sequences
 1. If the user enters an invalid email
-* System display an error message
-* System prompts the user to enter a valid email 
+    - System display an error message
+    - System prompts the user to enter a valid email 
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -185,10 +185,10 @@ This lets the user create a pdf of their flash cards and print it
 1. The system prints out flash cards
 ### Alternate Sequences
 1. The user doesn't click on the print button
-* The user maintains in the PDF version of the flash cards
+    - The user maintains in the PDF version of the flash cards
 1. If the user does not have a connected or compatible printer
-* The system displays an error message 
-* The system prompts the user to connect a working printer
+    - The system displays an error message 
+    - The system prompts the user to connect a working printer
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -221,9 +221,14 @@ This gives the user the ability to search for a particular text or phrase in any
 ### Primary Postconditions
 * The system returns the user to it’s previous page or state.
 ### Alternate Sequences
-1. User types in file or text that is missing from the database, directory or file, System display error message 
-1. System prompts the user with a message such as “no such search result has been found”
-1. System maintains the search accessibility for the user to enter another input.
+1. User types in file or text that is missing from the database, directory or file, 
+    - System display error message 
+    - System prompts the user with a message such as “no such search result has been found”
+    - System maintains the search accessibility for the user to enter another input.
+1. User logs out of the system
+    - System disables the highlight of each case and closes the search prompt. 
+1. User exits out of the browser 
+    - System logs the user out 
 ### Alternate Trigger
 * The user inputs a specified short key which enables the search text feature
 ### Alternate Postconditions
@@ -244,7 +249,7 @@ The system tracks how long each user has been actively engaging with the softwar
 * User requests the System to display hours worked per day via a button.
 ### Primary Sequence
 1. User starts the pomodoro timer 
-1. System adds up the minutes timed or spent working using the timer.
+1. System adds up the minutes timed or spent working while the timer is running .
 1. System stores the time data in a database linked for each date.
 1. User requests the time worked for each day via a button.
 1. System displays the data in a comprehensible manner for each day or time period selected. 
@@ -253,9 +258,13 @@ After user requests the system for time info,
 System redirects the User to a page with the tracked time data.
 ### Alternate Sequences
 1. User does not activate the time tracking feature and requests the time information. 
-1. System does not track/add up the time worked 
-1. System does not display the time info 
-1. System prompts the user with a message to turn the time tracking feature on and use pomodoro timer. 
+    - System does not track/add up the time worked 
+    - System does not display the time info 
+    - System prompts the user with a message to turn the time tracking feature on and use pomodoro timer. 
+1. User logs out of the system
+    - System stops the pomodoro timer 
+1. User exits out of the browser 
+    - System logs the user out 
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -297,6 +306,10 @@ The system tracks how long each user has been actively working on each project a
     - System does not track/add up the time worked.
     - System does not display the time info 
     - System prompts the user with a message to select a project to  		    receive the information and turn the time tracking feature on/use 	    the pomodoro timer.
+1. User logs out of the system
+    - System stops the pomodoro timer 
+1. User exits out of the browser 
+    - System logs the user out 
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -355,13 +368,43 @@ System
 1. System then shows the custom time-block settings 
 1. User exits the time-block page via a button 
 ### Primary Postconditions
-The Time block bar is minimized or closed out after being visualized 
+* The Time block bar is minimized or closed out after being visualized 
 ### Alternate Sequences
-
+1. User clicks on time-block button but has not activated the time-block feature. 
+    - System displays error message 
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
 N/A
+
+## Use Case Name: Logout Account Option
+### Summary 
+This will give the user an option to log/sign out of their account
+### Actors
+1. User
+1. System
+### Preconditions
+* The user must already have an account for it to be deleted. 
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in already
+### Triggers
+* User clicks on Sign out button
+### Primary Sequence
+1. User clicks on Log out account button 
+1. System prompts the user if they really want to sign out their account. 
+1. User confirms that they want to sign out.
+1. System logs out their account 
+1. System updates the system with the date and time of the user sign out 
+### Primary Postconditions
+* The systems logs the user out of the account displaying the login menu
+### Alternate Sequences
+1. If the user declines the confirmation to log out the account
+* System exits the user out of the log out  account confirmation prompt.
+* System brings the user back to the home menu or previous page.
+### Alternate Trigger
+N/A
+### Alternate Postconditions
+1. The user is brought back to the home page or previous page
 
 ## Use Case Name: Renaming with Regex
 ### Summary
