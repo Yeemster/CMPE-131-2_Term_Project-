@@ -65,15 +65,15 @@ This gives the user the option to sign up.
 * The system displays the home screen with the user logged in.
 ### Alternate Sequences
 1. If the user enters an already existing username
-a. The system displays an error message saying the username is already taken
-b. The system prompts the user to choose a different username 
+* The system displays an error message saying the username is already taken
+* The system prompts the user to choose a different username 
 1. If the user enters an already existing email
-a. The system displays an error message saying the email is already taken
-b. The system prompts the user to choose a different email
+* The system displays an error message saying the email is already taken
+* The system prompts the user to choose a different email
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
-*The user cannot use software with out an account.
+* The user cannot use software with out an account.
 
 ## Use Case Name: Delete Account Option
 ### Summary 
@@ -96,8 +96,8 @@ This will give the user an option to delete their account permanently
 * The systems logs the user out of the account displaying the login menu
 ### Alternate Sequences
 1. If the user declines the confirmation to deleting the account
-a. System exits the user out of the delete account confirmation prompt.
-b. System brings the user back to the home menu.
+* System exits the user out of the delete account confirmation prompt.
+* System brings the user back to the home menu.
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -152,8 +152,8 @@ This lets the user share their flash cards to other accounts
 1. The system displays a message saying it was shared successfully.
 ### Alternate Sequences
 1. If the user enters an invalid email
-a) System display an error message
-b) System prompts the user to enter a valid email 
+* System display an error message
+* System prompts the user to enter a valid email 
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -180,10 +180,10 @@ This lets the user create a pdf of their flash cards and print it
 1. The system prints out flash cards
 ### Alternate Sequences
 1. The user doesn't click on the print button
-a. The user maintains in the PDF version of the flash cards
+* The user maintains in the PDF version of the flash cards
 1. If the user does not have a connected or compatible printer
-a. The system displays an error message 
-b. The system prompts the user to connect a working printer
+* The system displays an error message 
+* The system prompts the user to connect a working printer
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
