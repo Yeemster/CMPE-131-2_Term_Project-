@@ -19,8 +19,7 @@ This gives the user the ability to login.
 1. User
 1. System
 ### Preconditions
-1. The client needs to be in connection with the website server or 
-1. application needs sufficient hardware
+1. The client/user needs to be in connection with the website server or application
 1. Server needs to display the login page. 
 ### Triggers
 * Click on the login button.
@@ -82,9 +81,9 @@ This will give the user an option to delete their account permanently
 1. User
 1. System
 ### Preconditions
-1. The client needs to be connected with the website server or application
-1. Server needs to display the sign up menu.
-1. The user must already have an account for it to be deleted. 
+* The user must already have an account for it to be deleted. 
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in
 ### Triggers
 * Clicks on delete account button 
 ### Primary Sequence
@@ -110,8 +109,9 @@ This takes the users inputted mark down file and creates flash cards
 1. User
 2. System
 ### Preconditions
-* Needs sufficient hardware
 * User needs to have correct formatting for software to create flash cards
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in
 ### Triggers
 * User needs to click on the generate flash cards button 
 ### Primary Sequence
@@ -123,7 +123,7 @@ This takes the users inputted mark down file and creates flash cards
 1. The system displays a screen displaying flash cards. 
 ### Alternate Sequences
 1. The user does not input a correctly formatted file
-a. The system prompts the user that the file they uploaded is invalid
+* The system prompts the user that the file they uploaded is invalid
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -136,8 +136,9 @@ This lets the user share their flash cards to other accounts
 1. User
 1. System
 ### Preconditions
-1. The client needs to be in conneciton with the website server or application
-1. User needs to have flash cards
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in
+* User needs to have flash cards
 ### Triggers
 * User clicks on the share button while on their flash cards
 ### Primary Sequences
@@ -146,8 +147,10 @@ This lets the user share their flash cards to other accounts
 1. User clicks on the share button 
 1. System displays a screen prompting the user to enter an email to share with
 1. The user enters in the email they want to share their flash cards to
-1. The user clicks send button
-1. The system shares the flash card file with the inputted email account
+2. System prompts the user editing permissions.
+3. User chooses right of access, between edit, view, and comment.
+4. The user clicks send button
+5. The system shares the flash card file with the inputted email account
 ### Primary Postconditions
 1. The system displays a message saying it was shared successfully.
 ### Alternate Sequences
@@ -166,8 +169,10 @@ This lets the user create a pdf of their flash cards and print it
 1. User
 1. System
 ### Preconditions 
-* Needs sufficient hardware
-* User has a created flash cards already using create flash cards use case
+* User has flash cards already 
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in
+* User has a printer that is properly connected to their system
 ### Triggers
 * Clicks on the create PDF button
 ### Primary Sequence
