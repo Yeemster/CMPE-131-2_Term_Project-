@@ -49,9 +49,8 @@ This gives the user the option to sign up.
 1. User
 2. System
 ### Preconditions
-1. The client needs to be connected with the website server or application
-2. The user needs sufficient hardware
-3. Server needs to display the sign up menu.
+1. The client needs to be connected with the website server or application.
+1. Server needs to display the sign up menu.
 ### Triggers
 * The user clicking on the sign up button. 
 ### Primary Sequence
@@ -74,7 +73,7 @@ b. The system prompts the user to choose a different email
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
-The user cannot use software with out an account.
+*The user cannot use software with out an account.
 
 ## Use Case Name: Delete Account Option
 ### Summary 
@@ -84,7 +83,6 @@ This will give the user an option to delete their account permanently
 1. System
 ### Preconditions
 1. The client needs to be connected with the website server or application
-1. The user needs sufficient hardware
 1. Server needs to display the sign up menu.
 1. The user must already have an account for it to be deleted. 
 ### Triggers
@@ -139,7 +137,6 @@ This lets the user share their flash cards to other accounts
 1. System
 ### Preconditions
 1. The client needs to be in conneciton with the website server or application
-1. Needs sufficient hardware 
 1. User needs to have flash cards
 ### Triggers
 * User clicks on the share button while on their flash cards
