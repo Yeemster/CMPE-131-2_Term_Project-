@@ -424,3 +424,130 @@ N/A
 N/A
 ### Alternate Postconditions
 N/A
+
+
+Use Case Name: Share notes
+## Summary
+Allow users to share their notes with other people
+ 
+## Actors
+System
+User
+## Preconditions
+* Needs sufficient hardware
+* The client needs to be in connection with the website server or application
+* User needs to have notes
+## Triggers
+Share button while on their notes
+## Primary Sequence
+The system displays the notes and share button.
+User clicks on the share button while on their notes.
+The system displays a screen prompting the user to enter an email.
+The user enters the email of the person they want to share their file with.
+The user clicks on the send button.
+The system shares the notes with the other person.
+The system adds notes to the person’s account.
+ 
+## Primary Postconditions
+* The system displays a message saying successfully shared.
+## Alternate Sequences
+ 
+* The user enters an invalid email.
+The system displays an error message
+The system prompts user back to notes
+ 
+### Alternate Trigger
+N/A
+### Alternate Postconditions
+The user does not share their notes
+ 
+Use Case Name: Convert markdown notes to pdf
+### Summary
+The system takes users markdown notes and creates a pdf document
+### Actors
+User
+System
+### Preconditions
+* Needs sufficient hardware
+* User has already created markdown notes
+### Triggers
+Click on the export as PDF button
+### Primary Sequence
+The User clicks on the export as PDF button
+The system displays a textbox to change the name of the file.
+The user clicks on the save button.
+The system saves the notes as a pdf document
+### Primary Postconditions
+* System displays a message saying file successfully saved.
+### Alternate Sequences
+Only if you have alt seq
+* The user doesn’t click the save button.
+* The user maintains the markdown notes.
+### Alternate Trigger
+Click on the cancel button
+### Alternate Postconditions
+The user does not convert markdown notes to pdf.
+ 
+Use Case Name: Time-Block
+## Summary
+Users will be able to add time blocks to their calendars. 
+ 
+## Actors
+User
+System
+ ## Preconditions
+* The user needs sufficient hardware.
+* The client/user needs to be in connection with the website server or application. 
+* The client/user needs to be correctly authenticated or logged in to the application.
+## Triggers
+The user clicks on the time-block option. 
+## Primary Sequence
+The user navigates to the time-block section.
+The system prompts the user to the time-block page.
+The user clicks on a button to create a time block
+System prompts the user with options such as date, time, activity name and color.
+The system updates the time-block database.
+## Primary Postconditions
+* System notifies the user that they have created a time-block successfully
+*  The time-block can be visualized by the ‘‘Visualize time-block’ use case. 
+ 
+## Alternate Sequences
+* The user creates a time-block with a time conflict.
+The system does not add the time-block.
+### Alternate Trigger
+N/A
+### Alternate Postconditions
+The system prompts user with a message to change the time or date of the event.
+ 
+Use Case Name: Pomodoro Timer
+## Summary
+The system sets a timer for the user to work on tasks and then sets a break time.
+ 
+## Actors
+System
+User
+ 
+## Preconditions
+* The client/user needs to be in connection with the website server or application.
+* The client/user needs to be correctly authenticated or logged in to the application.
+ 
+## Triggers
+User activates the pomodoro timer 
+## Primary Sequence
+The user clicks the button to start the timer.
+The system starts a 25 minutes timer.
+The user starts working on their tasks.
+The system displays a message when the 25 minutes are over.
+The system starts a 5 minutes break timer.
+The system prompts the user to start the timer again or end the program.
+## Primary Postconditions
+* The system closes the pomodoro timer when the user ends the program. 
+## Alternate Sequences
+1. User stops the timer before 25 minutes or 5 minute break 
+1. User logs out of the system
+    - System stops the pomodoro timer and any other process
+1. User exits out of the browser 
+    - System logs the user out
+### Alternate Trigger
+### Alternate Postconditions
+
