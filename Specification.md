@@ -33,9 +33,9 @@ This gives the user the ability to login.
 * The system displays the home screen to the user.
 ### Alternate Sequences
 1. If user enters incorrect username or password
-1. System display error message 
-1. System prompts the user to enter a valid user or password
-1. System prompts the user the ability to reset password.
+   - System display error message 
+   - System prompts the user to enter a valid user or password
+   - System prompts the user the ability to reset password.
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -64,11 +64,11 @@ This gives the user the option to sign up.
 * The system displays the home screen with the user logged in.
 ### Alternate Sequences
 1. If the user enters an already existing username
-* The system displays an error message saying the username is already taken
-* The system prompts the user to choose a different username 
+    - The system displays an error message saying the username is already taken
+    - The system prompts the user to choose a different username 
 1. If the user enters an already existing email
-* The system displays an error message saying the email is already taken
-* The system prompts the user to choose a different email
+    - The system displays an error message saying the email is already taken
+    - The system prompts the user to choose a different email
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
@@ -205,7 +205,8 @@ This gives the user the ability to search for a particular text or phrase in any
 1. The client/user needs to be correctly authenticated or logged in
 1. The server needs to display the notes and the client needs to have the notes bar selected
 ### Triggers
-	User clicks on the search text button or short key.
+* User clicks on the search text button or short key.
+
 ### Primary Sequence
 1. User clicks on the search text button under notes.
 1. System prompts user with a menu allowing for file selection.
@@ -350,13 +351,15 @@ N/A
 ### Summary
 System displays the time blocks to the user.
 ### Actors
-User
-System
+* User
+* System
 
 ### Preconditions
-* The client/user needs to be in connection with the website server or application
-* The client/user needs to be correctly authenticated or logged in to application
-* The client/user needs to have the time-blocks feature activated via settings
+1. The client/user needs to be in connection with the website server or application
+
+2. The client/user needs to be correctly authenticated or logged in to application
+
+3. The client/user needs to have the time-blocks feature activated via settings
 
 ### Triggers
 * The Time-blocks option is activated in the settings and clicked on by a button
@@ -383,8 +386,7 @@ This will give the user an option to log/sign out of their account
 ### Actors
 1. User
 1. System
-### Preconditions
-* The user must already have an account for it to be deleted. 
+### Preconditions. 
 * The client/user needs to be in connection with the website server or application
 * The client/user needs to be correctly authenticated or logged in already
 ### Triggers
@@ -399,147 +401,129 @@ This will give the user an option to log/sign out of their account
 * The systems logs the user out of the account displaying the login menu
 ### Alternate Sequences
 1. If the user declines the confirmation to log out the account
-* System exits the user out of the log out  account confirmation prompt.
-* System brings the user back to the home menu or previous page.
+    - System exits the user out of the log out  account confirmation prompt.
+    - System brings the user back to the home menu or previous page.
+1. User exits the browser or closes the application session
+    - System logs the user out 
+    - System terminates all running processes including the pomodoro timer
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
 1. The user is brought back to the home page or previous page
 
-## Use Case Name: Renaming with Regex
-### Summary
-### Actors
-### Preconditions
-1. The client/user needs to be in connection with the website server or application
-1. The client/user needs to be correctly authenticated or logged in to application
-### Triggers
-	* 
-### Primary Sequence
-
-### Primary Postconditions
-
-### Alternate Sequences
-
-### Alternate Trigger
-N/A
-### Alternate Postconditions
-N/A
-
-
-Use Case Name: Share notes
+## Use Case Name: Share notes
 ## Summary
-Allow users to share their notes with other people
- 
+Allows users to share their notes with other people
 ## Actors
 System
 User
 ## Preconditions
-* Needs sufficient hardware
-* The client needs to be in connection with the website server or application
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in already
 * User needs to have notes
 ## Triggers
-Share button while on their notes
+* Share button while on their notes
+
 ## Primary Sequence
-The system displays the notes and share button.
-User clicks on the share button while on their notes.
-The system displays a screen prompting the user to enter an email.
-The user enters the email of the person they want to share their file with.
-The user clicks on the send button.
-The system shares the notes with the other person.
-The system adds notes to the person’s account.
- 
+1. The system displays the notes and share button.
+2. User clicks on the share button while on their notes.
+3. The system displays a screen prompting the user to enter an email.
+4. The user enters the email of the person they want to share their file with.
+5. The user clicks on the send button.
+6. The system shares the notes with the other person.
+7. The system adds notes to the person’s account.
+
 ## Primary Postconditions
 * The system displays a message saying successfully shared.
 ## Alternate Sequences
- 
-* The user enters an invalid email.
-The system displays an error message
-The system prompts user back to notes
- 
+
+1. The user enters an invalid email. 
+   - The system displays an error message
+   - The system prompts user back to notes
+
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
 The user does not share their notes
- 
-Use Case Name: Convert markdown notes to pdf
+
+## Use Case Name: Convert markdown notes to pdf
 ### Summary
 The system takes users markdown notes and creates a pdf document
 ### Actors
 User
 System
 ### Preconditions
-* Needs sufficient hardware
+* The client/user needs to be in connection with the website server or application
+* The client/user needs to be correctly authenticated or logged in already
 * User has already created markdown notes
 ### Triggers
 Click on the export as PDF button
 ### Primary Sequence
-The User clicks on the export as PDF button
-The system displays a textbox to change the name of the file.
-The user clicks on the save button.
-The system saves the notes as a pdf document
+1. The User clicks on the export as PDF button
+1. The system displays a textbox to change the name of the file.
+1. The user clicks on the save button.
+1. The system saves the notes as a pdf document
 ### Primary Postconditions
 * System displays a message saying file successfully saved.
 ### Alternate Sequences
-Only if you have alt seq
-* The user doesn’t click the save button.
-* The user maintains the markdown notes.
+1. The user doesn’t click the save button.
+    - The user maintains the markdown notes.
 ### Alternate Trigger
 Click on the cancel button
 ### Alternate Postconditions
-The user does not convert markdown notes to pdf.
- 
-Use Case Name: Time-Block
+* The user does not convert markdown notes to pdf.
+
+## Use Case Name: Time-Block
 ## Summary
 Users will be able to add time blocks to their calendars. 
- 
 ## Actors
 User
 System
  ## Preconditions
-* The user needs sufficient hardware.
 * The client/user needs to be in connection with the website server or application. 
 * The client/user needs to be correctly authenticated or logged in to the application.
 ## Triggers
-The user clicks on the time-block option. 
+* The user clicks on the time-block option. 
 ## Primary Sequence
-The user navigates to the time-block section.
-The system prompts the user to the time-block page.
-The user clicks on a button to create a time block
-System prompts the user with options such as date, time, activity name and color.
-The system updates the time-block database.
+1. The user navigates to the time-block section.
+1. The system prompts the user to the time-block page.
+1. The user clicks on a button to create a time block
+1. System prompts the user with options such as date, time, activity name and color.
+1. The system updates the time-block database.
 ## Primary Postconditions
 * System notifies the user that they have created a time-block successfully
 *  The time-block can be visualized by the ‘‘Visualize time-block’ use case. 
- 
+
 ## Alternate Sequences
 * The user creates a time-block with a time conflict.
-The system does not add the time-block.
+    - The system does not add the time-block.
+    - The system displays an error message to resolve the conflict.
 ### Alternate Trigger
 N/A
 ### Alternate Postconditions
 The system prompts user with a message to change the time or date of the event.
- 
-Use Case Name: Pomodoro Timer
+
+## Use Case Name: Pomodoro Timer
 ## Summary
 The system sets a timer for the user to work on tasks and then sets a break time.
- 
 ## Actors
-System
-User
- 
+* System
+* User
+
 ## Preconditions
 * The client/user needs to be in connection with the website server or application.
 * The client/user needs to be correctly authenticated or logged in to the application.
- 
+
 ## Triggers
-User activates the pomodoro timer 
+* User activates the pomodoro timer.
 ## Primary Sequence
-The user clicks the button to start the timer.
-The system starts a 25 minutes timer.
-The user starts working on their tasks.
-The system displays a message when the 25 minutes are over.
-The system starts a 5 minutes break timer.
-The system prompts the user to start the timer again or end the program.
+1. The user clicks the button to start the timer.
+1. The system starts a 25 minutes timer.
+1. The user starts working on their tasks.
+1. The system displays a message when the 25 minutes are over.
+1. The system starts a 5 minutes break timer.
+1. The system prompts the user to start the timer again or end the program.
+
 ## Primary Postconditions
 * The system closes the pomodoro timer when the user ends the program. 
 ## Alternate Sequences
