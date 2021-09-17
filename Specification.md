@@ -459,26 +459,23 @@ System
 ### Triggers
 Click on the export as PDF button
 ### Primary Sequence
-The User clicks on the export as PDF button
-The system displays a textbox to change the name of the file.
-The user clicks on the save button.
-The system saves the notes as a pdf document
+1. The User clicks on the export as PDF button
+1. The system displays a textbox to change the name of the file.
+1. The user clicks on the save button.
+1. The system saves the notes as a pdf document
 ### Primary Postconditions
 * System displays a message saying file successfully saved.
 ### Alternate Sequences
-Only if you have alt seq
-* The user doesn’t click the save button.
-* The user maintains the markdown notes.
+1. The user doesn’t click the save button.
+    - The user maintains the markdown notes.
 ### Alternate Trigger
 Click on the cancel button
 ### Alternate Postconditions
-
-The user does not convert markdown notes to pdf.
+* The user does not convert markdown notes to pdf.
 
 ## Use Case Name: Time-Block
 ## Summary
 Users will be able to add time blocks to their calendars. 
-
 ## Actors
 User
 System
