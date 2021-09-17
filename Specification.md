@@ -551,3 +551,30 @@ The system prompts the user to start the timer again or end the program.
 ### Alternate Trigger
 ### Alternate Postconditions
 
+Use Case Name: Render Markdown Notes
+## Summary
+The system will input/create markdown files and render them in a notes format such that text would auto-format markdown syntax for the completed preview.  
+## Actors
+User
+System
+## Preconditions
+* The client/user needs to be in connection with the website server or application.
+* The client/user needs to be correctly authenticated or logged in to the application.
+* The client/user needs to be navigated to the notes page
+## Triggers
+User clicks on create markdown file button 
+ ## Primary Sequence
+User clicks on create note.
+System creates a markdown file.
+System displays the markdown file as a black page.
+User types input into the file using markdown syntax.
+System takes the syntax and converts it into a formatted visualization.
+## Primary Postconditions
+* System displays the text back onto the screen 
+## Alternate Sequences
+User inputs the markdown file. 
+### Alternate Trigger
+User clicks on input markdown file button 
+### Alternate Postconditions
+System displays the text back onto the screen.
+
