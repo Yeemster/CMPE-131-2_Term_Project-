@@ -426,7 +426,7 @@ N/A
 N/A
 
 
-Use Case Name: Share notes
+## Use Case Name: Share notes
 ## Summary
 Allow users to share their notes with other people
  
@@ -461,7 +461,7 @@ N/A
 ### Alternate Postconditions
 The user does not share their notes
  
-Use Case Name: Convert markdown notes to pdf
+## Use Case Name: Convert markdown notes to pdf
 ### Summary
 The system takes users markdown notes and creates a pdf document
 ### Actors
@@ -486,9 +486,10 @@ Only if you have alt seq
 ### Alternate Trigger
 Click on the cancel button
 ### Alternate Postconditions
+
 The user does not convert markdown notes to pdf.
  
-Use Case Name: Time-Block
+## Use Case Name: Time-Block
 ## Summary
 Users will be able to add time blocks to their calendars. 
  
@@ -519,7 +520,7 @@ N/A
 ### Alternate Postconditions
 The system prompts user with a message to change the time or date of the event.
  
-Use Case Name: Pomodoro Timer
+## Use Case Name: Pomodoro Timer
 ## Summary
 The system sets a timer for the user to work on tasks and then sets a break time.
  
