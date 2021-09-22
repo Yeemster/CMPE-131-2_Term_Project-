@@ -10,7 +10,7 @@
 ### Problem Statement: 
 People can’t focus studying and it would be useful to have a software to help them stay on task.
 ### Non-functional Requirements: 
-Language options, response time under 5 seconds. 
+Language options English, Spanish, response time under 1 second, screen color scheme customization options. 
 
 ## Use Case Name: Login Authentication
 ### Summary
@@ -546,19 +546,21 @@ System
 * The client/user needs to be correctly authenticated or logged in to the application.
 * The client/user needs to be navigated to the notes page
 ### Triggers
-User clicks on create markdown file button 
+User clicks on create or input markdown file button 
 ### Primary Sequence
 1. User clicks on create note.
-1. System creates a markdown file.
-1. System displays the markdown file as a black page.
+1. System creates or inputs a markdown file.
+1. System displays the markdown file as a black page or formats it based on its syntax.
 1. User types input into the file using markdown syntax.
 1. System takes the syntax and converts it into a formatted visualization.
 ### Primary Postconditions
 * System displays the text back onto the screen 
 ### Alternate Sequences
-* User inputs the markdown file. 
+1. User inputs/creates the markdown file:  
+2. The file has incorrect syntax or user puts in incorrect syntax
+3. The system displays the incorrect syntax without formatting it or an error message
 ### Alternate Trigger
-* User clicks on input markdown file button 
+* User clicks on input/create button, however puts in incorrect syntax
 ### Alternate Postconditions
-* System displays the text back onto the screen.
+* System displays the incorrect syntactical text back onto the screen.
 
