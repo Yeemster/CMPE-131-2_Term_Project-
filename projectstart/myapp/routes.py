@@ -2,8 +2,10 @@ from myapp import myobj
 from myapp import db
 from myapp.models import User, Post
 from myapp.forms import LoginForm
-from flask import render_template, escape, flash, redirect
+from flask import render_template, escape, flash, redirect, Blueprint 
 from flask_login import current_user, login_user, logout_user, login_required
+
+routes = Blueprint('views', __name__)
 
 @myobj.route("/")
 def home():
@@ -26,7 +28,7 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             redirect('/login')
-        login_user(user, remember=form.remember_me.data)
+        #login_user(user, remember=form.remember_me.data)
         return redirect('/')
 
     return render_template('login.html', form=form)
