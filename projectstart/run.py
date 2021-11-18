@@ -1,3 +1,6 @@
+from myapp import create_app
 from myapp import myobj
+myobj = create_app()
 
-myobj.run(debug=True)
+if __name__ == '__main__':
+    myobj.run(debug=True)

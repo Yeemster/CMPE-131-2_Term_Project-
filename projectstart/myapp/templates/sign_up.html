@@ -18,12 +18,11 @@
         {{ form.password(size=32) }}
     </p>
     <p>
-        {{ form2.password.label }} <br>
-        {{ form2.password(size=32) }}
+        {{ form.confirm_password.label }} <br>
+        {{ form.confirm_password(size=32) }}
     </p>
     <p>
         {{ form.submit() }}
-        {{ form2.submit() }}
     </p>
 </form>
 {% endblock %}
