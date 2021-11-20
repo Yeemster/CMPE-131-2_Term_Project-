@@ -38,6 +38,7 @@ def create_app():
     myobj.config['SECRET_KEY'] = 'you-will-know'
     myobj.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
     myobj.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    myobj.config['UPLOAD_FOLDER'] = 'static/markdown'
     db.init_app(myobj)
     # migrate = Migrate(myobj, db)
 

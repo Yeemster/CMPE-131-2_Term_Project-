@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms import validators
-
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 
@@ -30,3 +30,6 @@ class UpdateUserForm(FlaskForm):
 
     submit = SubmitField('Update User')
 
+class MDForm(FlaskForm):
+    mdfile = FileField("File",validators=[FileRequired()])
+    submit = SubmitField('Upload')
