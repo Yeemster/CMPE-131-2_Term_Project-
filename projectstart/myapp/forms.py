@@ -28,5 +28,5 @@ class UpdateUserForm(FlaskForm):
     confirm_password = PasswordField("Confirm Password")
     remember_me = BooleanField('Remember Me')
 
-    submit = SubmitField('Sign up')
+    submit = SubmitField('Update User')
 

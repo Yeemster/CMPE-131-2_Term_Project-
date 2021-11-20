@@ -20,8 +20,8 @@ def login():
             return redirect(url_for("auth.login"))
         
         else:
+            flash(' logged out')
             logout_user()
-            flash(f'{current_user.username} logged out')
             login_user(user, remember=form.remember_me.data)
             flash('successfully signed in', category = 'messsage')
             return redirect(url_for("views.work"))
@@ -80,36 +80,37 @@ def update(id):
     form = UpdateUserForm()
     user_to_update = User.query.get_or_404(id)
     if request.method == 'POST':
-        user = User.query.filter_by(username=form.username.data).first()
-        email = User.query.filter_by(email=form.email.data).first()
-        if user:
+        userq = User.query.filter_by(username=form.username.data).first()
+        emailq = User.query.filter_by(email=form.email.data).first()
+        password = form.password.data
+        confirm_password = form.confirm_password.data
+        username = form.username.data
+        email = form.email.data
+        if userq:
             flash('User already exists.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
-        if email:
+        if emailq:
             flash('User already exists.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
-        elif len(form.email.data) < 4:
+        elif (email != '') and len(form.email.data) < 4:
             flash('Email must be greater than 3 characters.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
-        elif len(form.username.data) < 2:
+        elif (username != '') and len(form.username.data) < 2:
             flash('First name must be greater than 1 character.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
-        elif ((form.password.data != '' or form.confirm_password.data != '') and (form.password.data != form.confirm_password.data)):
+        elif ((password != '' or confirm_password != '') and (password != confirm_password)):
             flash('Passwords don\'t match.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
-        elif ((form.password.data != '' or form.confirm_password.data != '') and len(form.password.data) < 7):
+        elif ((password != '' or confirm_password != '') and len(password) < 7):
             flash('Password must be at least 7 characters.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
         else:
-            password = ''
-            username = ''
-            email = ''
-            password = form.password.data
-            username = form.username.data
-            email = form.email.data
-            user_to_update.set_password(password)
-            user_to_update.username = username
-            user_to_update.email = email
+            if password != '':
+                user_to_update.set_password(password)
+            if username != '':
+                user_to_update.username = username
+            if email != '':
+                user_to_update.email = email
             try:
                 db.session.commit()
                 flash("User updated successfully")
