@@ -23,6 +23,7 @@ def work():
     """
     return render_template("work.html", user=current_user)
 
+
 '''
 @myobj.route("/hi")
 @login_required

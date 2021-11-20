@@ -119,5 +119,22 @@ def update(id):
                 flash("Error updating user fields")
                 return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
     return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
+@auth.route('/delete/<int:id>', methods=['GET', 'POST' ])
+@login_required
+def delete(id):
+    user_to_delete = User.query.get_or_404(id)
+    try:
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        flash("Successfully Deleted User")
+    except:
+        flash("Error occured in deleting user")
+    return render_template("account.html", user=current_user)   
 
-        
+
+@auth.route("/account")
+@login_required
+def account():
+    """Return H1 header that says welcome! (should be in html)
+    """
+    return render_template("account.html", user=current_user)       
