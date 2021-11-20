@@ -1,19 +1,29 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.fields.html5 import EmailField
+from wtforms import validators
 
-from wtforms.validators import DataRequired, ValidationError
+
+from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 
 class LoginForm(FlaskForm):
-    username = StringField('User', validators=[DataRequired()])
+    username = StringField('User', validators=[InputRequired()])
     password = PasswordField('Password')
     remember_me = BooleanField('Remember Me')
 
     submit = SubmitField('Sign in')
 
 class SignupForm(FlaskForm):
-    username = StringField('User', validators=[DataRequired()])
-    email = EmailField('Email', validators=[DataRequired()], id='email')
+    username = StringField('User', validators=[InputRequired()])
+    email = StringField('Email', validators=[InputRequired(), Length(max=60), validators.Email(message="Email is invalid")])
+    password = PasswordField('Password')
+    confirm_password = PasswordField("Confirm Password")
+    remember_me = BooleanField('Remember Me')
+
+    submit = SubmitField('Sign up')
+
+class UpdateUserForm(FlaskForm):
+    username = StringField('User')
+    email = StringField('Email', validators=[ Length(max=60), validators.Email(message="Email is invalid")])
     password = PasswordField('Password')
     confirm_password = PasswordField("Confirm Password")
     remember_me = BooleanField('Remember Me')

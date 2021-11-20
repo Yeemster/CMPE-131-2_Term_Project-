@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 
+
 '''
 # create Flask class object named myobj
 myobj = Flask(__name__)
@@ -38,6 +39,7 @@ def create_app():
     myobj.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
     myobj.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(myobj)
+    # migrate = Migrate(myobj, db)
 
     from .routes import views
     from .auth import auth

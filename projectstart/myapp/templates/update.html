@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Update User{% endblock %}
+{% block content %}
+<h1>Update User info</h1>
+
+<form action="/update/{{user_to_update.id}}" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }} <br>
+        {{ form.username(size=32, class="form-control", value=user_to_update.username) }}
+    </p>
+    <p>
+        {{ form.email.label }} <br>
+        {{ form.email(size=32, class="form-control", value=user_to_update.email) }}
+    </p>
+    <p>
+        {{ form.password.label }} <br>
+        {{ form.password(size=32, class="form-control", value=user_to_update.password) }}
+    </p>
+    <p>
+        {{ form.confirm_password.label }} <br>
+        {{ form.confirm_password(size=32, class="form-control", value=user_to_update.password) }}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}
