@@ -137,4 +137,6 @@ def delete(id):
 def account():
     """Return H1 header that says welcome! (should be in html)
     """
-    return render_template("account.html", user=current_user)       
+    return render_template("account.html", user=current_user) 
+
+    
