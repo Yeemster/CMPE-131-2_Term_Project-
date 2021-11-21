@@ -48,7 +48,7 @@ def create_app():
     myobj.register_blueprint(views, url_prefix='/')
     myobj.register_blueprint(auth, url_prefix='/')
 
-    from .models import User, Note
+    from .models import User, Note, ToDo
 
     create_database(myobj)
 
