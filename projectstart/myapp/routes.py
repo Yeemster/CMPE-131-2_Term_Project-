@@ -26,6 +26,7 @@ def work():
     """Return H1 header that says welcome! (should be in html)
     """
     form = MDForm()
+
     
 
     #if request.method == 'POST':
@@ -33,7 +34,12 @@ def work():
     if form.validate_on_submit():
         file = form.mdfile.data
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
-        return redirect(url_for("views.work"))
+        #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
+        mdform = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+        with open(mdform) as mdfile:
+            MDContent = markdown.markdown(mdfile.read())
+            return render_template('mdopen.html', MDContent = MDContent, user=current_user)
+        #return redirect(url_for("views.work"))
  
 
     return render_template("work.html", user=current_user, form=form)

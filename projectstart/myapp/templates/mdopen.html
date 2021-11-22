@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if MDContent is not none %}
+    {{ MDContent | safe }}
+{% endif %}
+
+{% endblock %}
