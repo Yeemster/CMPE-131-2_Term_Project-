@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
@@ -34,3 +34,6 @@ class MDForm(FlaskForm):
     mdfile = FileField("File",validators=[FileRequired()])
     submit = SubmitField('Upload')
 
+class NoteForm(FlaskForm):
+    note = TextAreaField("Note")
+    submit = SubmitField('Post')
