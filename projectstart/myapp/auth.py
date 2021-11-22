@@ -20,13 +20,12 @@ def login():
             return redirect(url_for("auth.login"))
         
         else:
-            flash(' logged out')
-            logout_user()
+            if current_user.is_authenticated:
+                flash(f' logged out of {current_user.username}\'s account')
+                logout_user()
             login_user(user, remember=form.remember_me.data)
-            flash('successfully signed in', category = 'messsage')
+            flash(f'successfully signed in to {current_user.username}', category = 'messsage')
             return redirect(url_for("views.work"))
-        return redirect('/')
-
     return render_template('login.html', form=form, user=current_user)
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
