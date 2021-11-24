@@ -36,4 +36,5 @@ class MDForm(FlaskForm):
 
 class NoteForm(FlaskForm):
     note = TextAreaField("Note")
+    title = StringField("Title")
     submit = SubmitField('Post')

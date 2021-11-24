@@ -42,59 +42,72 @@ def work():
 @login_required
 def todolist():
     todolist = ToDo.query.all()
-    print(todolist)
-
     return render_template("todolist.html", user=current_user, todolist=todolist)
 
-@views.route("/add", methods=['POST'])
+@views.route("/todolist/add", methods=['POST'])
 def add():
     title = request.form.get("title")
-    newtodo = ToDo(title=title, complete=False)
+    newtodo = ToDo(title=title, user_id=current_user.id, complete=False)
     db.session.add(newtodo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
-@views.route("/change/<int:todos_id>")
+@views.route("/todolist/change/<int:todos_id>")
 def reload(todos_id):
     todo = ToDo.query.filter_by(id=todos_id).first()
     todo.complete = not todo.complete
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
-@views.route("/delete/<int:todos_id>")
-def delete(todos_id):
+@views.route("/todolist/delete/<int:todos_id>")
+def delete_todo(todos_id):
     todo = ToDo.query.filter_by(id=todos_id).first()
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
-'''
-@myobj.route("/hi")
+
+@views.route("/noteslist", methods=['GET','POST'])
 @login_required
-def hi():
-    return "Hi!"
-'''
-'''
-@myobj.route("/members/<string:name>")
-def getMember(name):
-    return "hi: " + escape(name)
-'''
-'''
-@myobj.route("/main")
-def main():
-    date = '2021-10-05'
-    users = {'username':'carlos'}
+def noteslist():
+    form = NoteForm() 
+    noteslist = Note.query.all()
+    return render_template("notes.html", form=form, user=current_user, noteslist=noteslist )
 
-    post = [ { 'author': 'John', 'body' : 'Beatutiful day in Portland!'},
-            { 'author' : 'Susan', 'body' : 'The day is cloudy today!'}]
-
-    return render_template('hello.html', users=users, datee=date, post=post)
-
-'''
-@views.route("/notes", methods=['GET','POST'])
+@views.route("/noteslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
-def notes():
-    form = NoteForm()
+def notes_preview(id):
+    note = Note.query.filter_by(id=id).first()
+    notedata = note.data
+    print(notedata)
+    print(type(notedata))
+    MDContent = markdown.markdown(notedata)
+    return render_template("previewnotes.html", MDContent=MDContent, user=current_user)
+
+@views.route("/noteslist/add", methods=['POST'])
+def add_note():
+    form = NoteForm() 
+    #data = request.form['Note']
     if request.method == 'POST':
-        note = Note(data=form.note.data, user_id=current_user.id)
-        return redirect(url_for("views.notes"))
-    return render_template("notes.html", form=form, user=current_user)
+        data = form.note.data
+        title = form.title.data
+        flash("Note added", category="message")
+        newnote = Note(data=data, title=title, user_id=current_user.id)
+        db.session.add(newnote)
+        db.session.commit()
+        return redirect(url_for("views.noteslist"))
+    return render_template("notes.html", form=form, user=current_user, noteslist=noteslist )
+
+@views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
+@login_required
+def delete_notes(id):
+    #note = Note.query.get_or_404(id)
+    note = Note.query.filter_by(id=id).first()
+    flash("Note deleted", category="message")
+    db.session.delete(note)
+    db.session.commit()
+    return redirect(url_for("views.noteslist"))
+    
+
+
+
+
