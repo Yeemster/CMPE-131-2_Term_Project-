@@ -2,23 +2,12 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to FlaskNotes {% endblock %}</h1>
-  
-    <form action="/noteslist/add" method="POST">
-        <div>
-            <p>
-                {{ form.title.label }} <br>
-                {{ form.title }}
-            </p>
-            
-          {{ form.hidden_tag() }}
-          <p>
-            {{ form.note.label }} <br>
-            {{ form.note }}
-        </p>
 
-          <button type="submit">Add</button>
+        <button type="button">
+            <a href='/noteslist/add'>Add Note</a>
+          </button>
         </div>
-      </form>
+      
 
     <form action="" method="GET" novalidate>
         <ul class="list-group list-group-flush" id="notes">
@@ -32,6 +21,11 @@
               <button type="button">
                 <a href='/noteslist/preview/{{ notes.id }}'>Preview</a>
               </button>
+              <form action="/noteslist/update/{{ notes.id }}" method="GET" novalidate>
+              <button type="button">
+                <a href='/noteslist/update/{{ notes.id }}'>Edit Note</a>
+              </button>
+            </form>
             </li>
             {% endfor %}
           </ul>

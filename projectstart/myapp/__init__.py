@@ -22,7 +22,7 @@ db = SQLAlchemy(myobj)
 
 login = LoginManager(myobj)
 # right side is the function that's called to login users
-login.login_view ='login'
+login.login_view ='auth.login'
 
 from myapp import routes, models
 from myapp.models import User, Note, ToDo

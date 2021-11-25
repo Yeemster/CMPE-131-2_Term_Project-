@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/noteslist/add" method="POST">
+    <div>
+        <p>
+            {{ form.title.label( class="form-label") }} <br>
+            {{ form.title(class="form-control") }}
+        </p>
+        
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.note.label( class="form-label") }} <br>
+        {{ form.note(cols="100", rows="20", class="form-control") }}
+      </p>
+        <button type="submit"><a href="/noteslist/add"></a>Add</button>
+    </div>
+  </form>
+ 
+{% endblock %}

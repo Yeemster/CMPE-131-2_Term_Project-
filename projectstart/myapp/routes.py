@@ -41,8 +41,9 @@ def work():
 @views.route("/todolist", methods=['GET','POST'])
 @login_required
 def todolist():
-    todolist = ToDo.query.all()
-    return render_template("todolist.html", user=current_user, todolist=todolist)
+    user = User.query.filter_by(id=current_user.id).first()
+    userTodos = user.todos
+    return render_template("todolist.html", user=current_user, todolist=userTodos)
 
 @views.route("/todolist/add", methods=['POST'])
 def add():
@@ -66,12 +67,19 @@ def delete_todo(todos_id):
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
+
+
+
+
 @views.route("/noteslist", methods=['GET','POST'])
 @login_required
 def noteslist():
     form = NoteForm() 
-    noteslist = Note.query.all()
-    return render_template("notes.html", form=form, user=current_user, noteslist=noteslist )
+    user = User.query.filter_by(id=current_user.id).first()
+    usernotes = user.notes
+    note = form.note.data
+    title = form.title.data
+    return render_template("notes.html", form=form, user=current_user, noteslist=usernotes)
 
 @views.route("/noteslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
@@ -83,19 +91,42 @@ def notes_preview(id):
     MDContent = markdown.markdown(notedata)
     return render_template("previewnotes.html", MDContent=MDContent, user=current_user)
 
-@views.route("/noteslist/add", methods=['POST'])
+@views.route("/noteslist/add", methods=['POST','GET'])
 def add_note():
     form = NoteForm() 
+
     #data = request.form['Note']
-    if request.method == 'POST':
+    #if request.form == 'POST':
+    if form.validate_on_submit():
+        print('reached')
         data = form.note.data
         title = form.title.data
-        flash("Note added", category="message")
-        newnote = Note(data=data, title=title, user_id=current_user.id)
+        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id)
+        data = ''
+        title = ''
         db.session.add(newnote)
         db.session.commit()
+        flash("Successfully added new note")
         return redirect(url_for("views.noteslist"))
-    return render_template("notes.html", form=form, user=current_user, noteslist=noteslist )
+    return render_template("add_note.html", form=form, user=current_user)
+
+@views.route("/noteslist/update/<int:id>", methods=['GET','POST'])
+def update_note(id):
+    note_to_update = Note.query.get_or_404(id)
+    form = NoteForm()
+    #data = request.form['Note']
+    if form.validate_on_submit():
+        print('reached')
+        note_to_update.data = form.note.data 
+        note_to_update.title = form.title.data 
+        # Update Database 
+        db.session.add(note_to_update)
+        db.session.commit()
+        flash("Note has been updated")
+        return redirect(url_for("views.noteslist"))
+    form.title.data = note_to_update.title
+    form.note.data = note_to_update.data
+    return render_template("edit_note.html", form=form, user=current_user, note_to_update=note_to_update)
 
 @views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
@@ -107,6 +138,7 @@ def delete_notes(id):
     db.session.commit()
     return redirect(url_for("views.noteslist"))
     
+
 
 
 
