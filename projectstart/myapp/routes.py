@@ -1,14 +1,15 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User, Post, ToDo, Note
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm
+from myapp.models import User, Post, ToDo
+from myapp.forms import LoginForm, SignupForm, MDForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
 import os
 from werkzeug.utils import secure_filename
-import streamlit as st
+import time
+#import streamlit as st
 
 views = Blueprint('views', __name__)
 
@@ -27,9 +28,6 @@ def work():
     """
     form = MDForm()
 
-    
-
-    #if request.method == 'POST':
 
     if form.validate_on_submit():
         file = form.mdfile.data
@@ -73,6 +71,15 @@ def delete(todos_id):
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
+
+def pomodorotimer(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        render_template()
+        time.sleep(1)
+        t -= 1
+
 '''
 @myobj.route("/hi")
 @login_required
@@ -96,11 +103,4 @@ def main():
     return render_template('hello.html', users=users, datee=date, post=post)
 
 '''
-@views.route("/notes", methods=['GET','POST'])
-@login_required
-def notes():
-    form = NoteForm()
-    if request.method == 'POST':
-        note = Note(data=form.note.data, user_id=current_user.id)
-        return redirect(url_for("views.notes"))
-    return render_template("notes.html", form=form, user=current_user)
+
