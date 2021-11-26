@@ -3,7 +3,7 @@
 {% block content %}
 <h1> Welcome to To Do List </h1>
 
-<form action="/add" method="post">
+<form action="/todolist/add" method="post">
   <div>
     <label for="title">ToDo</label>
     <input type = "text" name = "title" placeholder = "Enter Todo...">
@@ -19,8 +19,8 @@
     <span>Completed</span>
   {% endif %}
 
-  <a href="/change/{{todos.id}}">Change</a>
-  <a href="/delete/{{todos.id}}">Delete</a>
+  <a href="/todolist/change/{{todos.id}}">Change</a>
+  <a href="/todolist/delete/{{todos.id}}">Delete</a>
 
   {% endfor %}
 

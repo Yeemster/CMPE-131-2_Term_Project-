@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), index=True, unique=True)
     password_hash =db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    notes = db.relationship('Note', backref='author', lazy='dynamic')
+    todos = db.relationship('ToDo', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return f'<User  {self.username}>'
@@ -39,6 +41,7 @@ def load_user(id):
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(1000000))
+    title = db.Column(db.String(100))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

@@ -4,10 +4,10 @@ from os import path
 basedir = os.path.abspath(os.path.dirname(__file__))
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 
 
-'''
 # create Flask class object named myobj
 myobj = Flask(__name__)
 
@@ -16,24 +16,32 @@ myobj.config.from_mapping(
     # location of sqlite database
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db'),
     SQLALCHEMY_TRACK_MODIFICATIONS = False,
+    UPLOAD_FOLDER = 'md/markdown'
 )
 
 db = SQLAlchemy(myobj)
 
 login = LoginManager(myobj)
 # right side is the function that's called to login users
-login.login_view ='login'
+login.login_view ='auth.login'
 
 from myapp import routes, models
-from models import User, Note
+from myapp.models import User, Note, ToDo
+
+from .routes import views
+from .auth import auth
+
+myobj.register_blueprint(views, url_prefix='/')
+myobj.register_blueprint(auth, url_prefix='/')
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 '''
-db = SQLAlchemy()
 DB_NAME = "database.db"
 myobj = Flask(__name__)
+db = SQLAlchemy(myobj)
 def create_app():
     myobj.config['SECRET_KEY'] = 'you-will-know'
     myobj.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
@@ -64,6 +72,7 @@ def create_app():
 
 
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
+    if not path.exists('myapp/' + DB_NAME):
         db.create_all(app=app)
         print('Created Database!')
+'''

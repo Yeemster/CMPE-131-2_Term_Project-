@@ -4,6 +4,7 @@ from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
+from wtforms.widgets.core import TextArea
 
 class LoginForm(FlaskForm):
     username = StringField('User', validators=[InputRequired()])
@@ -35,5 +36,6 @@ class MDForm(FlaskForm):
     submit = SubmitField('Upload')
 
 class NoteForm(FlaskForm):
-    note = TextAreaField("Note")
+    note = StringField("Note", widget=TextArea())
+    title = StringField("Title")
     submit = SubmitField('Post')
