@@ -16,5 +16,20 @@
         <button type="submit"><a href="/noteslist/add"></a>Add</button>
     </div>
   </form>
+
+  
+  <h3> Upload Markdown File </h3>
+   <form action= "/noteslist/add/import" method="GET" enctype="multipart/form-data">
+   {{ mdform.hidden_tag() }}
+  <p>
+          {{ mdform.mdfile.label }} <br>
+         {{ mdform.mdfile(size=32) }}
+         {{mdform.submit()}}
+      </p>
+  <p>
+          <br>
+  <form action= "/noteslist/add" method="POST">
+  <button type="submit"><a href="/noteslist/add/import"></a>Add</button>
+  </form>
  
 {% endblock %}

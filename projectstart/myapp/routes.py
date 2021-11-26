@@ -29,9 +29,11 @@ def work():
     #if request.method == 'POST':
     if form.validate_on_submit():
         file = form.mdfile.data
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+        mdform = os.path.join(os.path.abspath(os.path.dirname(__file__)), 
+                              myobj.config['UPLOAD_FOLDER'], 
+                              secure_filename(file.filename))
+        file.save(mdform)
         #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
-        mdform = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
         with open(mdform, encoding="utf8") as mdfile:
             MDContent = markdown.markdown(mdfile.read())
             return render_template('mdopen.html', MDContent = MDContent, user=current_user)
@@ -94,21 +96,51 @@ def notes_preview(id):
 @views.route("/noteslist/add", methods=['POST','GET'])
 def add_note():
     form = NoteForm() 
-
+    mdform = MDForm()
     #data = request.form['Note']
     #if request.form == 'POST':
     if form.validate_on_submit():
         print('reached')
         data = form.note.data
         title = form.title.data
-        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id)
+        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id, )
         data = ''
         title = ''
         db.session.add(newnote)
         db.session.commit()
         flash("Successfully added new note")
         return redirect(url_for("views.noteslist"))
-    return render_template("add_note.html", form=form, user=current_user)
+    return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
+@views.route("/noteslist/add/import", methods=['GET','POST'])
+def import_note():
+    
+    mdform = MDForm()
+    form = NoteForm()
+    #if request.method == 'POST':
+    
+    if mdform.validate_on_submit():
+        print('reached1')
+        file = mdform.mdfile.data
+        #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
+        mdform1 = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+        file.save(mdform1)
+        with open(mdform1, 'r', encoding="utf8") as mdfile:
+            form.note.data = mdfile.read()
+        return redirect("/noteslist/add/import")    
+    if form.validate_on_submit():
+        print('reached')
+        data = form.note.data
+        title = form.title.data
+        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id, )
+        data = ''
+        title = ''
+        db.session.add(newnote)
+        db.session.commit()
+        flash("Successfully added new note")
+        return redirect(url_for("views.noteslist"))
+    return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
+
+
 
 @views.route("/noteslist/update/<int:id>", methods=['GET','POST'])
 def update_note(id):
