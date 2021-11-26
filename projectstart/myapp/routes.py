@@ -1,8 +1,8 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User, Post, ToDo
-from myapp.forms import LoginForm, SignupForm, MDForm
+from myapp.models import User, Post, ToDo, Note
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
