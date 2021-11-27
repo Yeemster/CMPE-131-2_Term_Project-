@@ -10,6 +10,13 @@ auth = Blueprint('auth', __name__)
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
+    '''
+    Generates the template for the login page, if user is validated, it redirects to the work page
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form and user.
+    '''
     form = LoginForm()
     # if the user hit submit on the forms page
     if form.validate_on_submit():
@@ -28,8 +35,16 @@ def login():
             return redirect(url_for("views.work"))
     return render_template('login.html', form=form, user=current_user)
 
+
 @auth.route("/sign-up", methods=['GET', 'POST'])
 def signup():
+    '''
+    Generates the template for the sign up page, if user submits valid data, it logs the user in and redirects to the work page
+            Parameters:
+                    No paramters but contains a routing tag with "/sign-up and methods of 'GET' and 'POST' passed through.
+            Returns:
+                    render_template(): Renders the html template given arguments form, user (current user).
+    '''
     form = SignupForm()
     # if the user hit submit on the forms page
     if form.validate_on_submit():
@@ -69,6 +84,15 @@ def signup():
 @auth.route("/logout")
 @login_required
 def logout():
+    '''
+    Generates functionality for the logout template page, if user is signed in, it logs 
+    the user out and redirects the user to the home page
+            Parameters:
+                    No paramters but contains a routing tag with "/logout" parameter
+            Returns:
+                    render_template(): Redirects the user to the home page
+    '''
+    
     logout_user()
     flash('User logged out')
     return redirect('/')
@@ -76,6 +100,15 @@ def logout():
 @auth.route('/update/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def update(id):
+    '''
+    Generates functionality for the update user template page, if user is signed in, it prompts the user with updating form. 
+    the fills out the neccessary changes to their account and the system redirects the user to the login page
+            Parameters:
+                    id (int): system passes in the given user's ID number associated in the User models table. 
+                    Contains a routing tag with "/logout" parameter. Also Contains a @login_required tag to check authentication.
+            Returns:
+                    render_template(): Renders the html template given arguments form, user (current user) and user_to_update.
+    '''
     form = UpdateUserForm()
     user_to_update = User.query.get_or_404(id)
     if request.method == 'POST':
@@ -121,6 +154,14 @@ def update(id):
 @auth.route('/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete(id):
+    '''
+    Generates functionality for the delete user template page, if user is signed in, it deletes the account. Thus user is now logged out.
+            Parameters:
+                    id (int): system passes in the given user's ID number associated in the User models table. 
+                    Contains a routing tag with "/logout" parameter. Also Contains a @login_required tag to check authentication.
+            Returns:
+                    render_template(): Renders the html template given arguments form, user (current user) and user_to_update.
+    '''
     user_to_delete = User.query.get_or_404(id)
     try:
         db.session.delete(user_to_delete)
@@ -134,7 +175,7 @@ def delete(id):
 @auth.route("/account")
 @login_required
 def account():
-    """Return H1 header that says welcome! (should be in html)
+    """Returns render_template() for html account page consisting of user settings links
     """
     return render_template("account.html", user=current_user) 
 
