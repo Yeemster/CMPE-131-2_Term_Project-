@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from sqlalchemy.orm import query_expression
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
@@ -39,3 +40,8 @@ class NoteForm(FlaskForm):
     note = StringField("Note", widget=TextArea())
     title = StringField("Title")
     submit = SubmitField('Post')
+
+class FlashCardForm(FlaskForm):
+    answer = StringField("answer", widget=TextArea())
+    question = StringField("question", widget=TextArea())
+    submit = SubmitField('Add')

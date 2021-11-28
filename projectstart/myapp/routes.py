@@ -1,14 +1,16 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User, Post, ToDo, Note
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm
+from myapp.models import User, Post, ToDo, Note, FlashCard
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, FlashCardForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
 import os
 from werkzeug.utils import secure_filename
 import streamlit as st
+
+#from projectstart.myapp.models import FlashCard
 
 views = Blueprint('views', __name__)
 
@@ -171,7 +173,73 @@ def delete_notes(id):
     return redirect(url_for("views.noteslist"))
     
 
+# Flash Cards ----------------------------------------------------------
+#     
+@views.route("/flashcardslist", methods=['GET','POST'])
+@login_required
+def flashcardslist():
+    form = FlashCardForm()
+    #form = FlashCard() 
+    user = User.query.filter_by(id=current_user.id).first()
+    userflashcards = user.flashcards
+    
+    answer = form.answer.data
+    question = form.question.data
+    return render_template("flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
 
+@views.route("/flashcardslist/preview/<int:id>", methods=['GET','POST'])
+@login_required
+def flashcards_preview(id):
+    flashcards = FlashCard.query.filter_by(id=id).first()
+    flashcardsanswer = flashcards.answer
+    
+    MDContent = markdown.markdown(flashcardsanswer)
+    
+    return render_template("previewflashcards.html", MDContent=MDContent, user=current_user)
 
+@views.route("/flashcardslist/add", methods=['POST','GET'])
+def add_flashcard():
+    form = FlashCardForm() 
+    mdform = MDForm()
+    #data = request.form['Note']
+    #if request.form == 'POST':
+    if form.validate_on_submit():
+        print('reached')
+        answer = form.answer.data
+        question = form.question.data
+        newflashcard = FlashCard(answer=answer, question=question, author=current_user, user_id=current_user.id, )
+        answer = ''
+        question = ''
+        db.session.add(newflashcard)
+        db.session.commit()
+        flash("Successfully added new flashcard")
+        return redirect(url_for("views.flashcardslist"))
+    return render_template("add_flashcard.html", form=form, user=current_user, mdform=mdform)
 
+@views.route("/flashcardslist/update/<int:id>", methods=['GET','POST'])
+def update_flashcard(id):
+    flashcard_to_update = FlashCard.query.get_or_404(id)
+    form = FlashCardForm()
+    #data = request.form['Note']
+    if form.validate_on_submit():
+        print('reached')
+        flashcard_to_update.answer = form.answer.data 
+        flashcard_to_update.question = form.question.data
+        # Update Database 
+        db.session.add(flashcard_to_update)
+        db.session.commit()
+        flash("Note has been updated")
+        return redirect(url_for("views.flashcardslist"))
+    form.question.data = flashcard_to_update.question
+    form.answer.data = flashcard_to_update.answer
+    return render_template("edit_flashcard.html", form=form, user=current_user, flashcard_to_update=flashcard_to_update)
 
+@views.route('/flashcardslist/delete/<int:id>', methods=['GET', 'POST' ])
+@login_required
+def delete_flashcards(id):
+    #note = Note.query.get_or_404(id)
+    flashcard = FlashCard.query.filter_by(id=id).first()
+    db.session.delete(flashcard)
+    db.session.commit()
+    flash("Flashcard deleted", category="message")
+    return redirect(url_for("views.flashcardslist"))

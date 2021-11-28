@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{% block title %} Welcome to Flash cards {% endblock %}</h1>
+
+        <button type="button">
+            <a href='/flashcardslist/add'>Add Flashcard</a>
+          </button>
+        </div>
+      
+
+    <form action="" method="GET" novalidate>
+        <ul class="list-group list-group-flush" id="flashcards">
+        </p>
+        {% for flashcards in flashcardslist %}
+            <li class="list-group-item">
+                <p> <b>{{flashcards.id}} </b>| {{flashcards.question}}</p>
+              <button type="button">
+                <a href='/flashcardslist/delete/{{ flashcards.id }}'>Delete Flashcard</a>
+              </button>
+              <button type="button">
+                <a href='/flashcardslist/preview/{{ flashcards.id }}'>Preview</a>
+              </button>
+              <form action="/flashcardslist/update/{{ flashcards.id }}" method="GET" novalidate>
+              <button type="button">
+                <a href='/flashcardslist/update/{{ flashcards.id }}'>Edit Flashcard</a>
+              </button>
+            </form>
+            </li>
+            {% endfor %}
+          </ul>
+    </form>
+{% endblock %}
