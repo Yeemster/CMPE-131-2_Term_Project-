@@ -1,4 +1,5 @@
 
+from flask.helpers import flash
 from myapp import db
 # from myapp import login
 from datetime import datetime
@@ -14,6 +15,8 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     notes = db.relationship('Note', backref='author', lazy='dynamic')
     todos = db.relationship('ToDo', backref='author', lazy='dynamic')
+    # flash cards
+    flashcards = db.relationship('FlashCard', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return f'<User  {self.username}>'
@@ -51,4 +54,10 @@ class ToDo(db.Model):
     complete = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-
+class FlashCard(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
+    answer = db.Column(db.String(1000))
+    #data = db.Column(db.String(1000))
+    question = db.Column(db.String(1000))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
