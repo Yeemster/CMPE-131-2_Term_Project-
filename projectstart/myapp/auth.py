@@ -1,7 +1,7 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User, Post
+from myapp.models import User
 from myapp.forms import LoginForm, SignupForm, UpdateUserForm
 from flask import render_template, escape, flash, redirect, Blueprint, request 
 from flask_login import  login_user, logout_user, login_required, current_user
@@ -25,7 +25,6 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password', category = 'error')
             return redirect(url_for("auth.login"))
-        
         else:
             if current_user.is_authenticated:
                 flash(f' logged out of {current_user.username}\'s account')
@@ -91,8 +90,7 @@ def logout():
                     No paramters but contains a routing tag with "/logout" parameter
             Returns:
                     render_template(): Redirects the user to the home page
-    '''
-    
+    ''' 
     logout_user()
     flash('User logged out')
     return redirect('/')
@@ -175,7 +173,8 @@ def delete(id):
 @auth.route("/account")
 @login_required
 def account():
-    """Returns render_template() for html account page consisting of user settings links
+    """
+    Returns render_template() for html account page consisting of user settings links
     """
     return render_template("account.html", user=current_user) 
 

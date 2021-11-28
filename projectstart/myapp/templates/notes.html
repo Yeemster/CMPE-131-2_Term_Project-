@@ -25,6 +25,12 @@
               <button type="button">
                 <a href='/noteslist/update/{{ notes.id }}'>Edit Note</a>
               </button>
+              <button type="button">
+                <a href='/noteslist/share/{{ notes.id }}'>Share Note</a>
+              </button>
+              {% if notes.shared %}
+              <p> <b>Shared: </b>| {{ notes.shared }}</p>
+              {% endif %}
             </form>
             </li>
             {% endfor %}

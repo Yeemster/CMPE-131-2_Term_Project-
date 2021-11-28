@@ -7,22 +7,57 @@ from wtforms.validators import DataRequired, ValidationError, InputRequired, Len
 from wtforms.widgets.core import TextArea
 
 class LoginForm(FlaskForm):
+    '''
+    In forms.py
+    Class: Defined as a Login form using WTForms
+            variables: 
+                    username: WTF StringField requires String input
+                    password: WTF StringFeild ...
+                    rememebr_me: BooleanField 
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     username = StringField('User', validators=[InputRequired()])
-    password = PasswordField('Password')
+    password = PasswordField('Password', validators=[InputRequired()])
     remember_me = BooleanField('Remember Me')
 
     submit = SubmitField('Sign in')
 
 class SignupForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a Login form using WTForms
+            variables: 
+                    username: WTF StringField requires String input
+                    email: WTF StringField requires String input, and Email validation.
+                    password: WTF StringFeild ...
+                    rememebr_me: BooleanField 
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     username = StringField('User', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Length(max=60), validators.Email(message="Email is invalid")])
-    password = PasswordField('Password')
-    confirm_password = PasswordField("Confirm Password")
+    password = PasswordField('Password', validators=[InputRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[InputRequired()])
     remember_me = BooleanField('Remember Me')
 
     submit = SubmitField('Sign up')
 
 class UpdateUserForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a Login form using WTForms
+            variables: 
+                    username: WTF StringField requires String input
+                    email: WTF StringField requires String input, and Email validation.
+                    password: WTF StringFeild ...
+                    rememebr_me: BooleanField 
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     username = StringField('User')
     email = StringField('Email', validators=[ Length(max=60), validators.Email(message="Email is invalid")])
     password = PasswordField('Password')
@@ -39,3 +74,7 @@ class NoteForm(FlaskForm):
     note = StringField("Note", widget=TextArea())
     title = StringField("Title")
     submit = SubmitField('Post')
+
+class ShareForm(FlaskForm):
+    username = StringField("Enter Username to Share", widget=TextArea())
+    submit = SubmitField('Share')

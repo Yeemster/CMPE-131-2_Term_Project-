@@ -4,7 +4,6 @@ from os import path
 basedir = os.path.abspath(os.path.dirname(__file__))
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_migrate import Migrate
 
 
 
@@ -34,8 +33,15 @@ from .auth import auth
 myobj.register_blueprint(views, url_prefix='/')
 myobj.register_blueprint(auth, url_prefix='/')
 
+
 @login.user_loader
 def load_user(id):
+    '''
+            Parameters:
+                    a (int): An integer value for user ID
+            Returns:
+                    given user (int): the user instance of the id queried from the database 
+    '''
     return User.query.get(int(id))
 
 '''

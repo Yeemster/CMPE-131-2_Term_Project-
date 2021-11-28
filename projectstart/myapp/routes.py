@@ -1,8 +1,8 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User, Post, ToDo, Note
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm
+from myapp.models import User, ToDo, Note, notes # todos
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
@@ -65,7 +65,8 @@ def reload(todos_id):
 @views.route("/todolist/delete/<int:todos_id>")
 def delete_todo(todos_id):
     todo = ToDo.query.filter_by(id=todos_id).first()
-    db.session.delete(todo)
+    flash("Note deleted", category="message")
+    current_user.notes.remove(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
@@ -103,10 +104,11 @@ def add_note():
         print('reached')
         data = form.note.data
         title = form.title.data
-        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id, )
+        newnote = Note(data=data, title=title, users=[current_user] )
         data = ''
         title = ''
         db.session.add(newnote)
+        
         db.session.commit()
         flash("Successfully added new note")
         return redirect(url_for("views.noteslist"))
@@ -131,7 +133,7 @@ def import_note():
         print('reached')
         data = form.note.data
         title = form.title.data
-        newnote = Note(data=data, title=title, author=current_user, user_id=current_user.id, )
+        newnote = Note(data=data, title=title, user_id=current_user.id, )
         data = ''
         title = ''
         db.session.add(newnote)
@@ -166,11 +168,35 @@ def delete_notes(id):
     #note = Note.query.get_or_404(id)
     note = Note.query.filter_by(id=id).first()
     flash("Note deleted", category="message")
-    db.session.delete(note)
+    current_user.notes.remove(note)
     db.session.commit()
     return redirect(url_for("views.noteslist"))
-    
 
+@views.route("/noteslist/share/<int:id>", methods=['GET','POST'])
+def share_note(id):
+    note_to_share = Note.query.filter_by(id=id).first()
+    form = ShareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_share_with = User.query.filter_by(username=user).first()
+            user_to_share_with.notes.extend([note_to_share]) 
+            note_to_share.shared = True
+            db.session.commit()
+            flash(f'Shared note with { user }', category="success")
+            return redirect(url_for('views.noteslist'))
+        else:
+            flash(f'Failed to share note with { user }, invalid username', category="error")
+    return render_template("share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
+
+def validate_username(username):
+    username = User.query.filter_by(username=username).first()
+    if username:
+        return True
+    else:
+        return False 
+    
 
 
 
