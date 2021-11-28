@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from sqlalchemy.orm import query_expression
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
@@ -78,3 +79,7 @@ class NoteForm(FlaskForm):
 class ShareForm(FlaskForm):
     username = StringField("Enter Username to Share", widget=TextArea())
     submit = SubmitField('Share')
+class FlashCardForm(FlaskForm):
+    answer = StringField("answer", widget=TextArea())
+    question = StringField("question", widget=TextArea())
+    submit = SubmitField('Add')

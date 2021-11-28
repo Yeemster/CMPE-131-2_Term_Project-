@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action='/flashcardslist/update/{{flashcard_to_update.id}}' method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        <p>
+            {{ form.question.label( class="form-label") }} <br>
+            {{ form.question(class="form-control") }}
+        </p>
+        
+      <p>
+        {{ form.answer.label( class="form-label") }} <br>
+        {{ form.answer(cols="100", rows="20", class="form-control") }}
+      </p>
+        <button type="submit"><a href="/flashcardslist/update/{{flashcard_to_update.id}}"></a>Edit</button>
+    </div>
+  </form>
+ 
+{% endblock %}
