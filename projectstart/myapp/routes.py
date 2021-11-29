@@ -1,8 +1,9 @@
+import re
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
 from myapp.models import User, ToDo, Note, FlashCard, notes # todos
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
@@ -10,8 +11,9 @@ import os
 from werkzeug.utils import secure_filename
 import streamlit as st
 import time
+from datetime import datetime
 
-from projectstart.myapp.forms import TimeForm
+#from projectstart.myapp.forms import TimeForm
 
 views = Blueprint('views', __name__)
 
@@ -290,8 +292,8 @@ def delete_flashcards(id):
     flash("Flashcard deleted", category="message")
     return redirect(url_for("views.flashcardslist"))
 
-@views.route('/ptimer/<int:t>', methods=['GET', 'POST' ])
-@login_required
+#@views.route('/ptimer/<int:t>', methods=['GET', 'POST' ])
+#@login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown(t):
     while t:
@@ -301,14 +303,33 @@ def countdown(t):
         time.sleep(1)
         t -= 1
     print('Fire in the hole!!')
-    return render_template("pomodorotimer.html", user = current_user, timer = timer)
-
+    # return render_template("pomodorotimer.html", user = current_user, timer = timer)
+    #return redirect(countdown(t))
     #t = input("Enter the time in seconds: ")
     #countdown(int(t))
 
-@views.route('/ptimer/timer', methods=['GET', 'POST' ])
+@views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required
 def timer():
     form = TimeForm()
     if form.validate_on_submit():
-        return redirect(url_for("view.ptimer"))
+        print(form.countdown.data)
+        #countdown(form.countdown.data)
+        chars = form.countdown.data 
+        charStr = datetime.now()
+        tim = chars.strftime("%M:%S")
+        print(type(tim))
+
+        mins = int(tim[0:2])
+        print(type(mins))
+        print(mins)
+
+        secs = int(tim[3:5])
+        print(type(secs))
+        print(secs)
+        sum = (mins*60) + secs
+        print(sum)
+        countdown(sum)
+        #minut = int(chars[3:4])
+        #print(minut)
+    return render_template("pomodorotimer.html", user = current_user, form = form)
