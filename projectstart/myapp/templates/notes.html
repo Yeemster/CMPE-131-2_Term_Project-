@@ -25,6 +25,21 @@
               <button type="button">
                 <a href='/noteslist/update/{{ notes.id }}'>Edit Note</a>
               </button>
+              <button type="button">
+                <a href='/noteslist/share/{{ notes.id }}'>Share Note</a>
+              </button>
+          
+              
+              {% if notes.shared %}
+              {% if notes.owner == user.username %}
+              <button type="button">
+                <a href='/noteslist/unshare/{{ notes.id }}'>Unshare Note</a>
+              </button>
+              {% endif %}
+              <p> <b>Shared: </b>| {{ notes.shared }}</p>
+              <p> <b>Shared with: </b>| {{ notes.users }}</p>
+              {% endif %}
+              <p> <b>Owner: </b>| {{ notes.owner }}</p>
             </form>
             </li>
             {% endfor %}

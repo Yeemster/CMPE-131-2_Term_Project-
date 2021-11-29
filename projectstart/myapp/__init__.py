@@ -4,7 +4,6 @@ from os import path
 basedir = os.path.abspath(os.path.dirname(__file__))
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-#from flask_migrate import Migrate
 
 
 
@@ -26,7 +25,7 @@ login = LoginManager(myobj)
 login.login_view ='auth.login'
 
 from myapp import routes, models
-from myapp.models import User, Note, ToDo
+from myapp.models import User, Note, ToDo, ToDo, FlashCard, notes
 
 from .routes import views
 from .auth import auth
