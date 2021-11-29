@@ -9,6 +9,9 @@ import markdown
 import os
 from werkzeug.utils import secure_filename
 import streamlit as st
+import time
+
+from projectstart.myapp.forms import TimeForm
 
 #from projectstart.myapp.models import FlashCard
 
@@ -182,7 +185,6 @@ def flashcardslist():
     #form = FlashCard() 
     user = User.query.filter_by(id=current_user.id).first()
     userflashcards = user.flashcards
-    
     answer = form.answer.data
     question = form.question.data
     return render_template("flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
@@ -192,9 +194,7 @@ def flashcardslist():
 def flashcards_preview(id):
     flashcards = FlashCard.query.filter_by(id=id).first()
     flashcardsanswer = flashcards.answer
-    
     MDContent = markdown.markdown(flashcardsanswer)
-    
     return render_template("previewflashcards.html", MDContent=MDContent, user=current_user)
 
 @views.route("/flashcardslist/add", methods=['POST','GET'])
@@ -243,3 +243,26 @@ def delete_flashcards(id):
     db.session.commit()
     flash("Flashcard deleted", category="message")
     return redirect(url_for("views.flashcardslist"))
+
+@views.route('/ptimer/<int:t>', methods=['GET', 'POST' ])
+@login_required
+# https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        print(timer, end="\r")
+        time.sleep(1)
+        t -= 1
+    print('Fire in the hole!!')
+    return render_template("pomodorotimer.html", user = current_user, timer = timer)
+
+    #t = input("Enter the time in seconds: ")
+    #countdown(int(t))
+
+@views.route('/ptimer/timer', methods=['GET', 'POST' ])
+@login_required
+def timer():
+    form = TimeForm()
+    if form.validate_on_submit():
+        return redirect(url_for("view.ptimer"))
