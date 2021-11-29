@@ -1,11 +1,15 @@
 from flask_wtf import FlaskForm
 from sqlalchemy.orm import query_expression
+from sqlalchemy.sql.functions import count
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 from wtforms.widgets.core import TextArea
+
+from projectstart.myapp.routes import countdown
+from wtforms.fields.html5 import TimeField
 
 class LoginForm(FlaskForm):
     '''
@@ -86,3 +90,7 @@ class FlashCardForm(FlaskForm):
     answer = StringField("answer", widget=TextArea())
     question = StringField("question", widget=TextArea())
     submit = SubmitField('Add')
+
+class TimeForm(FlaskForm):
+    submit = SubmitField('Start')
+    countdown = TimeField('Countdown', format = '%M:%S')
