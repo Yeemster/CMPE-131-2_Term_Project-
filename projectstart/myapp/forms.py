@@ -77,7 +77,10 @@ class NoteForm(FlaskForm):
     submit = SubmitField('Post')
 
 class ShareForm(FlaskForm):
-    username = StringField("Enter Username to Share", widget=TextArea())
+    username = StringField("Share to Username:", widget=TextArea())
+    submit = SubmitField('Share')
+class UnshareForm(FlaskForm):
+    username = StringField("Unshare Username", widget=TextArea())
     submit = SubmitField('Share')
 class FlashCardForm(FlaskForm):
     answer = StringField("answer", widget=TextArea())

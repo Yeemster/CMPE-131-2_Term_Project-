@@ -2,7 +2,7 @@ from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
 from myapp.models import User, ToDo, Note, FlashCard, notes # todos
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
@@ -80,8 +80,10 @@ def delete_todo(todos_id):
 @login_required
 def noteslist():
     form = NoteForm() 
-    user = User.query.filter_by(id=current_user.id).first()
+    user = User.query.filter_by(id=current_user.id).first() 
+    notes = User.query.all() 
     usernotes = user.notes
+    # check if the user owns the note to display the value for the user.
     note = form.note.data
     title = form.title.data
     return render_template("notes.html", form=form, user=current_user, noteslist=usernotes)
@@ -91,8 +93,6 @@ def noteslist():
 def notes_preview(id):
     note = Note.query.filter_by(id=id).first()
     notedata = note.data
-    print(notedata)
-    print(type(notedata))
     MDContent = markdown.markdown(notedata)
     return render_template("previewnotes.html", MDContent=MDContent, user=current_user)
 
@@ -107,11 +107,15 @@ def add_note():
         data = form.note.data
         title = form.title.data
         newnote = Note(data=data, title=title, users=[current_user] )
+        # assign an owner username who has sharing permissions
+        username = newnote.users[0].username
+        newnote.owner = username
         data = ''
         title = ''
         db.session.add(newnote)
         db.session.commit()
         flash("Successfully added new note")
+        flash(f"Owner of note is { username }")
         return redirect(url_for("views.noteslist"))
     return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
 @views.route("/noteslist/add/import", methods=['GET','POST'])
@@ -190,7 +194,24 @@ def share_note(id):
         else:
             flash(f'Failed to share note with { user }, invalid username', category="error")
     return render_template("share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
-
+@views.route("/noteslist/unshare/<int:id>", methods=['GET','POST'])
+def unshare_note(id):
+    note_to_unshare = Note.query.filter_by(id=id).first()
+    form = UnshareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_unshare_with = User.query.filter_by(username=user).first()
+            user_to_unshare_with.notes.remove(note_to_unshare)
+            if len(note_to_unshare.users) <= 1: 
+                note_to_unshare.shared = False
+            db.session.commit()
+            flash(f'Removed note from { user }', category="success")
+            return redirect(url_for('views.noteslist'))
+        else:
+            flash(f'Failed to share note with { user }, invalid username', category="error")
+    return render_template("unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
 def validate_username(username):
     username = User.query.filter_by(username=username).first()
     if username:

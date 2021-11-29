@@ -54,6 +54,7 @@ def load_user(id):
 class Note(db.Model):
     __tablename__ = 'note'
     id = db.Column(db.Integer, primary_key=True)
+    owner = db.Column(db.String(100))
     data = db.Column(db.String(1000000))
     title = db.Column(db.String(100))
     date = db.Column(db.DateTime(timezone=True), default=func.now())

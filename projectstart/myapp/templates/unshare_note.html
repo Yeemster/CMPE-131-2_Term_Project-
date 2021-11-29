@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/noteslist/share/{{note_to_share.id}}" method="POST">
+<form action="/noteslist/unshare/{{note_to_unshare.id}}" method="POST">
     <div>
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label( class="form-label") }} <br>
             {{ form.username(class="form-control") }}
         </p>
-        <button type="submit"><a href="/noteslist/share/{{note_to_share.id}}"></a>Share</button>
+        <button type="submit"><a href="/noteslist/unshare/{{note_to_unshare.id}}"></a>UnShare</button>
     </div>
   </form>
  
