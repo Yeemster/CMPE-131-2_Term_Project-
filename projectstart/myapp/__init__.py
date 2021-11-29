@@ -25,7 +25,7 @@ login = LoginManager(myobj)
 login.login_view ='auth.login'
 
 from myapp import routes, models
-from myapp.models import User, Note, ToDo
+from myapp.models import User, Note, ToDo, ToDo, FlashCard, notes
 
 from .routes import views
 from .auth import auth
@@ -33,15 +33,8 @@ from .auth import auth
 myobj.register_blueprint(views, url_prefix='/')
 myobj.register_blueprint(auth, url_prefix='/')
 
-
 @login.user_loader
 def load_user(id):
-    '''
-            Parameters:
-                    a (int): An integer value for user ID
-            Returns:
-                    given user (int): the user instance of the id queried from the database 
-    '''
     return User.query.get(int(id))
 
 '''

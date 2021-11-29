@@ -7,12 +7,13 @@
   <div>
     <label for="title">ToDo</label>
     <input type = "text" name = "title" placeholder = "Enter Todo...">
+    <input type = "text" name = "rank" placeholder = "Enter Priority Rank...">
     <button type="submit">Add</button>
   </div>
 </form>
 
 {% for todos in todolist %}
-  <p> <b>{{todos.id}} </b>| {{todos.title}}</p>
+  <p> <b>{{todos.rank}}) </b>| {{todos.title}}</p>
   {% if todos.complete == False %}
     <span>Not Completed</span>
     {% else %}

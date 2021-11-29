@@ -10,8 +10,6 @@ import os
 from werkzeug.utils import secure_filename
 import streamlit as st
 
-#from projectstart.myapp.models import FlashCard
-
 views = Blueprint('views', __name__)
 
 
@@ -21,11 +19,10 @@ def home():
     """
     return render_template("main.html", user=current_user)
 
-
 @views.route("/work", methods=['GET', 'POST'])
 @login_required
 def work():
-    """Return H1 header that says welcome! (should be in html)
+    """Return html template that passes in MDForm and the current user, allows links to user settings and import Markdown for rendering. 
     """
     form = MDForm()
     #if request.method == 'POST':
@@ -46,19 +43,21 @@ def work():
 @login_required
 def todolist():
     user = User.query.filter_by(id=current_user.id).first()
-    userTodos = user.todos
-    return render_template("todolist.html", user=current_user, todolist=userTodos)
+    # todos = user.todos
+    ordered_todos = ToDo.query.order_by(ToDo.rank)
+    return render_template("todolist.html", user=current_user, todolist=ordered_todos)
 
 @views.route("/todolist/add", methods=['POST'])
-def add():
+def add_todo():
     title = request.form.get("title")
-    newtodo = ToDo(title=title, user_id=current_user.id, complete=False)
+    rank = request.form.get("rank")
+    newtodo = ToDo(title=title, rank=rank, user_id=current_user.id, complete=False)
     db.session.add(newtodo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
 @views.route("/todolist/change/<int:todos_id>")
-def reload(todos_id):
+def reload_todo(todos_id):
     todo = ToDo.query.filter_by(id=todos_id).first()
     todo.complete = not todo.complete
     db.session.commit()
@@ -67,14 +66,15 @@ def reload(todos_id):
 @views.route("/todolist/delete/<int:todos_id>")
 def delete_todo(todos_id):
     todo = ToDo.query.filter_by(id=todos_id).first()
-    flash("Note deleted", category="message")
-    current_user.notes.remove(todo)
+    flash("Todo deleted", category="message")
+    # current_user.todos.remove(todo)
+    # user.notes.remove(todo_to_delete)
+    db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
 
 
-
-
+# notes ---------------------------------------------------------------------------------------------
 
 @views.route("/noteslist", methods=['GET','POST'])
 @login_required
@@ -110,7 +110,6 @@ def add_note():
         data = ''
         title = ''
         db.session.add(newnote)
-        
         db.session.commit()
         flash("Successfully added new note")
         return redirect(url_for("views.noteslist"))
@@ -199,7 +198,7 @@ def validate_username(username):
     else:
         return False 
     
-# Flash Cards ----------------------------------------------------------
+# Flash Cards ----------------------------------------------------------------------------------------------
 #     
 @views.route("/flashcardslist", methods=['GET','POST'])
 @login_required

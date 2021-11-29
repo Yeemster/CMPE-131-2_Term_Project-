@@ -63,6 +63,7 @@ class Note(db.Model):
 class ToDo(db.Model):
     __tablename__ = 'ToDo' 
     id = db.Column(db.Integer, primary_key= True)
+    rank = db.Column(db.Integer)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
