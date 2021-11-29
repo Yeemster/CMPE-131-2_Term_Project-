@@ -8,7 +8,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 from wtforms.widgets.core import TextArea
 
-from projectstart.myapp.routes import countdown
+#from myapp.routes import countdown
 from wtforms.fields.html5 import TimeField
 
 class LoginForm(FlaskForm):
