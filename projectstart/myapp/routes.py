@@ -9,7 +9,6 @@ from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
 import os
 from werkzeug.utils import secure_filename
-import streamlit as st
 import time
 from datetime import datetime
 
@@ -22,7 +21,7 @@ views = Blueprint('views', __name__)
 def home():
     """Return H1 header that says welcome! (should be in html)
     """
-    return render_template("main.html", user=current_user)
+    return render_template("Main/main.html", user=current_user)
 
 @views.route("/work", methods=['GET', 'POST'])
 @login_required
@@ -40,9 +39,9 @@ def work():
         #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
         with open(mdform, encoding="utf8") as mdfile:
             MDContent = markdown.markdown(mdfile.read())
-            return render_template('mdopen.html', MDContent = MDContent, user=current_user)
+            return render_template('files/mdopen.html', MDContent = MDContent, user=current_user)
         #return redirect(url_for("views.work"))
-    return render_template("work.html", user=current_user, form=form)
+    return render_template("Main/work.html", user=current_user, form=form)
 
 @views.route("/todolist", methods=['GET','POST'])
 @login_required
@@ -60,7 +59,7 @@ def todolist():
     user = User.query.filter_by(id=current_user.id).first()
     # todos = user.todos
     ordered_todos = ToDo.query.order_by(ToDo.rank)
-    return render_template("todolist.html", user=current_user, todolist=ordered_todos)
+    return render_template("todos/todolist.html", user=current_user, todolist=ordered_todos)
 
 @views.route("/todolist/add", methods=['POST'])
 def add_todo():
@@ -134,7 +133,7 @@ def noteslist():
     # check if the user owns the note to display the value for the user.
     note = form.note.data
     title = form.title.data
-    return render_template("notes.html", form=form, user=current_user, noteslist=usernotes)
+    return render_template("notes/notes.html", form=form, user=current_user, noteslist=usernotes)
 
 @views.route("/noteslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
@@ -149,7 +148,7 @@ def notes_preview(id):
     note = Note.query.filter_by(id=id).first()
     notedata = note.data
     MDContent = markdown.markdown(notedata)
-    return render_template("previewnotes.html", MDContent=MDContent, user=current_user)
+    return render_template("notes/previewnotes.html", MDContent=MDContent, user=current_user)
 
 @views.route("/noteslist/add", methods=['POST','GET'])
 def add_note():
@@ -177,7 +176,7 @@ def add_note():
         flash("Successfully added new note")
         flash(f"Owner of note is { username }")
         return redirect(url_for("views.noteslist"))
-    return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
+    return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
 @views.route("/noteslist/add/import", methods=['GET','POST'])
 def import_note():
     '''
@@ -211,7 +210,7 @@ def import_note():
         db.session.commit()
         flash("Successfully added new note")
         return redirect(url_for("views.noteslist"))
-    return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
+    return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
 
 
 
@@ -238,7 +237,7 @@ def update_note(id):
         return redirect(url_for("views.noteslist"))
     form.title.data = note_to_update.title
     form.note.data = note_to_update.data
-    return render_template("edit_note.html", form=form, user=current_user, note_to_update=note_to_update)
+    return render_template("notes/edit_note.html", form=form, user=current_user, note_to_update=note_to_update)
 
 @views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
@@ -280,7 +279,7 @@ def share_note(id):
             return redirect(url_for('views.noteslist'))
         else:
             flash(f'Failed to share note with { user }, invalid username', category="error")
-    return render_template("share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
+    return render_template("notes/share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
 @views.route("/noteslist/unshare/<int:id>", methods=['GET','POST'])
 def unshare_note(id):
     '''
@@ -305,7 +304,7 @@ def unshare_note(id):
             return redirect(url_for('views.noteslist'))
         else:
             flash(f'Failed to share note with { user }, invalid username', category="error")
-    return render_template("unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
+    return render_template("notes/unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
 def validate_username(username):
     '''
             Function checks if username entered by the user is correct or not
@@ -338,7 +337,7 @@ def flashcardslist():
     userflashcards = user.flashcards
     answer = form.answer.data
     question = form.question.data
-    return render_template("flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
+    return render_template("flashcards/flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
 
 
 @views.route("/flashcardslist/preview/<int:id>", methods=['GET','POST'])
@@ -354,7 +353,7 @@ def flashcards_preview(id):
     flashcards = FlashCard.query.filter_by(id=id).first()
     flashcardsanswer = flashcards.answer
     MDContent = markdown.markdown(flashcardsanswer)
-    return render_template("previewflashcards.html", MDContent=MDContent, user=current_user)
+    return render_template("flashcards/previewflashcards.html", MDContent=MDContent, user=current_user)
 
 
 @views.route("/flashcardslist/add", methods=['POST','GET'])
@@ -379,7 +378,7 @@ def add_flashcard():
         db.session.commit()
         flash("Successfully added new flashcard")
         return redirect(url_for("views.flashcardslist"))
-    return render_template("add_flashcard.html", form=form, user=current_user, mdform=mdform)
+    return render_template("flashcards/add_flashcard.html", form=form, user=current_user, mdform=mdform)
 
 @views.route("/flashcardslist/update/<int:id>", methods=['GET','POST'])
 def update_flashcard(id):
@@ -404,7 +403,7 @@ def update_flashcard(id):
         return redirect(url_for("views.flashcardslist"))
     form.question.data = flashcard_to_update.question
     form.answer.data = flashcard_to_update.answer
-    return render_template("edit_flashcard.html", form=form, user=current_user, flashcard_to_update=flashcard_to_update)
+    return render_template("flashcards/edit_flashcard.html", form=form, user=current_user, flashcard_to_update=flashcard_to_update)
 
 @views.route('/flashcardslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
@@ -476,4 +475,8 @@ def timer():
         countdown(sum)
         #minut = int(chars[3:4])
         #print(minut)
+<<<<<<< HEAD
+    return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
+=======
     return render_template("pomodorotimer.html", user = current_user, form = form)
+>>>>>>> 7bc61d9567e7709b0e7dfdbd20b22d258b05551b

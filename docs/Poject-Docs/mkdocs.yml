@@ -2,5 +2,7 @@ site_name: MkLorum
 site_url: https://example.com/
 nav:
     - Home: index.md
+    - Start Page: start.md
     - About: about.md
+
 theme: readthedocs

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 
 {% block content %}
 <form action="/flashcardslist/add" method="POST">
@@ -17,7 +17,6 @@
     </div>
   </form>
 
-  
   <h3> Upload Markdown File </h3>
    <form action= "/flashcardslist/add/import" method="GET" enctype="multipart/form-data">
    {{ mdform.hidden_tag() }}
