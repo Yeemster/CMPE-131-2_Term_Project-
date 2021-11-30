@@ -35,6 +35,10 @@ myobj.register_blueprint(auth, url_prefix='/')
 
 @login.user_loader
 def load_user(id):
+    '''
+    parameter: (int) id 
+    returns queried user 
+    '''
     return User.query.get(int(id))
 
 '''

@@ -14,9 +14,10 @@
 * `pip install datetime` - Install Datetime
 
 # Initialize Database File
-1. Before starting navigate to the projectstart file.
+1. Before starting, navigate to the projectstart file.
 1. `python3` Run python3 IDE 
-1. 
+1. `from myapp import db` import db object
+1. `from myapp.models import User, Note, FlashCard, ToDo, notes` import tables from models including the association tabel 'notes'
 ## Project layout
 
 ```
