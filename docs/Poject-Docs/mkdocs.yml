@@ -4,5 +4,6 @@ nav:
     - Home: index.md
     - Start Page: start.md
     - About: about.md
+    - Documentation: documentation.md
 
 theme: readthedocs

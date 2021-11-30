@@ -4,10 +4,8 @@ from sqlalchemy.sql.functions import count
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 from wtforms.widgets.core import TextArea
-
 #from myapp.routes import countdown
 from wtforms.fields.html5 import TimeField
 
