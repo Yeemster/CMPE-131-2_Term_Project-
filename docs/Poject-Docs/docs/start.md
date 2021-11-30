@@ -18,6 +18,9 @@
 1. `python3` Run python3 IDE 
 1. `from myapp import db` import db object
 1. `from myapp.models import User, Note, FlashCard, ToDo, notes` import tables from models including the association tabel 'notes'
+1. `quit()` exit out of IDE 
+1. navigate to the projectstart file
+1. `python3 run.py` Using this you should be able to run the application
 ## Project layout
 
 ```
