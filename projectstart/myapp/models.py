@@ -10,11 +10,11 @@ from sqlalchemy.sql import func
 notes = db.Table('notes',
                  db.Column('users_id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('notes_id', db.Integer, db.ForeignKey('note.id')))
-'''
+
 todos = db.Table('todos',
                  db.Column('id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('id', db.Integer, db.ForeignKey('Todo.id')))
-'''
+
 
 class User(UserMixin, db.Model):
     '''
@@ -35,36 +35,36 @@ class User(UserMixin, db.Model):
       '''
       returns username
       '''
-        return f'<User  {self.username}>'
+      return f'<User  {self.username}>'
 
     def check_password(self, password):
       '''
       Returns the password entered. 
       '''
-        return check_password_hash(self.password_hash, password)
+      return check_password_hash(self.password_hash, password)
 
     def set_password(self, password):
       '''
       Sets the password for each user
       returns none
       '''
-        self.password_hash = generate_password_hash(password, method='sha256')
+      self.password_hash = generate_password_hash(password, method='sha256')
 
 
 class Note(db.Model):
-    '''
+  '''
       Note class form holds the title, data, id, date, owner, and user_id for each note created by user from routes.py
       Parameter: None
       Return: None
-    '''
-    __tablename__ = 'note'
-    id = db.Column(db.Integer, primary_key=True)
-    owner = db.Column(db.String(100))
-    data = db.Column(db.String(1000000))
-    title = db.Column(db.String(100))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    shared = db.Column(db.Boolean, default=False)
-    users = db.relationship('User', secondary=notes, backref=db.backref('note'))
+  '''
+  __tablename__ = 'note'
+  id = db.Column(db.Integer, primary_key=True)
+  owner = db.Column(db.String(100))
+  data = db.Column(db.String(1000000))
+  title = db.Column(db.String(100))
+  date = db.Column(db.DateTime(timezone=True), default=func.now())
+  shared = db.Column(db.Boolean, default=False)
+  users = db.relationship('User', secondary=notes, backref=db.backref('note'))
 
 class ToDo(db.Model):
   '''
@@ -72,13 +72,13 @@ class ToDo(db.Model):
   Parameter: None
   Return: None
   '''
-    __tablename__ = 'ToDo' 
-    id = db.Column(db.Integer, primary_key= True)
-    rank = db.Column(db.Integer)
-    title = db.Column(db.String(100))
-    complete = db.Column(db.Boolean)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    users = db.relationship('User', backref=db.backref('todo'))
+  __tablename__ = 'ToDo' 
+  id = db.Column(db.Integer, primary_key= True)
+  rank = db.Column(db.Integer)
+  title = db.Column(db.String(100))
+  complete = db.Column(db.Boolean)
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  users = db.relationship('User', backref=db.backref('todo'))
 
 class FlashCard(db.Model):
     '''
