@@ -85,21 +85,68 @@ class MDForm(FlaskForm):
     submit = SubmitField('Upload')
 
 class NoteForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a NoteForm form 
+            variables: 
+                    note: WTF StringField requires String input and text area
+                    title:  WTF StringField requires String input
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     note = StringField("Note", widget=TextArea())
     title = StringField("Title")
     submit = SubmitField('Post')
 
 class ShareForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a ShareForm form 
+            variables: 
+                    username: WTF StringField requires String input
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     username = StringField("Share to Username:", widget=TextArea())
     submit = SubmitField('Share')
 class UnshareForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a UnshareForm form 
+            variables: 
+                    username: WTF StringField requires String input
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     username = StringField("Unshare Username", widget=TextArea())
     submit = SubmitField('Share')
 class FlashCardForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a FlashCardForm form 
+            variables: 
+                    question: WTF StringField requires String input and text area
+                    answer:  WTF StringField requires String input and text area
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     answer = StringField("answer", widget=TextArea())
     question = StringField("question", widget=TextArea())
     submit = SubmitField('Add')
 
 class TimeForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a TimeForm form 
+            variables: 
+                    countdown: TimeField for adding time in Minute : Second format
+                    submit: Submitfield for submiting data 
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     submit = SubmitField('Start')
     countdown = TimeField('Countdown', format = '%M:%S')
