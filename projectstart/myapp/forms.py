@@ -72,6 +72,15 @@ class UpdateUserForm(FlaskForm):
     submit = SubmitField('Update User')
 
 class MDForm(FlaskForm):
+    '''
+    *In forms.py
+    Class: Defined as a Mark Down form using WTForms
+            variables: 
+                    mdfile: WTF FileField requires a File input
+                    submit: Submitfield for submiting a file
+            Parameters:
+                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
+    '''
     mdfile = FileField("File",validators=[FileRequired()])
     submit = SubmitField('Upload')
 

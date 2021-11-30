@@ -46,6 +46,16 @@ def work():
 @views.route("/todolist", methods=['GET','POST'])
 @login_required
 def todolist():
+    """
+    
+            Displays the option to input text for a to do list, and displays the list of to dos from the database. 
+
+            Parameters: 
+                    No Parameters but contains a routing tag with “/todolist” and the methods of ‘GET’ and ‘POST’
+            Returns:
+                    render_template(): Renders the html template, which displays the ToDos in order
+
+    """
     user = User.query.filter_by(id=current_user.id).first()
     # todos = user.todos
     ordered_todos = ToDo.query.order_by(ToDo.rank)
@@ -53,6 +63,16 @@ def todolist():
 
 @views.route("/todolist/add", methods=['POST'])
 def add_todo():
+    """
+    
+            Adds the new To Do to the ToDo model and adds it to the database and commits. 
+
+            Parameters:
+                    No Parameters but contains a routing tag with “/todolist/add” and the method of ‘POST’
+            Returns:
+                    After being added it redirects to the todolist method, which then displays the new to do along with all the previous ones. 
+
+    """
     title = request.form.get("title")
     rank = request.form.get("rank")
     newtodo = ToDo(title=title, rank=rank, user_id=current_user.id, complete=False)
@@ -62,6 +82,14 @@ def add_todo():
 
 @views.route("/todolist/change/<int:todos_id>")
 def reload_todo(todos_id):
+    """
+            Reloads the status of completion for the selected To Do
+
+            Parameter:
+                    The selected todos id so that it knows which todo to reload. This method also contains a routing tag with "/todolist/change/<int:todos_id>".
+            Returns:
+                    After being reloaded it redirects to the todolist method, which then displays the updated to do along with all the previous ones. 
+    """
     todo = ToDo.query.filter_by(id=todos_id).first()
     todo.complete = not todo.complete
     db.session.commit()
@@ -69,6 +97,14 @@ def reload_todo(todos_id):
 
 @views.route("/todolist/delete/<int:todos_id>")
 def delete_todo(todos_id):
+    """
+            Deletes the selected  To Do from the database and displays a delete message
+
+            Parameter: 
+                    The selected todos id so that it knows which todo to delete. This method also contains a routing tag with "/todolist/delete/<int:todos_id>".
+            Returns:
+                    After being deleted it redirects to the todolist method, which then displays the list of todos without the deleted one
+    """
     todo = ToDo.query.filter_by(id=todos_id).first()
     flash("Todo deleted", category="message")
     # current_user.todos.remove(todo)
@@ -83,6 +119,13 @@ def delete_todo(todos_id):
 @views.route("/noteslist", methods=['GET','POST'])
 @login_required
 def noteslist():
+    '''
+            Generates a notes list that is uniques to each user in the data base
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and noteslist.
+    '''
     form = NoteForm() 
     user = User.query.filter_by(id=current_user.id).first() 
     notes = User.query.all() 
@@ -95,6 +138,13 @@ def noteslist():
 @views.route("/noteslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
 def notes_preview(id):
+    '''
+            Function allows the user to preview notes added to the notes list
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters MDContent and user.
+    '''
     note = Note.query.filter_by(id=id).first()
     notedata = note.data
     MDContent = markdown.markdown(notedata)
@@ -102,10 +152,15 @@ def notes_preview(id):
 
 @views.route("/noteslist/add", methods=['POST','GET'])
 def add_note():
+    '''
+            Function allows user to add notes to the list and assign that user as an owner of the note
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and flashcardslist.
+    '''
     form = NoteForm() 
     mdform = MDForm()
-    #data = request.form['Note']
-    #if request.form == 'POST':
     if form.validate_on_submit():
         print('reached')
         data = form.note.data
@@ -124,7 +179,13 @@ def add_note():
     return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
 @views.route("/noteslist/add/import", methods=['GET','POST'])
 def import_note():
-    
+     '''
+            Allows the user to upload a file from the computer and adds all the data to the note 
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and mdform.
+    '''
     mdform = MDForm()
     form = NoteForm()
     #if request.method == 'POST':
@@ -155,6 +216,13 @@ def import_note():
 
 @views.route("/noteslist/update/<int:id>", methods=['GET','POST'])
 def update_note(id):
+    '''
+            Function allows the user to edit notes previously created
+            Parameters:
+                    No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_update.
+    '''
     note_to_update = Note.query.get_or_404(id)
     form = NoteForm()
     #data = request.form['Note']
@@ -174,6 +242,13 @@ def update_note(id):
 @views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete_notes(id):
+    '''
+            Function allows the user to delete a note previously created
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template.
+    '''
     #note = Note.query.get_or_404(id)
     note = Note.query.filter_by(id=id).first()
     flash("Note deleted", category="message")
@@ -183,6 +258,13 @@ def delete_notes(id):
 
 @views.route("/noteslist/share/<int:id>", methods=['GET','POST'])
 def share_note(id):
+    '''
+            Allows users to share notes with each other and edit them 
+            Parameters:
+                    No paramters but contains a routing tag with "/validate_username and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and notes_to_share.
+    '''
     note_to_share = Note.query.filter_by(id=id).first()
     form = ShareForm()
     if form.validate_on_submit():
@@ -200,6 +282,13 @@ def share_note(id):
     return render_template("notes/share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
 @views.route("/noteslist/unshare/<int:id>", methods=['GET','POST'])
 def unshare_note(id):
+    '''
+            Allows the user to unshare a note which was previously shared with other users
+            Parameters:
+                    No paramters but contains a routing tag with "/validate_username and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and notes_to_share.
+    '''
     note_to_unshare = Note.query.filter_by(id=id).first()
     form = UnshareForm()
     if form.validate_on_submit():
@@ -217,6 +306,13 @@ def unshare_note(id):
             flash(f'Failed to share note with { user }, invalid username', category="error")
     return render_template("notes/unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
 def validate_username(username):
+     '''
+            Function checks if username entered by the user is correct or not
+            Parameters:
+                    None
+            Returns:
+                    true or false
+    '''
     username = User.query.filter_by(username=username).first()
     if username:
         return True
@@ -225,31 +321,52 @@ def validate_username(username):
     
 # Flash Cards ----------------------------------------------------------------------------------------------
 #     
+
 @views.route("/flashcardslist", methods=['GET','POST'])
 @login_required
 def flashcardslist():
+     '''
+            Generates a flashcard list that is uniques to each user in the data base
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and flashcardslist.
+    '''
     form = FlashCardForm()
-    #form = FlashCard() 
     user = User.query.filter_by(id=current_user.id).first()
     userflashcards = user.flashcards
     answer = form.answer.data
     question = form.question.data
     return render_template("flashcards/flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
 
+
 @views.route("/flashcardslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
 def flashcards_preview(id):
+    '''
+     The function lets user preview a flashcasd previously created in markdown 
+     Parameters:
+            No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+     Returns:
+            render_template(): Renders the html template given parameters MDContent and user.
+    '''
     flashcards = FlashCard.query.filter_by(id=id).first()
     flashcardsanswer = flashcards.answer
     MDContent = markdown.markdown(flashcardsanswer)
     return render_template("flashcards/previewflashcards.html", MDContent=MDContent, user=current_user)
 
+
 @views.route("/flashcardslist/add", methods=['POST','GET'])
 def add_flashcard():
+    '''
+     The function lets user add a flashcard to their list  
+     Parameters:
+            No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+     Returns:
+            render_template(): Renders the html template given parameters form, mdform, and user.
+    '''
     form = FlashCardForm() 
     mdform = MDForm()
-    #data = request.form['Note']
-    #if request.form == 'POST':
     if form.validate_on_submit():
         print('reached')
         answer = form.answer.data
@@ -265,6 +382,13 @@ def add_flashcard():
 
 @views.route("/flashcardslist/update/<int:id>", methods=['GET','POST'])
 def update_flashcard(id):
+    '''
+          Function allows the user to update the flash cards previously created
+          Parameters:
+                  No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+          Returns:
+                  render_template(): Renders the html template given parameters form, user, and flashcard_to_update.
+    '''
     flashcard_to_update = FlashCard.query.get_or_404(id)
     form = FlashCardForm()
     #data = request.form['Note']
@@ -284,7 +408,13 @@ def update_flashcard(id):
 @views.route('/flashcardslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete_flashcards(id):
-    #note = Note.query.get_or_404(id)
+    '''
+            The function allows the user to delete flashcards in the list
+            Parameters:
+                    No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template
+    '''
     flashcard = FlashCard.query.filter_by(id=id).first()
     db.session.delete(flashcard)
     db.session.commit()
@@ -295,6 +425,13 @@ def delete_flashcards(id):
 #@login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown(t):
+     '''
+            Countdown function takes int t and runs a countdown timer from t to 0
+            Parameters:
+                    No paramters but contains a routing tag with "/login'
+            Returns:
+                    render_template(): Renders the html template given parameters user and timer.
+    '''
     while t:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
@@ -310,6 +447,13 @@ def countdown(t):
 @views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required
 def timer():
+    '''
+            Timer function reads the timer set by use, converts it into an integer and pass it to countdown
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form and user.
+    '''
     form = TimeForm()
     if form.validate_on_submit():
         print(form.countdown.data)
@@ -331,4 +475,8 @@ def timer():
         countdown(sum)
         #minut = int(chars[3:4])
         #print(minut)
+<<<<<<< HEAD
     return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
+=======
+    return render_template("pomodorotimer.html", user = current_user, form = form)
+>>>>>>> 7bc61d9567e7709b0e7dfdbd20b22d258b05551b
