@@ -485,3 +485,4 @@ def timer():
         #minut = int(chars[3:4])
         #print(minut)
     return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
+    
