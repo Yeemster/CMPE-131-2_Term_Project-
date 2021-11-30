@@ -14,7 +14,9 @@
 * `pip install datetime` - Install Datetime
 
 # Initialize Database File
-Before starting 
+1. Before starting navigate to the projectstart file.
+1. `python3` Run python3 IDE 
+1. 
 ## Project layout
 
 ```
