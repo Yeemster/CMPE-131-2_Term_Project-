@@ -17,6 +17,10 @@ todos = db.Table('todos',
 '''
 
 class User(UserMixin, db.Model):
+    '''
+      User class holds the id, username, email, password, notes, todos, and flashcards of each user created.
+      Has many to many relationships with class notes via association table.
+    '''
     _tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -28,16 +32,31 @@ class User(UserMixin, db.Model):
     flashcards = db.relationship('FlashCard', backref='author', lazy='dynamic')
 
     def __repr__(self):
+      '''
+      returns username
+      '''
         return f'<User  {self.username}>'
 
     def check_password(self, password):
+      '''
+      Returns the password entered. 
+      '''
         return check_password_hash(self.password_hash, password)
 
     def set_password(self, password):
+      '''
+      Sets the password for each user
+      returns none
+      '''
         self.password_hash = generate_password_hash(password, method='sha256')
 
 
 class Note(db.Model):
+    '''
+      Note class form holds the title, data, id, date, owner, and user_id for each note created by user from routes.py
+      Parameter: None
+      Return: None
+    '''
     __tablename__ = 'note'
     id = db.Column(db.Integer, primary_key=True)
     owner = db.Column(db.String(100))
@@ -48,9 +67,11 @@ class Note(db.Model):
     users = db.relationship('User', secondary=notes, backref=db.backref('note'))
 
 class ToDo(db.Model):
-  """
+  '''
   The ToDo Class is a class which holds the id, rank, title, completion, user_id, and users for each To Do that is added from routes.py
-  """
+  Parameter: None
+  Return: None
+  '''
     __tablename__ = 'ToDo' 
     id = db.Column(db.Integer, primary_key= True)
     rank = db.Column(db.Integer)
@@ -60,6 +81,11 @@ class ToDo(db.Model):
     users = db.relationship('User', backref=db.backref('todo'))
 
 class FlashCard(db.Model):
+    '''
+      FlashCard class form holds the question, answer, id, date, and user_id for each flash card created from routes.py
+      Parameter: None
+      Return: None
+    '''
     id = db.Column(db.Integer, primary_key= True)
     answer = db.Column(db.String(1000))
     #data = db.Column(db.String(1000))
