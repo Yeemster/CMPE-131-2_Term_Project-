@@ -32,7 +32,7 @@ def login():
             login_user(user, remember=form.remember_me.data)
             flash(f'successfully signed in to {current_user.username}', category = 'messsage')
             return redirect(url_for("views.work"))
-    return render_template('login.html', form=form, user=current_user)
+    return render_template('authentication/login.html', form=form, user=current_user)
 
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
@@ -77,7 +77,7 @@ def signup():
                 login_user(new_user, remember=True)
                 flash('Account created!', category='success')
                 return redirect(url_for("views.work"))
-    return render_template('sign_up.html', form=form, user=current_user)
+    return render_template('authentication/sign_up.html', form=form, user=current_user)
 
 
 @auth.route("/logout")
@@ -148,7 +148,7 @@ def update(id):
             except:
                 flash("Error updating user fields")
                 return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
-    return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
+    return render_template("authentication/update.html", user=current_user, form=form, user_to_update=user_to_update)
 @auth.route('/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete(id):
@@ -167,7 +167,7 @@ def delete(id):
         flash("Successfully Deleted User")
     except:
         flash("Error occured in deleting user")
-    return render_template("account.html", user=current_user)   
+    return render_template("authentication/account.html", user=current_user)   
 
 
 @auth.route("/account")
@@ -176,6 +176,6 @@ def account():
     """
     Returns render_template() for html account page consisting of user settings links
     """
-    return render_template("account.html", user=current_user) 
+    return render_template("authentication/account.html", user=current_user) 
 
     
