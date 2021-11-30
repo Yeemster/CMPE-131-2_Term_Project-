@@ -174,7 +174,8 @@ def delete(id):
 @login_required
 def account():
     """
-    Returns render_template() for html account page consisting of user settings links
+    Returns render_template() for html 
+    account page consisting of user settings links
     """
     return render_template("authentication/account.html", user=current_user) 
 
