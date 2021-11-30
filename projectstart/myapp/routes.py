@@ -226,31 +226,52 @@ def validate_username(username):
     
 # Flash Cards ----------------------------------------------------------------------------------------------
 #     
+
 @views.route("/flashcardslist", methods=['GET','POST'])
 @login_required
 def flashcardslist():
+     '''
+            Generates a flashcard list that is uniques to each user in the data base
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and flashcardslist.
+    '''
     form = FlashCardForm()
-    #form = FlashCard() 
     user = User.query.filter_by(id=current_user.id).first()
     userflashcards = user.flashcards
     answer = form.answer.data
     question = form.question.data
     return render_template("flashcards.html", form=form, user=current_user, flashcardslist=userflashcards)
 
+
 @views.route("/flashcardslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
 def flashcards_preview(id):
+    '''
+     The function lets user preview a flashcasd previously created in markdown 
+     Parameters:
+            No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+     Returns:
+            render_template(): Renders the html template given parameters MDContent and user.
+    '''
     flashcards = FlashCard.query.filter_by(id=id).first()
     flashcardsanswer = flashcards.answer
     MDContent = markdown.markdown(flashcardsanswer)
     return render_template("previewflashcards.html", MDContent=MDContent, user=current_user)
 
+
 @views.route("/flashcardslist/add", methods=['POST','GET'])
 def add_flashcard():
+    '''
+     The function lets user add a flashcard to their list  
+     Parameters:
+            No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+     Returns:
+            render_template(): Renders the html template given parameters form, mdform, and user.
+    '''
     form = FlashCardForm() 
     mdform = MDForm()
-    #data = request.form['Note']
-    #if request.form == 'POST':
     if form.validate_on_submit():
         print('reached')
         answer = form.answer.data
@@ -266,6 +287,13 @@ def add_flashcard():
 
 @views.route("/flashcardslist/update/<int:id>", methods=['GET','POST'])
 def update_flashcard(id):
+    '''
+          Function allows the user to update the flash cards previously created
+          Parameters:
+                  No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+          Returns:
+                  render_template(): Renders the html template given parameters form, user, and flashcard_to_update.
+    '''
     flashcard_to_update = FlashCard.query.get_or_404(id)
     form = FlashCardForm()
     #data = request.form['Note']
@@ -285,7 +313,13 @@ def update_flashcard(id):
 @views.route('/flashcardslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete_flashcards(id):
-    #note = Note.query.get_or_404(id)
+    '''
+            The function allows the user to delete flashcards in the list
+            Parameters:
+                    No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template
+    '''
     flashcard = FlashCard.query.filter_by(id=id).first()
     db.session.delete(flashcard)
     db.session.commit()
@@ -296,6 +330,13 @@ def delete_flashcards(id):
 #@login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown(t):
+     '''
+            Countdown function takes int t and runs a countdown timer from t to 0
+            Parameters:
+                    No paramters but contains a routing tag with "/login'
+            Returns:
+                    render_template(): Renders the html template given parameters user and timer.
+    '''
     while t:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
@@ -311,6 +352,13 @@ def countdown(t):
 @views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required
 def timer():
+    '''
+            Timer function reads the timer set by use, converts it into an integer and pass it to countdown
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form and user.
+    '''
     form = TimeForm()
     if form.validate_on_submit():
         print(form.countdown.data)
