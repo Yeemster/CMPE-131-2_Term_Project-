@@ -10,11 +10,11 @@ from sqlalchemy.sql import func
 notes = db.Table('notes',
                  db.Column('users_id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('notes_id', db.Integer, db.ForeignKey('note.id')))
-
+'''
 todos = db.Table('todos',
                  db.Column('id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('id', db.Integer, db.ForeignKey('Todo.id')))
-
+'''
 
 class User(UserMixin, db.Model):
     '''

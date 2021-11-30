@@ -457,7 +457,7 @@ def countdown(t):
 @login_required
 def timer():
     '''
-            Timer function reads the timer set by use, converts it into an integer and pass it to countdown
+            Timer function reads the timer set by use, converts it into an integer and pass it to countdown()
             Parameters:
                     No paramters but contains a routing tag with '/ptimer' and methods of 'GET' and 'POST'
             Returns:
@@ -470,17 +470,15 @@ def timer():
         chars = form.countdown.data 
         charStr = datetime.now()
         tim = chars.strftime("%M:%S")
-        print(type(tim))
-
+        # print(type(tim))
         mins = int(tim[0:2])
-        print(type(mins))
-        print(mins)
-
+        # print(type(mins))
+        # print(mins)
         secs = int(tim[3:5])
-        print(type(secs))
-        print(secs)
+        # print(type(secs))
+        # print(secs)
         sum = (mins*60) + secs
-        print(sum)
+        # print(sum)
         countdown(sum)
         #minut = int(chars[3:4])
         #print(minut)

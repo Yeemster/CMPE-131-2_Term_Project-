@@ -7,8 +7,10 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 from wtforms.widgets.core import TextArea
 #from myapp.routes import countdown
-from wtforms.fields.html5 import TimeField
-
+# For linux/Ubuntu/Windows users use the improt below
+from wtforms.fields import TimeField
+# For mac users use the import below
+# from wtforms.fields.html5 import TimeField
 class LoginForm(FlaskForm):
     '''
     In forms.py
