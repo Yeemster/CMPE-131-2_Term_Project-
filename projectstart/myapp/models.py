@@ -62,6 +62,9 @@ class Note(db.Model):
     users = db.relationship('User', secondary=notes, backref=db.backref('note'))
 
 class ToDo(db.Model):
+  """
+  The ToDo Class is a class which holds the id, rank, title, completion, user_id, and users for each To Do that is added from routes.py
+  """
     __tablename__ = 'ToDo' 
     id = db.Column(db.Integer, primary_key= True)
     rank = db.Column(db.Integer)
