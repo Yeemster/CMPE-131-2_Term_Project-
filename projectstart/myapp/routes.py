@@ -47,6 +47,16 @@ def work():
 @views.route("/todolist", methods=['GET','POST'])
 @login_required
 def todolist():
+    """
+    
+            Displays the option to input text for a to do list, and displays the list of to dos from the database. 
+
+            Parameters: 
+                    No Parameters but contains a routing tag with “/todolist” and the methods of ‘GET’ and ‘POST’
+            Returns:
+                    render_template(): Renders the html template, which displays the ToDos in order
+
+    """
     user = User.query.filter_by(id=current_user.id).first()
     # todos = user.todos
     ordered_todos = ToDo.query.order_by(ToDo.rank)
@@ -54,6 +64,16 @@ def todolist():
 
 @views.route("/todolist/add", methods=['POST'])
 def add_todo():
+    """
+    
+            Adds the new To Do to the ToDo model and adds it to the database and commits. 
+
+            Parameters:
+                    No Parameters but contains a routing tag with “/todolist/add” and the method of ‘POST’
+            Returns:
+                    After being added it redirects to the todolist method, which then displays the new to do along with all the previous ones. 
+
+    """
     title = request.form.get("title")
     rank = request.form.get("rank")
     newtodo = ToDo(title=title, rank=rank, user_id=current_user.id, complete=False)
@@ -63,6 +83,14 @@ def add_todo():
 
 @views.route("/todolist/change/<int:todos_id>")
 def reload_todo(todos_id):
+    """
+            Reloads the status of completion for the selected To Do
+
+            Parameter:
+                    The selected todos id so that it knows which todo to reload. This method also contains a routing tag with "/todolist/change/<int:todos_id>".
+            Returns:
+                    After being reloaded it redirects to the todolist method, which then displays the updated to do along with all the previous ones. 
+    """
     todo = ToDo.query.filter_by(id=todos_id).first()
     todo.complete = not todo.complete
     db.session.commit()
@@ -70,6 +98,14 @@ def reload_todo(todos_id):
 
 @views.route("/todolist/delete/<int:todos_id>")
 def delete_todo(todos_id):
+    """
+            Deletes the selected  To Do from the database and displays a delete message
+
+            Parameter: 
+                    The selected todos id so that it knows which todo to delete. This method also contains a routing tag with "/todolist/delete/<int:todos_id>".
+            Returns:
+                    After being deleted it redirects to the todolist method, which then displays the list of todos without the deleted one
+    """
     todo = ToDo.query.filter_by(id=todos_id).first()
     flash("Todo deleted", category="message")
     # current_user.todos.remove(todo)
