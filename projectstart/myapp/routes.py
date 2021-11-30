@@ -475,8 +475,4 @@ def timer():
         countdown(sum)
         #minut = int(chars[3:4])
         #print(minut)
-<<<<<<< HEAD
     return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
-=======
-    return render_template("pomodorotimer.html", user = current_user, form = form)
->>>>>>> 7bc61d9567e7709b0e7dfdbd20b22d258b05551b
