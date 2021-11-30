@@ -179,7 +179,7 @@ def add_note():
     return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
 @views.route("/noteslist/add/import", methods=['GET','POST'])
 def import_note():
-     '''
+    '''
             Allows the user to upload a file from the computer and adds all the data to the note 
             Parameters:
                     No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
@@ -306,7 +306,7 @@ def unshare_note(id):
             flash(f'Failed to share note with { user }, invalid username', category="error")
     return render_template("notes/unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
 def validate_username(username):
-     '''
+    '''
             Function checks if username entered by the user is correct or not
             Parameters:
                     None
@@ -325,7 +325,7 @@ def validate_username(username):
 @views.route("/flashcardslist", methods=['GET','POST'])
 @login_required
 def flashcardslist():
-     '''
+    '''
             Generates a flashcard list that is uniques to each user in the data base
             Parameters:
                     No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
@@ -425,7 +425,7 @@ def delete_flashcards(id):
 #@login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown(t):
-     '''
+    '''
             Countdown function takes int t and runs a countdown timer from t to 0
             Parameters:
                     No paramters but contains a routing tag with "/login'
