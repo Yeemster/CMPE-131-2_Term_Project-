@@ -84,6 +84,13 @@ def delete_todo(todos_id):
 @views.route("/noteslist", methods=['GET','POST'])
 @login_required
 def noteslist():
+    '''
+            Generates a notes list that is uniques to each user in the data base
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and noteslist.
+    '''
     form = NoteForm() 
     user = User.query.filter_by(id=current_user.id).first() 
     notes = User.query.all() 
@@ -96,6 +103,13 @@ def noteslist():
 @views.route("/noteslist/preview/<int:id>", methods=['GET','POST'])
 @login_required
 def notes_preview(id):
+    '''
+            Function allows the user to preview notes added to the notes list
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters MDContent and user.
+    '''
     note = Note.query.filter_by(id=id).first()
     notedata = note.data
     MDContent = markdown.markdown(notedata)
@@ -103,10 +117,15 @@ def notes_preview(id):
 
 @views.route("/noteslist/add", methods=['POST','GET'])
 def add_note():
+    '''
+            Function allows user to add notes to the list and assign that user as an owner of the note
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and flashcardslist.
+    '''
     form = NoteForm() 
     mdform = MDForm()
-    #data = request.form['Note']
-    #if request.form == 'POST':
     if form.validate_on_submit():
         print('reached')
         data = form.note.data
@@ -125,7 +144,13 @@ def add_note():
     return render_template("add_note.html", form=form, user=current_user, mdform=mdform)
 @views.route("/noteslist/add/import", methods=['GET','POST'])
 def import_note():
-    
+     '''
+            Allows the user to upload a file from the computer and adds all the data to the note 
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and mdform.
+    '''
     mdform = MDForm()
     form = NoteForm()
     #if request.method == 'POST':
@@ -156,6 +181,13 @@ def import_note():
 
 @views.route("/noteslist/update/<int:id>", methods=['GET','POST'])
 def update_note(id):
+    '''
+            Function allows the user to edit notes previously created
+            Parameters:
+                    No paramters but contains a routing tag with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_update.
+    '''
     note_to_update = Note.query.get_or_404(id)
     form = NoteForm()
     #data = request.form['Note']
@@ -175,6 +207,13 @@ def update_note(id):
 @views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
 def delete_notes(id):
+    '''
+            Function allows the user to delete a note previously created
+            Parameters:
+                    No paramters but contains a routing tag with "/login and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template.
+    '''
     #note = Note.query.get_or_404(id)
     note = Note.query.filter_by(id=id).first()
     flash("Note deleted", category="message")
@@ -184,6 +223,13 @@ def delete_notes(id):
 
 @views.route("/noteslist/share/<int:id>", methods=['GET','POST'])
 def share_note(id):
+    '''
+            Allows users to share notes with each other and edit them 
+            Parameters:
+                    No paramters but contains a routing tag with "/validate_username and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and notes_to_share.
+    '''
     note_to_share = Note.query.filter_by(id=id).first()
     form = ShareForm()
     if form.validate_on_submit():
@@ -201,6 +247,13 @@ def share_note(id):
     return render_template("share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
 @views.route("/noteslist/unshare/<int:id>", methods=['GET','POST'])
 def unshare_note(id):
+    '''
+            Allows the user to unshare a note which was previously shared with other users
+            Parameters:
+                    No paramters but contains a routing tag with "/validate_username and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and notes_to_share.
+    '''
     note_to_unshare = Note.query.filter_by(id=id).first()
     form = UnshareForm()
     if form.validate_on_submit():
@@ -218,6 +271,13 @@ def unshare_note(id):
             flash(f'Failed to share note with { user }, invalid username', category="error")
     return render_template("unshare_note.html", form=form, user=current_user, note_to_unshare=note_to_unshare)   
 def validate_username(username):
+     '''
+            Function checks if username entered by the user is correct or not
+            Parameters:
+                    None
+            Returns:
+                    true or false
+    '''
     username = User.query.filter_by(username=username).first()
     if username:
         return True
