@@ -430,10 +430,11 @@ def delete_flashcards(id):
     flash("Flashcard deleted", category="message")
     return redirect(url_for("views.flashcardslist"))
 
-#@views.route('/ptimer/<int:t>', methods=['GET', 'POST' ])
-#@login_required
+@views.route('/ptimer', methods=['GET', 'POST' ])
+@login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
-def countdown(t):
+def countdown():
+    form = TimeForm()
     '''
             Countdown function takes int t and runs a countdown timer from t to 0. (In Progress)
             Parameters:
@@ -441,28 +442,55 @@ def countdown(t):
             Returns: (In Progress)
                     render_template(): Renders the html template given parameters user and timer. 
     '''
-    while t:
-        mins, secs = divmod(t, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
-        print(timer, end="\r")
-        time.sleep(1)
-        t -= 1
-    print('Fire in the hole!!')
-    # return render_template("pomodorotimer.html", user = current_user, timer = timer)
+    timer = ""
+    if form.validate_on_submit():
+        print(form.countdown.data)
+        #countdown(form.countdown.data)
+        chars = form.countdown.data 
+        charStr = datetime.now()
+        tim = chars.strftime("%M:%S")
+        # print(type(tim))
+        mins = int(tim[0:2])
+        # print(type(mins))
+        # print(mins)
+        secs = int(tim[3:5])
+        # print(type(secs))
+        # print(secs)
+        sum = (mins*60) + secs
+        # print(sum)
+        #countdown(sum)
+        #minut = int(chars[3:4])
+        #print(minut)
+        #return redirect(url_for('/ptimer'(sum)))
+        while sum:
+            mins, secs = divmod(sum, 60)
+            timer = '{:02d}:{:02d}'.format(mins, secs)
+            print(timer, end="\r")
+            time.sleep(1)
+            sum -= 1
+            #return render_template("Timer/pomodorotimer.html", user = current_user, timer = timer, form = form)
+            
+    message = "TIME UP !!"
+    
+    return render_template("Timer/pomodorotimer.html", user = current_user,form = form, timer = timer, message=message)
+    
+    
+    #return render_template("Timer/pomodorotimer.html", user = current_user, timer = timer)
     #return redirect(countdown(t))
     #t = input("Enter the time in seconds: ")
     #countdown(int(t))
 
+'''
 @views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required
 def timer():
-    '''
+    
             Timer function reads the timer set by use, converts it into an integer and pass it to countdown()
             Parameters:
                     No paramters but contains a routing tag with '/ptimer' and methods of 'GET' and 'POST'
             Returns:
                     render_template(): Renders the html template given parameters form and user.
-    '''
+    
     form = TimeForm()
     if form.validate_on_submit():
         print(form.countdown.data)
@@ -482,5 +510,7 @@ def timer():
         countdown(sum)
         #minut = int(chars[3:4])
         #print(minut)
+        #return redirect(url_for('/ptimer/<int:t>'(sum)))
     return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
     
+'''
