@@ -12,6 +12,7 @@
 * `pip install flask-sqlalchemy ` - Install SQLalchemy for Flask
 * `pip install -u werkzeug` - Install Werkzeug for security
 * `pip install datetime` - Install Datetime
+* `pip install pyttsx3` - Install pyttsx3 (for sound output)
 
 # Initialize Database File
 1. Before starting, navigate to the projectstart file.

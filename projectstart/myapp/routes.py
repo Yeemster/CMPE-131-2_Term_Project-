@@ -2,8 +2,9 @@ import re
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
+from myapp import turbo
 from myapp.models import User, ToDo, Note, FlashCard, notes # todos
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm, pomorodoTimerForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
@@ -11,6 +12,7 @@ import os
 from werkzeug.utils import secure_filename
 import time
 from datetime import datetime
+import pyttsx3
 
 #from projectstart.myapp.forms import TimeForm
 
@@ -468,8 +470,9 @@ def countdown():
             print(timer, end="\r")
             time.sleep(1)
             sum -= 1
-            #return render_template("Timer/pomodorotimer.html", user = current_user, timer = timer, form = form)
-            
+            return turbo.stream(
+                turbo.replace(render_template("Timer/pomodorotimer.html",  user = current_user, form = form, sum=sum, timer=timer), target='timer'))
+
     message = "TIME UP !!"
     
     return render_template("Timer/pomodorotimer.html", user = current_user,form = form, timer = timer, message=message)
@@ -479,7 +482,31 @@ def countdown():
     #return redirect(countdown(t))
     #t = input("Enter the time in seconds: ")
     #countdown(int(t))
+@views.route('/timer', methods = ['GET', 'POST'])
+def pomodoro ():
+    form = pomorodoTimerForm()
+    title = 'Start a Timer'
+    if request.method == 'POST':
+        try: 
+            study_time = (request.form ["study_time"])
+            #break_time = (request.form ["break_time"])
+            timer(int(study_time))
+            return redirect ("/timer")
+        except:
+            return flash ('Fail to load timer')
+    else: 
+        return render_template ("Timer/ptimer.html", user=current_user, form = form,title=title)
 
+def timer (t):
+    # t = 25*60
+    while t:
+        mins, secs = divmod (t, 60)
+        timer = '{:02d}: {:02d}'.format (mins, secs)
+        print (timer, end = "\r")
+        time.sleep(1)
+        t -=1
+    pyttsx3.speak ("beep beep beep beep time to work")
+    return t
 '''
 @views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required

@@ -4,7 +4,7 @@ from os import path
 basedir = os.path.abspath(os.path.dirname(__file__))
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-
+from turbo_flask import Turbo 
 
 
 # create Flask class object named myobj
@@ -19,7 +19,7 @@ myobj.config.from_mapping(
 )
 
 db = SQLAlchemy(myobj)
-
+turbo = Turbo(myobj)
 login = LoginManager(myobj)
 # right side is the function that's called to login users
 login.login_view ='auth.login'

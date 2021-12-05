@@ -4,6 +4,7 @@ from sqlalchemy.sql.functions import count
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms import validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms import IntegerField  
 from wtforms.validators import DataRequired, ValidationError, InputRequired, Length
 from wtforms.widgets.core import TextArea
 #from myapp.routes import countdown
@@ -150,3 +151,9 @@ class TimeForm(FlaskForm):
     '''
     submit = SubmitField('Start')
     countdown = TimeField('Countdown', format = '%M:%S')
+    
+class pomorodoTimerForm (FlaskForm):
+    study_time = IntegerField('Study Time', validators = [DataRequired()])
+    # break_time = IntegerField('Break Time', validators = [DataRequired()])
+    start_button = SubmitField('Start')
+    # reset_button = SubmitField('Reset')
