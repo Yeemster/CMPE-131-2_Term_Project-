@@ -13,22 +13,8 @@
         {{ form.answer.label( class="form-label") }} <br>
         {{ form.answer(cols="100", rows="20", class="form-control") }}
       </p>
-        <button type="submit"><a href="/flashcardslist/add"></a>Add</button>
+        <button type="submit" class="btn btn-secondary"><a href="/flashcardslist/add"></a>Add</button>
     </div>
-  </form>
-
-  <h3> Upload Markdown File </h3>
-   <form action= "/flashcardslist/add/import" method="GET" enctype="multipart/form-data">
-   {{ mdform.hidden_tag() }}
-  <p>
-          {{ mdform.mdfile.label }} <br>
-         {{ mdform.mdfile(size=32) }}
-         {{mdform.submit()}}
-      </p>
-  <p>
-          <br>
-  <form action= "/flashcardslist/add" method="POST">
-  <button type="submit"><a href="/flashcardslist/add/import"></a>Add</button>
   </form>
  
 {% endblock %}

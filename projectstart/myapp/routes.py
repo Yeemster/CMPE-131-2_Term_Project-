@@ -3,7 +3,7 @@ from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
 from myapp import turbo
-from myapp.models import User, ToDo, Note, FlashCard, notes # todos
+from myapp.models import User, ToDo, Note, FlashCard, Notes
 from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm, pomorodoTimerForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
@@ -12,7 +12,7 @@ import os
 from werkzeug.utils import secure_filename
 import time
 from datetime import datetime
-import pyttsx3
+import pyttsx3 
 
 #from projectstart.myapp.forms import TimeForm
 
@@ -57,9 +57,10 @@ def todolist():
             Returns:
                     render_template(): Renders the html template, which displays the ToDos in order.
     """
-    user = User.query.filter_by(id=current_user.id).first()
+    # user = User.query.filter_by(id=current_user.id).first()
     # todos = user.todos
     ordered_todos = ToDo.query.order_by(ToDo.rank)
+    # ordered_todos = user.todos
     return render_template("todos/todolist.html", user=current_user, todolist=ordered_todos)
 
 @views.route("/todolist/add", methods=['POST'])
@@ -74,7 +75,9 @@ def add_todo():
     """
     title = request.form.get("title")
     rank = request.form.get("rank")
-    newtodo = ToDo(title=title, rank=rank, user_id=current_user.id, complete=False)
+    newtodo = ToDo(title=title, rank=rank, users=[current_user], complete=False)
+    username = newtodo.users[0].username
+    newtodo.owner = username
     db.session.add(newtodo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
@@ -106,12 +109,65 @@ def delete_todo(todos_id):
     """
     todo = ToDo.query.filter_by(id=todos_id).first()
     flash("Todo deleted", category="message")
-    # current_user.todos.remove(todo)
-    # user.notes.remove(todo_to_delete)
-    db.session.delete(todo)
+    
+    #current_user.todos.remove(todo)
+    current_user.todos.remove(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
-
+@views.route("/todoslist/share/<int:id>", methods=['GET','POST'])
+@login_required
+def share_todo(id):
+    '''
+            Allows users to share notes with each other and edit them 
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/noteslist/share/<int:id>" with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_share.
+    '''
+    todo_to_share = ToDo.query.filter_by(id=id).first()
+    form = ShareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_share_with = User.query.filter_by(username=user).first()
+            user_to_share_with.todos.extend([todo_to_share]) 
+            todo_to_share.shared = True
+            db.session.commit()
+            flash(f'Shared todo with { user }', category="success")
+            return redirect(url_for('views.todoslist'))
+        if not validate_username(user):
+            print('here')
+            flash(f'Failed to share todo with { user } invalid username')
+    return render_template("todos/share_todo.html", form=form, user=current_user, todo_to_share=todo_to_share)   
+@views.route("/todoslist/unshare/<int:id>", methods=['GET','POST'])
+@login_required
+def unshare_todo(id):
+    '''
+            Allows the user to unshare a note which was previously shared with other users
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/noteslist/unshare/<int:id>" with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_unshare.
+    '''
+    todo_to_unshare = ToDo.query.filter_by(id=id).first()
+    form = UnshareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_unshare_with = User.query.filter_by(username=user).first()
+            user_to_unshare_with.todos.remove(todo_to_unshare)
+            if len(todo_to_unshare.users) <= 1: 
+                todo_to_unshare.shared = False
+            db.session.commit()
+            flash(f'Removed todo from { user }', category="success")
+            return redirect(url_for('views.todoslist'))
+        else:
+            flash(f'Failed to share todo with { user }, invalid username', category="error")
+    return render_template("todos/unshare_todo.html", form=form, user=current_user, todo_to_unshare=todo_to_unshare)   
 
 # notes ---------------------------------------------------------------------------------------------
 
@@ -160,6 +216,18 @@ def add_note():
     '''
     form = NoteForm() 
     mdform = MDForm()
+    if mdform.validate_on_submit():
+        print('reached1')
+        file = mdform.mdfile.data
+        #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
+        mdform1 = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+        file.save(mdform1)
+        with open(mdform1, encoding="utf8") as mdfile:
+            content = mdfile.read()
+            firstline = mdfile.readline()
+        print(firstline)
+        form.note.data = content
+        form.title.data = firstline
     if form.validate_on_submit():
         print('reached')
         data = form.note.data
@@ -176,44 +244,10 @@ def add_note():
         flash(f"Owner of note is { username }")
         return redirect(url_for("views.noteslist"))
     return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
-@views.route("/noteslist/add/import", methods=['GET','POST'])
-def import_note():
-    '''
-            Allows the user to upload a file from the computer and adds all the data to the note 
-            Parameters:
-                    No paramters but contains a routing tag with "/noteslist/add/import" and methods of 'GET' and 'POST'
-            Returns:
-                    render_template(): Renders the html template given parameters form, user, and mdform.
-    '''
-    mdform = MDForm()
-    form = NoteForm()
-    #if request.method == 'POST':
-    
-    if mdform.validate_on_submit():
-        print('reached1')
-        file = mdform.mdfile.data
-        #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
-        mdform1 = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
-        file.save(mdform1)
-        with open(mdform1, 'r', encoding="utf8") as mdfile:
-            form.note.data = mdfile.read()
-        return redirect("/noteslist/add/import")    
-    if form.validate_on_submit():
-        print('reached')
-        data = form.note.data
-        title = form.title.data
-        newnote = Note(data=data, title=title, user_id=current_user.id, )
-        data = ''
-        title = ''
-        db.session.add(newnote)
-        db.session.commit()
-        flash("Successfully added new note")
-        return redirect(url_for("views.noteslist"))
-    return render_template("notes/add_note.html", form=form, user=current_user, mdform=mdform)
-
 
 
 @views.route("/noteslist/update/<int:id>", methods=['GET','POST'])
+@login_required
 def update_note(id):
     '''
             Function allows the user to edit notes previously created
@@ -225,7 +259,19 @@ def update_note(id):
     '''
     note_to_update = Note.query.get_or_404(id)
     form = NoteForm()
+    mdform = MDForm()
     #data = request.form['Note']
+    if mdform.validate_on_submit():
+        print('reached1')
+        file = mdform.mdfile.data
+        #mdform = os.path.join(myobj.root_path, 'md', secure_filename(file.filename))
+        mdform1 = os.path.join(os.path.abspath(os.path.dirname(__file__)), myobj.config['UPLOAD_FOLDER'], secure_filename(file.filename))
+        file.save(mdform1)
+        with open(mdform1, encoding="utf8") as mdfile:
+            content = mdfile.read()
+        print(content)
+        form.note.data = content
+
     if form.validate_on_submit():
         print('reached')
         note_to_update.data = form.note.data 
@@ -235,9 +281,10 @@ def update_note(id):
         db.session.commit()
         flash("Note has been updated")
         return redirect(url_for("views.noteslist"))
+    
     form.title.data = note_to_update.title
     form.note.data = note_to_update.data
-    return render_template("notes/edit_note.html", form=form, user=current_user, note_to_update=note_to_update)
+    return render_template("notes/edit_note.html", form=form, mdform=mdform, user=current_user, note_to_update=note_to_update)
 
 @views.route('/noteslist/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
@@ -280,8 +327,9 @@ def share_note(id):
             db.session.commit()
             flash(f'Shared note with { user }', category="success")
             return redirect(url_for('views.noteslist'))
-        else:
-            flash(f'Failed to share note with { user }, invalid username', category="error")
+        if not validate_username(user):
+            print('here')
+            flash(f'Failed to share note with { user } invalid username')
     return render_template("notes/share_note.html", form=form, user=current_user, note_to_share=note_to_share)   
 @views.route("/noteslist/unshare/<int:id>", methods=['GET','POST'])
 @login_required
@@ -374,19 +422,21 @@ def add_flashcard():
             render_template(): Renders the html template given parameters form, mdform, and user.
     '''
     form = FlashCardForm() 
-    mdform = MDForm()
     if form.validate_on_submit():
         print('reached')
         answer = form.answer.data
         question = form.question.data
-        newflashcard = FlashCard(answer=answer, question=question, author=current_user, user_id=current_user.id, )
+        newflashcard = FlashCard(answer=answer, question=question, users=[current_user] )
         answer = ''
         question = ''
+        username = newflashcard.users[0].username
+        newflashcard.owner = username
         db.session.add(newflashcard)
         db.session.commit()
         flash("Successfully added new flashcard")
+        flash(f"Owner of flashcard is { username }")
         return redirect(url_for("views.flashcardslist"))
-    return render_template("flashcards/add_flashcard.html", form=form, user=current_user, mdform=mdform)
+    return render_template("flashcards/add_flashcard.html", form=form, user=current_user)
 
 @views.route("/flashcardslist/update/<int:id>", methods=['GET','POST'])
 @login_required
@@ -427,117 +477,78 @@ def delete_flashcards(id):
                     redirect(): redirects to flashcardslist()
     '''
     flashcard = FlashCard.query.filter_by(id=id).first()
-    db.session.delete(flashcard)
+    current_user.flashcards.remove(flashcard)
     db.session.commit()
     flash("Flashcard deleted", category="message")
     return redirect(url_for("views.flashcardslist"))
+
+@views.route("/flashcardslist/share/<int:id>", methods=['GET','POST'])
+@login_required
+def share_flashcard(id):
+    '''
+            Allows users to share notes with each other and edit them 
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/noteslist/share/<int:id>" with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_share.
+    '''
+    flashcard_to_share = FlashCard.query.filter_by(id=id).first()
+    form = ShareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_share_with = User.query.filter_by(username=user).first()
+            user_to_share_with.flashcards.extend([flashcard_to_share]) 
+            flashcard_to_share.shared = True
+            db.session.commit()
+            flash(f'Shared note with { user }', category="success")
+            return redirect(url_for('views.flashcardslist'))
+        else:
+            flash(f'Failed to share flashcard with { user }, invalid username', category="error")
+    return render_template("flashcards/share_flashcard.html", form=form, user=current_user, flashcard_to_share=flashcard_to_share)   
+@views.route("/flashcardslist/unshare/<int:id>", methods=['GET','POST'])
+@login_required
+def unshare_flashcard(id):
+    '''
+            Allows the user to unshare a note which was previously shared with other users
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/noteslist/unshare/<int:id>" with "methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters form, user, and note_to_unshare.
+    '''
+    flashcard_to_unshare = Note.query.filter_by(id=id).first()
+    form = UnshareForm()
+    if form.validate_on_submit():
+        print('reached')
+        user = form.username.data 
+        if validate_username(user):
+            user_to_unshare_with = User.query.filter_by(username=user).first()
+            user_to_unshare_with.flashcards.remove(flashcard_to_unshare)
+            if len(flashcard_to_unshare.users) <= 1: 
+                flashcard_to_unshare.shared = False
+            db.session.commit()
+            flash(f'Removed note from { user }', category="success")
+            return redirect(url_for('views.flashcardslist'))
+        else:
+            flash(f'Failed to share note with { user }, invalid username', category="error")
+    return render_template("flashcards/unshare_flashcard.html", form=form, user=current_user, flashcard_to_unshare=flashcard_to_unshare)   
+
+
+
+
+
 
 @views.route('/ptimer', methods=['GET', 'POST' ])
 @login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown():
-    form = TimeForm()
-    '''
-            Countdown function takes int t and runs a countdown timer from t to 0. (In Progress)
-            Parameters:
-                    Contains paramters: (int) t 
-            Returns: (In Progress)
-                    render_template(): Renders the html template given parameters user and timer. 
-    '''
-    timer = ""
-    if form.validate_on_submit():
-        print(form.countdown.data)
-        #countdown(form.countdown.data)
-        chars = form.countdown.data 
-        charStr = datetime.now()
-        tim = chars.strftime("%M:%S")
-        # print(type(tim))
-        mins = int(tim[0:2])
-        # print(type(mins))
-        # print(mins)
-        secs = int(tim[3:5])
-        # print(type(secs))
-        # print(secs)
-        sum = (mins*60) + secs
-        # print(sum)
-        #countdown(sum)
-        #minut = int(chars[3:4])
-        #print(minut)
-        #return redirect(url_for('/ptimer'(sum)))
-        while sum:
-            mins, secs = divmod(sum, 60)
-            timer = '{:02d}:{:02d}'.format(mins, secs)
-            print(timer, end="\r")
-            time.sleep(1)
-            sum -= 1
-            return turbo.stream(
-                turbo.replace(render_template("Timer/pomodorotimer.html",  user = current_user, form = form, sum=sum, timer=timer), target='timer'))
-
-    message = "TIME UP !!"
-    
-    return render_template("Timer/pomodorotimer.html", user = current_user,form = form, timer = timer, message=message)
+    return render_template("Timer/ptimer.html", user = current_user)
     
     
     #return render_template("Timer/pomodorotimer.html", user = current_user, timer = timer)
     #return redirect(countdown(t))
     #t = input("Enter the time in seconds: ")
     #countdown(int(t))
-@views.route('/timer', methods = ['GET', 'POST'])
-def pomodoro ():
-    form = pomorodoTimerForm()
-    title = 'Start a Timer'
-    if request.method == 'POST':
-        try: 
-            study_time = (request.form ["study_time"])
-            #break_time = (request.form ["break_time"])
-            timer(int(study_time))
-            return redirect ("/timer")
-        except:
-            return flash ('Fail to load timer')
-    else: 
-        return render_template ("Timer/ptimer.html", user=current_user, form = form,title=title)
-
-def timer (t):
-    # t = 25*60
-    while t:
-        mins, secs = divmod (t, 60)
-        timer = '{:02d}: {:02d}'.format (mins, secs)
-        print (timer, end = "\r")
-        time.sleep(1)
-        t -=1
-    pyttsx3.speak ("beep beep beep beep time to work")
-    return t
-'''
-@views.route('/ptimer', methods=['GET', 'POST' ])
-@login_required
-def timer():
-    
-            Timer function reads the timer set by use, converts it into an integer and pass it to countdown()
-            Parameters:
-                    No paramters but contains a routing tag with '/ptimer' and methods of 'GET' and 'POST'
-            Returns:
-                    render_template(): Renders the html template given parameters form and user.
-    
-    form = TimeForm()
-    if form.validate_on_submit():
-        print(form.countdown.data)
-        #countdown(form.countdown.data)
-        chars = form.countdown.data 
-        charStr = datetime.now()
-        tim = chars.strftime("%M:%S")
-        # print(type(tim))
-        mins = int(tim[0:2])
-        # print(type(mins))
-        # print(mins)
-        secs = int(tim[3:5])
-        # print(type(secs))
-        # print(secs)
-        sum = (mins*60) + secs
-        # print(sum)
-        countdown(sum)
-        #minut = int(chars[3:4])
-        #print(minut)
-        #return redirect(url_for('/ptimer/<int:t>'(sum)))
-    return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
-    
-'''

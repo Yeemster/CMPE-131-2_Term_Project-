@@ -7,9 +7,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
-notes = db.Table('notes',
+Notes = db.Table('Notes',
                  db.Column('users_id', db.Integer, db.ForeignKey('user.id')),
-                 db.Column('notes_id', db.Integer, db.ForeignKey('note.id')))
+                 db.Column('notes_id', db.Integer, db.ForeignKey('note.id')),
+                 db.Column('todos_id', db.Integer, db.ForeignKey('todo.id')),
+                 db.Column('flashcards_id', db.Integer, db.ForeignKey('flashcard.id')))
 '''
 todos = db.Table('todos',
                  db.Column('id', db.Integer, db.ForeignKey('user.id')),
@@ -26,10 +28,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(128), index=True, unique=True)
     password_hash =db.Column(db.String(128))
-    notes = db.relationship('Note', secondary=notes, backref=db.backref('author'))
-    todos = db.relationship('ToDo', backref=db.backref('author'))
+    notes = db.relationship('Note', secondary=Notes, backref=db.backref('author'))
+    todos = db.relationship('ToDo', secondary=Notes, backref=db.backref('author'))
     # flash cards
-    flashcards = db.relationship('FlashCard', backref='author', lazy='dynamic')
+    flashcards = db.relationship('FlashCard', secondary=Notes, backref='author', lazy='dynamic')
 
     def __repr__(self):
       '''
@@ -64,7 +66,7 @@ class Note(db.Model):
   title = db.Column(db.String(100))
   date = db.Column(db.DateTime(timezone=True), default=func.now())
   shared = db.Column(db.Boolean, default=False)
-  users = db.relationship('User', secondary=notes, backref=db.backref('note'))
+  users = db.relationship('User', secondary=Notes, backref=db.backref('note'))
 
 class ToDo(db.Model):
   '''
@@ -72,13 +74,14 @@ class ToDo(db.Model):
   Parameter: None
   Return: None
   '''
-  __tablename__ = 'ToDo' 
+  __tablename__ = 'todo' 
   id = db.Column(db.Integer, primary_key= True)
   rank = db.Column(db.Integer)
+  owner = db.Column(db.String(100))
   title = db.Column(db.String(100))
   complete = db.Column(db.Boolean)
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-  users = db.relationship('User', backref=db.backref('todo'))
+  shared = db.Column(db.Boolean, default=False)
+  users = db.relationship('User', secondary=Notes, backref=db.backref('todo'))
 
 class FlashCard(db.Model):
     '''
@@ -86,9 +89,12 @@ class FlashCard(db.Model):
       Parameter: None
       Return: None
     '''
+    __tablename__ = 'flashcard'
     id = db.Column(db.Integer, primary_key= True)
     answer = db.Column(db.String(1000))
+    owner = db.Column(db.String(100))
     #data = db.Column(db.String(1000))
     question = db.Column(db.String(1000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    shared = db.Column(db.Boolean, default=False)
+    users = db.relationship('User', secondary=Notes, backref=db.backref('flashcard'))

@@ -82,7 +82,8 @@ class MDForm(FlaskForm):
             Parameters:
                     FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
     '''
-    mdfile = FileField("File",validators=[FileRequired()])
+    mdfile = FileField("File",validators=[FileRequired(), 
+                                          FileAllowed(['md', 'pdf'], 'Images only!')])
     submit = SubmitField('Upload')
 
 class NoteForm(FlaskForm):
@@ -96,7 +97,7 @@ class NoteForm(FlaskForm):
             Parameters:
                     FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
     '''
-    note = StringField("Note", widget=TextArea())
+    note = StringField("Note", widget=TextArea(), render_kw={"placeholder": 'test'})
     title = StringField("Title")
     submit = SubmitField('Post')
 

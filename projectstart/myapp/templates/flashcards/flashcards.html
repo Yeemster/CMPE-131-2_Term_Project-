@@ -24,6 +24,20 @@
               <button type="button">
                 <a href='/flashcardslist/update/{{ flashcards.id }}'>Edit Flashcard</a>
               </button>
+              <button type="button">
+                <a href='/flashcardslist/share/{{ flashcards.id }}'>Share Flashcard</a>
+              </button>
+
+              {% if flashcards.shared %}
+              {% if flashcards.owner == user.username %}
+              <button type="button">
+                <a href='/flashcardslist/unshare/{{ flashcards.id }}'>Unshare Flashcard</a>
+              </button>
+              {% endif %}
+              <p> <b>Shared: </b>| {{ flashcards.shared }}</p>
+              <p> <b>Shared with: </b>| {{ flashcards.users }}</p>
+              {% endif %}
+              <p> <b>Owner: </b>| {{ flashcards.owner }}</p>
             </form>
             </li>
             {% endfor %}

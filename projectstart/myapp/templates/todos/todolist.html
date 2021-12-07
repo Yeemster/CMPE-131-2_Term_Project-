@@ -21,7 +21,10 @@
   {% endif %}
 
   <a href="/todolist/change/{{todos.id}}">Change</a>
-  <a href="/todolist/delete/{{todos.id}}">Delete</a>
+  <button type="button">
+    <a href='/todolist/delete/{{ todos.id }}'>Delete</a>
+  </button>
+
 
   {% endfor %}
 

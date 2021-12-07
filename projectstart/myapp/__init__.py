@@ -15,7 +15,9 @@ myobj.config.from_mapping(
     # location of sqlite database
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db'),
     SQLALCHEMY_TRACK_MODIFICATIONS = False,
-    UPLOAD_FOLDER = 'md/markdown'
+    UPLOAD_FOLDER = 'md/markdown',
+    UPLOAD_PATH = 'uploads',
+    UPLOAD_EXTENSIONS = ['.txt', '.doc', '.md']
 )
 
 db = SQLAlchemy(myobj)
@@ -25,7 +27,7 @@ login = LoginManager(myobj)
 login.login_view ='auth.login'
 
 from myapp import routes, models
-from myapp.models import User, Note, ToDo, ToDo, FlashCard, notes
+from myapp.models import User
 
 from .routes import views
 from .auth import auth

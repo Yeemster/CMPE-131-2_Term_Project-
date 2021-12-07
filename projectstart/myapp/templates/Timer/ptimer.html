@@ -1,66 +1,34 @@
 {% extends "base/base.html" %} {% block content %}
-
-<body class="text-center">
-  <h1 style="color: black;"><strong> Pomodoro </strong></h1>
-  <div id="txt" style="color: black; margin-bottom: 15px;"></div>
-
-    <strong style="color: black;">Set Timer (in minutes):</strong> <input id="userInput" type="number" value="0" />
-  </p>
-  <button onclick="start()">Start</button>
+<body>
+  <input id="userInput" type="number" value = "0"/> 
+  <p id="timerr"> 00 </p>
+  <button onclick="startTime()">Start</button>
   <button onclick="stop()">Stop</button>
-  <p style="color: black;" id="timer1">0000</p>
-  <audio id="timeout_audio" src ="static/beepbeep.mp3" autoplay ="False"></audio>
-  <script>
-    //countdown timer
-    const timeoutAudio = document.getElementById("timeout_audio");
-    var countdownTimer;
+
+  <script> 
+    var time;
     var timer = document.getElementById("userInput");
-    var myTimer;
+    var countDownSeconds;
+    function startTime(){ 
+      time = setInterval(start, 1000);
+      document.getElementById("timerr").innerHTML = timer.value;
+      countDownSeconds = timer.value;
+    } 
 
-
-    function start() {
-      countdownTimer = setInterval(startTimer, 1000);
-      document.getElementById("timer1").innerHTML = timer.value;
-      myTimer = timer.value * 60;
-    }
-    // timeoutAudio.src = "beepbeep.mp3";
-    timeoutAudio.load();
-
-    function startTimer() {
-      myTimer--;
-      document.getElementById("timer1").innerHTML = myTimer;
-      if (myTimer == -1) {
+    function start(){
+      countDownSeconds--;
+      document.getElementById("timerr").innerHTML = countDownSeconds;
+      if (countDownSeconds == -1){
         stop();
-        document.getElementById("timer1").innerHTML = "0";
-        alert ('Time is up!');
+        document.getElementById("timerr").innerHTML = "0";  
       }
-    }
-    function stop() {
-      clearInterval(countdownTimer);
-      timeoutAudio.play();
-    }
-    // display real live time
-    function startTime() {
-      const today = new Date();
-      let h = today.getHours();
-      let m = today.getMinutes();
-      let s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById("txt").innerHTML = h + ":" + m + ":" + s;
-      setTimeout(startTime, 1000);
     }
 
-    function checkTime(i) {
-      if (i < 10) {
-        i = "0" + i;
-      }
-      return i;
+    function stop(){
+      clearInterval(myVar);
     }
-    setInterval(function () {
-      startTime();
-    }, 500);
   </script>
+</body>
 
   {% endblock %}
 </body>
