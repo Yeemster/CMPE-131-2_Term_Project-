@@ -541,3 +541,9 @@ def timer():
     return render_template("Timer/pomodorotimer.html", user = current_user, form = form)
     
 '''
+
+@views.route("/splashpage")
+def splash():
+    """Return H1 header that says welcome! (should be in html)
+    """
+    return render_template("Main/splash.html", user=current_user)
