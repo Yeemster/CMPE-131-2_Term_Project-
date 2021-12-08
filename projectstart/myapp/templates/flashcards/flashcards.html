@@ -2,37 +2,65 @@
 {% block content %}
     <h1>{% block title %} Welcome to Flash cards {% endblock %}</h1>
 
-        <button type="button">
-            <a href='/flashcardslist/add'>Add Flashcard</a>
-          </button>
-        </div>
+    <div class="col-12">
+      <a href='/flashcardslist/add'>
+        <button type="button" 
+          class="btn btn-primary" 
+          style="background-color: darkslategray;">
+          Add Flashcard
+        </button>
+      </a>
+    </div>
       
 
     <form action="" method="GET" novalidate>
-        <ul class="list-group list-group-flush" id="flashcards">
-        </p>
-        {% for flashcards in flashcardslist %}
-            <li class="list-group-item">
-                <p> <b>{{flashcards.id}} </b>| {{flashcards.question}}</p>
-              <button type="button">
-                <a href='/flashcardslist/delete/{{ flashcards.id }}'>Delete Flashcard</a>
+      <ul class="list-group list-group-flush" id="flashcards">
+      </p>
+      {% for flashcards in flashcardslist %}
+      <div class="col-12">
+          <li class="list-group-item">
+            <div class='id'><p class='fs-4'> <b>{{flashcards.id}} </b>|  {{flashcards.title}}</div></p>
+              <a href='/flashcardslist/delete/{{ flashcards.id }}'>
+                <button type="button" 
+                class="btn btn-primary" 
+                href='/flashcardslist/delete/{{ flashcards.id }}'
+                style="background-color: darkslategray;">
+                  Delete
+                </button>
+                </a>
+                <p></p>
+            <a href='/flashcardslist/preview/{{ flashcards.id }}'>
+              <button type="button" 
+              class="btn btn-primary" 
+              style="background-color: darkslategray;">
+                Preview
               </button>
-              <button type="button">
-                <a href='/flashcardslist/preview/{{ flashcards.id }}'>Preview</a>
+            </a>
+            <p>
+              <br>
+            <a href='/flashcardslist/update/{{ flashcards.id }}'>
+              <button type="button" 
+              class="btn btn-primary" 
+              style="background-color: darkslategray;">
+                Edit Flashcard 
               </button>
-              <form action="/flashcardslist/update/{{ flashcards.id }}" method="GET" novalidate>
-              <button type="button">
-                <a href='/flashcardslist/update/{{ flashcards.id }}'>Edit Flashcard</a>
+            </a>
+            <a href='/flashcardslist/share/{{ flashcards.id }}'>
+              <button type="button" 
+              class="btn btn-primary" 
+              style="background-color: darkslategray;">
+                Share Flashcard 
               </button>
-              <button type="button">
-                <a href='/flashcardslist/share/{{ flashcards.id }}'>Share Flashcard</a>
+            </a>
+            {% if flashcards.shared %}
+            {% if flashcards.owner == user.username %}
+            <a href='/flashcardslist/unshare/{{ flashcards.id }}'>
+              <button type="button" 
+              class="btn btn-primary" 
+              style="background-color: darkslategray;">
+                UnShare Flashcard 
               </button>
-
-              {% if flashcards.shared %}
-              {% if flashcards.owner == user.username %}
-              <button type="button">
-                <a href='/flashcardslist/unshare/{{ flashcards.id }}'>Unshare Flashcard</a>
-              </button>
+            </a>
               {% endif %}
               <p> <b>Shared: </b>| {{ flashcards.shared }}</p>
               <p> <b>Shared with: </b>| {{ flashcards.users }}</p>

@@ -2,19 +2,25 @@
 
 {% block content %}
 <form action='/flashcardslist/update/{{flashcard_to_update.id}}' method="POST">
+  <div>
     {{ form.hidden_tag() }}
-    <div>
-        <p>
-            {{ form.question.label( class="form-label") }} <br>
-            {{ form.question(class="form-control") }}
-        </p>
-        
-      <p>
-        {{ form.answer.label( class="form-label") }} <br>
-        {{ form.answer(cols="100", rows="20", class="form-control") }}
-      </p>
-        <button type="submit"><a href="/flashcardslist/update/{{flashcard_to_update.id}}"></a>Edit</button>
-    </div>
+    <p>
+      <b>{{ form.question.label }}</b> <br>
+      {{ form.question(size=32, class="form-control", 
+      style="background-color: darkslategray; color: whitesmoke;") }}
+    </p>
+      
+    
+    <p>
+      <b>{{ form.answer.label( class="form-label") }}</b> <br>
+      {{ form.answer(cols="100", rows="20", class="form-control",
+      style="background-color: darkslategray; color: whitesmoke;") }}
+    </p>
+      <button type="submit" 
+      class="btn btn-primary" 
+      style="background-color: darkslategray;">
+      <a href="/flashcardslist/update/{{flashcard_to_update.id}}"></a>Edit</button>
+  </div>
   </form>
  
 {% endblock %}

@@ -7,22 +7,30 @@
     {{ form.hidden_tag() }}
     <p>
         {{ form.username.label }} <br>
-        {{ form.username(size=32, class="form-control", value=user_to_update.username) }}
+        {{ form.username(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;",
+        value=user_to_update.username) }}
     </p>
     <p>
         {{ form.email.label }} <br>
-        {{ form.email(size=32, class="form-control", value=user_to_update.email) }}
+        {{ form.email(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;",
+        value=user_to_update.email) }}
     </p>
     <p>
         {{ form.password.label }} <br>
-        {{ form.password(size=32, class="form-control", value=user_to_update.password) }}
+        {{ form.password(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;", 
+        value=user_to_update.password) }}
     </p>
     <p>
         {{ form.confirm_password.label }} <br>
-        {{ form.confirm_password(size=32, class="form-control", value=user_to_update.password) }}
+        {{ form.confirm_password(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;",
+        value=user_to_update.password) }}
     </p>
-    <p>
-        {{ form.submit() }}
-    </p>
+    <button type="submit" class="btn btn-primary" style="background-color: darkslategray;">
+        Update
+      </button>
 </form>
 {% endblock %}

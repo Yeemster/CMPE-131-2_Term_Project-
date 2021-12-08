@@ -5,20 +5,24 @@
 <form action="" method="POST" novalidate>
     {{ form.hidden_tag() }}
     <p>
-        {{ form.username.label }} <br>
-        {{ form.username(size=32) }}
+        <b>{{ form.username.label }}</b> <br>
+        {{ form.username(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;") }}
     </p>
     <p>
-        {{ form.password.label }} <br>
-        {{ form.password(size=32) }}
+        <b>{{ form.password.label }}</b> <br>
+        {{ form.password(size=32, class="form-control", 
+        style="background-color: darkslategray; color: whitesmoke;") }}
     </p>
     <p>
         {{ form.remember_me.label }} <br>
-        {{ form.remember_me() }}
+        {{ form.remember_me(class="boolean-control", 
+        style="background-color: darkslategray; color: whitesmoke;") }}
     </p>
-    <p>
-        {{ form.submit() }}
-    </p>
+    <button type="submit" class="btn btn-primary" style="background-color: darkslategray;">
+        Submit
+      </button>
+    
 </form>
 
 

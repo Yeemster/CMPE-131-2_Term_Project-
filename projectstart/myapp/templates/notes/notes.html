@@ -2,39 +2,64 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to FlaskNotes {% endblock %}</h1>
-
-        <button type="button">
-            <a href='/noteslist/add'>Add Note</a>
-          </button>
+        <div class="col-12">
+          <a href='/noteslist/add'>
+            <button type="button" 
+              class="btn btn-primary" 
+              style="background-color: darkslategray;">
+              Add Note
+            </button>
+          </a>
         </div>
-      
-
+    
     <form action="" method="GET" novalidate>
         <ul class="list-group list-group-flush" id="notes">
         </p>
         {% for notes in noteslist %}
+        <div class="col-12">
             <li class="list-group-item">
-                <p> <b>{{notes.id}} </b>| {{notes.title}}</p>
-              <button type="button">
-                <a href='/noteslist/delete/{{ notes.id }}'>Delete Note</a>
-              </button>
-              <button type="button">
-                <a href='/noteslist/preview/{{ notes.id }}'>Preview</a>
-              </button>
-              <form action="/noteslist/update/{{ notes.id }}" method="GET" novalidate>
-              <button type="button">
-                <a href='/noteslist/update/{{ notes.id }}'>Edit Note</a>
-              </button>
-              <button type="button">
-                <a href='/noteslist/share/{{ notes.id }}'>Share Note</a>
-              </button>
-          
-              
+              <div class='id'><p class='fs-4'> <b>{{notes.id}} </b>|  {{notes.title}}</div></p>
+                <a href='/noteslist/delete/{{ notes.id }}'>
+                  <button type="button" 
+                  class="btn btn-primary" 
+                  href='/noteslist/delete/{{ notes.id }}'
+                  style="background-color: darkslategray;">
+                    Delete
+                  </button>
+                  </a>
+                  <p></p>
+              <a href='/noteslist/preview/{{ notes.id }}'>
+                <button type="button" 
+                class="btn btn-primary" 
+                style="background-color: darkslategray;">
+                  Preview
+                </button>
+              </a>
+              <p>
+                <br>
+              <a href='/noteslist/update/{{ notes.id }}'>
+                <button type="button" 
+                class="btn btn-primary" 
+                style="background-color: darkslategray;">
+                  Edit Note 
+                </button>
+              </a>
+              <a href='/noteslist/share/{{ notes.id }}'>
+                <button type="button" 
+                class="btn btn-primary" 
+                style="background-color: darkslategray;">
+                  Share Note 
+                </button>
+              </a>
               {% if notes.shared %}
               {% if notes.owner == user.username %}
-              <button type="button">
-                <a href='/noteslist/unshare/{{ notes.id }}'>Unshare Note</a>
-              </button>
+              <a href='/noteslist/unshare/{{ notes.id }}'>
+                <button type="button" 
+                class="btn btn-primary" 
+                style="background-color: darkslategray;">
+                  UnShare Note 
+                </button>
+              </a>
               {% endif %}
               <p> <b>Shared: </b>| {{ notes.shared }}</p>
               <p> <b>Shared with: </b>| {{ notes.users }}</p>
@@ -42,7 +67,9 @@
               <p> <b>Owner: </b>| {{ notes.owner }}</p>
             </form>
             </li>
+          </div>
             {% endfor %}
+
           </ul>
     </form>
 {% endblock %}

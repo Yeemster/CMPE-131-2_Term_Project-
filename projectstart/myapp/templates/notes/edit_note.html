@@ -1,34 +1,30 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<form action='/noteslist/update/{{note_to_update.id}}' method="POST">
+<h2>{% block title%} Edit Note{% endblock%}</h2>
+<form action="/noteslist/update/{{note_to_update.id}}" method="POST">
+  <div>
     {{ form.hidden_tag() }}
-    <div>
-        <p>
-            {{ form.title.label( class="form-label") }} <br>
-            {{ form.title(class="form-control") }}
-        </p>
-        
-      <p>
-        {{ form.note.label( class="form-label") }} <br>
-        {{ form.note(cols="100", rows="20", class="form-control") }}
-      </p>
-        <button type="submit"><a href="/noteslist/update/{{note_to_update.id}}"></a>Edit</button>
-    </div>
+    <p>
+      <b>{{ form.title.label }}</b> <br>
+      {{ form.title(size=32, class="form-control", 
+      style="background-color: darkslategray; color: whitesmoke;") }}
+    </p>
+      
+    
+    <p>
+      <b>{{ form.note.label( class="form-label") }}</b> <br>
+      {{ form.note(cols="100", rows="20", class="form-control",
+      style="background-color: darkslategray; color: whitesmoke;") }}
+    </p>
+    <button type="submit" 
+    class="btn btn-primary" 
+    style="background-color: darkslategray;">
+      <a href="/noteslist/add"></a>
+      Add
+    </button>
+
+  </div>
   </form>
 
-  <h3> Upload Markdown File </h3>
-   <form action= "/noteslist/add" method="POST" enctype="multipart/form-data">
-   {{ mdform.hidden_tag() }}
-  <p>
-          {{ mdform.mdfile.label }} <br>
-         {{ mdform.mdfile(size=32) }}
-         {{mdform.submit()}}
-      </p>
-  <p>
-          <br>
-  <form action= "/noteslist/add" method="POST">
-  <button type="submit"><a href="/noteslist/add"></a>Add</button>
-  </form>
- 
 {% endblock %}

@@ -1,33 +1,53 @@
 {% extends "base/base.html" %} {% block content %}
 <body>
-  <input id="userInput" type="number" value = "0"/> 
-  <p id="timerr"> 00 </p>
-  <button onclick="startTime()">Start</button>
-  <button onclick="stop()">Stop</button>
+  <div class="col">
+    <input id="userInput" type="number" name = "time" class="form-control" placeholder="Enter ToDo.." style="background-color: darkslategray; color: whitesmoke;" value = "0"/> 
+  </div>
+  <p id="timer" class="text-center fs-1" > 00 </p>
+  <button onclick="start()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Start</button>
+  <button onclick="reset()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Reset</button>
+  <button onclick="pause()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Pause</button>
 
-  <script> 
-    var time;
-    var timer = document.getElementById("userInput");
-    var countDownSeconds;
-    function startTime(){ 
-      time = setInterval(start, 1000);
-      document.getElementById("timerr").innerHTML = timer.value;
-      countDownSeconds = timer.value;
-    } 
+<script>
+var timerId;
+var counter;
+var timer = document.getElementById("userInput");
 
-    function start(){
-      countDownSeconds--;
-      document.getElementById("timerr").innerHTML = countDownSeconds;
-      if (countDownSeconds == -1){
-        stop();
-        document.getElementById("timerr").innerHTML = "0";  
-      }
+function start() {
+  if (!counter) {
+    reset();
+  } else {
+    loop();
+  }
+}
+
+function pause() {
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function reset() {
+  pause();
+  document.getElementById("timer").innerHTML = timer.value;
+  counter = timer.value*60;
+  loop();
+}
+
+function loop() {
+  timerId = setInterval(function() {
+    if (0 >= counter) {
+      pause();
+      alert ('Time is up!');
+      return;
     }
-
-    function stop(){
-      clearInterval(time);
-    }
-  </script>
+    counter--;
+    document.getElementById("timer").innerHTML = counter
+    
+  }, 1000);
+}
+</script>
 </body>
 
   {% endblock %}

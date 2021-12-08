@@ -10,7 +10,6 @@ from sqlalchemy.sql import func
 Notes = db.Table('Notes',
                  db.Column('users_id', db.Integer, db.ForeignKey('user.id')),
                  db.Column('notes_id', db.Integer, db.ForeignKey('note.id')),
-                 db.Column('todos_id', db.Integer, db.ForeignKey('todo.id')),
                  db.Column('flashcards_id', db.Integer, db.ForeignKey('flashcard.id')))
 '''
 todos = db.Table('todos',
@@ -29,7 +28,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), index=True, unique=True)
     password_hash =db.Column(db.String(128))
     notes = db.relationship('Note', secondary=Notes, backref=db.backref('author'))
-    todos = db.relationship('ToDo', secondary=Notes, backref=db.backref('author'))
+    todos = db.relationship('ToDo', backref=db.backref('author'))
     # flash cards
     flashcards = db.relationship('FlashCard', secondary=Notes, backref='author', lazy='dynamic')
 
@@ -81,7 +80,8 @@ class ToDo(db.Model):
   title = db.Column(db.String(100))
   complete = db.Column(db.Boolean)
   shared = db.Column(db.Boolean, default=False)
-  users = db.relationship('User', secondary=Notes, backref=db.backref('todo'))
+  user_id = db.Column('User', db.ForeignKey('user.id'))
+  users = db.relationship('User', backref=db.backref('todo'))
 
 class FlashCard(db.Model):
     '''

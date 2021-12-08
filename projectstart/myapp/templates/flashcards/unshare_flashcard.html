@@ -5,10 +5,17 @@
     <div>
         {{ form.hidden_tag() }}
         <p>
-            {{ form.username.label( class="form-label") }} <br>
-            {{ form.username(class="form-control") }}
+            <b>{{ form.username.label }}</b> <br>
+            {{ form.username(size=32, class="form-control", 
+            style="background-color: darkslategray; color: whitesmoke;") }}
         </p>
-        <button type="submit"><a href="/flashcardslist/unshare/{{flashcard_to_unshare.id}}"></a>UnShare</button>
+        <a href="/flashcardslist/unshare/{{flashcard_to_unshare.id}}">
+            <button type="submit" 
+            class="btn btn-primary" 
+            style="background-color: darkslategray;">
+            UnShare
+            </button>
+        
     </div>
   </form>
  

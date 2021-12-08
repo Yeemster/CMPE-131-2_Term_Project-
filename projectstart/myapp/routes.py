@@ -25,9 +25,9 @@ def home():
     """
     return render_template("Main/main.html", user=current_user)
 
-@views.route("/work", methods=['GET', 'POST'])
+@views.route("/upload", methods=['GET', 'POST'])
 @login_required
-def work():
+def upload():
     """Return html template that passes in MDForm and the current user, 
        allows links to user settings and import Markdown for rendering. 
     """
@@ -44,7 +44,7 @@ def work():
             MDContent = markdown.markdown(mdfile.read())
             return render_template('files/mdopen.html', MDContent = MDContent, user=current_user)
         #return redirect(url_for("views.work"))
-    return render_template("Main/work.html", user=current_user, form=form)
+    return render_template("files/upload.html", user=current_user, form=form)
 
 @views.route("/todolist", methods=['GET','POST'])
 @login_required
@@ -57,11 +57,11 @@ def todolist():
             Returns:
                     render_template(): Renders the html template, which displays the ToDos in order.
     """
-    # user = User.query.filter_by(id=current_user.id).first()
-    # todos = user.todos
-    ordered_todos = ToDo.query.order_by(ToDo.rank)
+    user = User.query.filter_by(id=current_user.id).first()
+    todos = user.todos
+    # ordered_todos = ToDo.query.order_by(ToDo.rank).order_by(U)
     # ordered_todos = user.todos
-    return render_template("todos/todolist.html", user=current_user, todolist=ordered_todos)
+    return render_template("todos/todolist.html", user=current_user, todolist=todos)
 
 @views.route("/todolist/add", methods=['POST'])
 def add_todo():
@@ -75,9 +75,9 @@ def add_todo():
     """
     title = request.form.get("title")
     rank = request.form.get("rank")
-    newtodo = ToDo(title=title, rank=rank, users=[current_user], complete=False)
-    username = newtodo.users[0].username
-    newtodo.owner = username
+    newtodo = ToDo(title=title, rank=rank, user_id=current_user.id, complete=False)
+    #username = newtodo.users[0].username
+    #newtodo.owner = username
     db.session.add(newtodo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
@@ -111,20 +111,21 @@ def delete_todo(todos_id):
     flash("Todo deleted", category="message")
     
     #current_user.todos.remove(todo)
-    current_user.todos.remove(todo)
+    db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("views.todolist"))
+'''
 @views.route("/todoslist/share/<int:id>", methods=['GET','POST'])
 @login_required
 def share_todo(id):
-    '''
+    
             Allows users to share notes with each other and edit them 
             Parameters:
                     Contains parameter 'id' passed in through a routing tag
                     "/noteslist/share/<int:id>" with "methods of 'GET' and 'POST'
             Returns:
                     render_template(): Renders the html template given parameters form, user, and note_to_share.
-    '''
+    
     todo_to_share = ToDo.query.filter_by(id=id).first()
     form = ShareForm()
     if form.validate_on_submit():
@@ -144,14 +145,14 @@ def share_todo(id):
 @views.route("/todoslist/unshare/<int:id>", methods=['GET','POST'])
 @login_required
 def unshare_todo(id):
-    '''
+    
             Allows the user to unshare a note which was previously shared with other users
             Parameters:
                     Contains parameter 'id' passed in through a routing tag
                     "/noteslist/unshare/<int:id>" with "methods of 'GET' and 'POST'
             Returns:
                     render_template(): Renders the html template given parameters form, user, and note_to_unshare.
-    '''
+    
     todo_to_unshare = ToDo.query.filter_by(id=id).first()
     form = UnshareForm()
     if form.validate_on_submit():
@@ -168,7 +169,7 @@ def unshare_todo(id):
         else:
             flash(f'Failed to share todo with { user }, invalid username', category="error")
     return render_template("todos/unshare_todo.html", form=form, user=current_user, todo_to_unshare=todo_to_unshare)   
-
+'''
 # notes ---------------------------------------------------------------------------------------------
 
 @views.route("/noteslist", methods=['GET','POST'])

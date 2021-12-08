@@ -2,7 +2,20 @@
 
 {% block content %}
 <h1> Your Account </h1>
-<a href="{{url_for('auth.update', id=user.id)}}">Update {{ user.username }}</a>
-</br> 
-<a href="{{url_for('auth.delete', id=user.id)}}">Delete {{ user.username }}</a>
+<br>
+
+<a href="{{url_for('auth.update', id=user.id)}}">
+    <button class="btn btn-primary"
+     style="background-color: darkslategray;">
+    Update {{ user.username }}
+    </button>
+</a>
+<p>
+<br>
+<a href="{{url_for('auth.delete', id=user.id)}}">
+    <button class="btn btn-primary"
+     style="background-color: darkslategray;">
+    Delete {{ user.username }}
+    </button>
+</a>
 {% endblock %}
