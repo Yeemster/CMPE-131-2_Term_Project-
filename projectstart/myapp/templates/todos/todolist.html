@@ -1,32 +1,63 @@
 {% extends "base/base.html" %}
-
 {% block content %}
 <h1> Welcome to To Do List </h1>
 
 <form action="/todolist/add" method="post">
+  <div class="row" >
+    <div class="col">
+      <input type="text" name = "title" class="form-control" placeholder="Enter ToDo.." style="background-color: darkslategray; color: whitesmoke;">
+    </div>
+    <div class="col">
+      <input type="text" name = "rank" class="form-control" placeholder="Enter Priority Rank..." style="background-color: darkslategray; color: whitesmoke;">
+    </div>
+    <div class="col-12">
+    </p>
+      <button type="submit" class="btn btn-primary" style="background-color: darkslategray;">Add</button>
+  </p>
+    </div>
+  </div>
+  <!--
   <div>
     <label for="title">ToDo</label>
     <input type = "text" name = "title" placeholder = "Enter Todo...">
     <input type = "text" name = "rank" placeholder = "Enter Priority Rank...">
     <button type="submit">Add</button>
   </div>
+-->
 </form>
 
 {% for todos in todolist %}
-  <p> <b>{{todos.rank}}) </b>| {{todos.title}}</p>
+  <p class="fs-4"> 
+    <b>{{todos.rank}}) </b>| {{todos.title}}
+  </p>
   {% if todos.complete == False %}
-    <span>Not Completed</span>
+    <span>
+      <p class="fs-5">Not Completed</p>
+    </span>
     {% else %}
-    <span>Completed</span>
+    <span>
+      <p class="fs-5">Completed</p>
+      
+    </span>
   {% endif %}
 
-  <a href="/todolist/change/{{todos.id}}">Change</a>
+  <div class="col-12">
+    <a href="/todolist/change/{{todos.id}}">
+      <button type="submit" class="btn btn-primary" style="background-color: darkslategray;">
+        Complete
+      </button>
+    </a>
+    <a href='/todolist/delete/{{ todos.id }}'>
+      <button type="submit" class="btn btn-primary" style="background-color: darkslategray;">Delete</button>
+    </a>
+    
+  </p>
+  </div>
+  <!---
   <button type="button">
     <a href='/todolist/delete/{{ todos.id }}'>Delete</a>
   </button>
-
+--->
 
   {% endfor %}
-
-  
 {% endblock %}
