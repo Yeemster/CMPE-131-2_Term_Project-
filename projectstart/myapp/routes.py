@@ -2,7 +2,7 @@ import re
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp import turbo
+#from myapp import turbo
 from myapp.models import User, ToDo, Note, FlashCard, Notes
 from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm, pomorodoTimerForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
