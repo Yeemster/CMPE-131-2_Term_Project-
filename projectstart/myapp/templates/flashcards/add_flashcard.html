@@ -1,21 +1,21 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<h2>{% block title%} Add Note{% endblock%}</h2>
+<h2>{% block title%} Add FlashCards{% endblock%}</h2>
 <form action="/flashcardslist/add" method="POST">
     <div>
       {{ form.hidden_tag() }}
       <p>
         <b>{{ form.question.label }}</b> <br>
         {{ form.question(size=32, class="form-control", 
-        style="background-color: darkslategray; color: whitesmoke;") }}
+        style="background-color: darkslategray; color: whitesmoke; font-size: 18px") }}
       </p>
         
       
       <p>
         <b>{{ form.answer.label( class="form-label") }}</b> <br>
         {{ form.answer(cols="100", rows="20", class="form-control",
-        style="background-color: darkslategray; color: whitesmoke;") }}
+        style="background-color: darkslategray; color: whitesmoke; font-size: 20px") }}
       </p>
         <button type="submit" 
         class="btn btn-primary" 

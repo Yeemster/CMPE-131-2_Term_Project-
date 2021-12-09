@@ -1,13 +1,18 @@
 {% extends "base/base.html" %} {% block content %}
 <body>
+  <h3>
+    Pomodoro Timer
+  </h3>
   <div class="col">
-    <input id="userInput" type="number" name = "time" class="form-control" placeholder="Enter ToDo.." style="background-color: darkslategray; color: whitesmoke;" value = "0"/> 
+    <input id="userInput" type="number" name = "time" class="form-control" placeholder="Enter time in minutes" style="margin-left: -2%"; style="background-color: darkslategray; color: whitesmoke;" value = "0"/> 
   </div>
   <p id="timer" class="text-center fs-1" > 00 </p>
   <button onclick="start()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Start</button>
   <button onclick="reset()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Reset</button>
   <button onclick="pause()" class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Pause</button>
-
+  <a class="nav-item nav-link" id="account" href="{{url_for('views.countdown')}}" style="margin-left: -1.7%";>
+  <button class="btn btn-primary" style="background-color: darkslategray; color: whitesmoke;">Refresh</button>
+  </a>
 <script>
 var timerId;
 var counter;
