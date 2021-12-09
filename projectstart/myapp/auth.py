@@ -1,7 +1,7 @@
 from flask.helpers import url_for
 from myapp import myobj
 from myapp import db
-from myapp.models import User
+from myapp.models import User, Note, ToDo, FlashCard
 from myapp.forms import LoginForm, SignupForm, UpdateUserForm
 from flask import render_template, escape, flash, redirect, Blueprint, request 
 from flask_login import  login_user, logout_user, login_required, current_user
@@ -120,7 +120,7 @@ def update(id):
             flash('User already exists.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
         if emailq:
-            flash('User already exists.', category='error')
+            flash('Email already exists.', category='error')
             return redirect(url_for("auth.update", id=current_user.id))
         elif (email != '') and len(form.email.data) < 4:
             flash('Email must be greater than 3 characters.', category='error')
@@ -144,10 +144,9 @@ def update(id):
             try:
                 db.session.commit()
                 flash("User updated successfully")
-                return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
+                return render_template("authentication/update.html", user=current_user, form=form, user_to_update=user_to_update)
             except:
-                flash("Error updating user fields")
-                return render_template("update.html", user=current_user, form=form, user_to_update=user_to_update)
+                return render_template("authentication/update.html", user=current_user, form=form, user_to_update=user_to_update)
     return render_template("authentication/update.html", user=current_user, form=form, user_to_update=user_to_update)
 @auth.route('/delete/<int:id>', methods=['GET', 'POST' ])
 @login_required
@@ -161,12 +160,17 @@ def delete(id):
                     render_template(): Renders the html template given arguments form, user (current user) and user_to_update.
     '''
     user_to_delete = User.query.get_or_404(id)
-    try:
-        db.session.delete(user_to_delete)
-        db.session.commit()
-        flash("Successfully Deleted User")
-    except:
-        flash("Error occured in deleting user")
+    Notes = current_user.notes
+    Flashcards = current_user.flashcards
+    for note in Notes:
+        note.users.remove(user_to_delete)
+    for flashcard in Flashcards:
+        flashcard.users.remove(user_to_delete)
+    #current_user.todos.remove(user_to_delete)
+    db.session.delete(user_to_delete)
+    print('done')
+    db.session.commit()
+    flash("Successfully Deleted User")
     return render_template("authentication/account.html", user=current_user)   
 
 

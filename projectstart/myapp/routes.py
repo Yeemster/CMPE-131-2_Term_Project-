@@ -4,7 +4,7 @@ from myapp import myobj
 from myapp import db
 #from myapp import turbo
 from myapp.models import User, ToDo, Note, FlashCard, Notes
-from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm, TimeForm, pomorodoTimerForm
+from myapp.forms import LoginForm, SignupForm, MDForm, NoteForm, ShareForm, FlashCardForm, UnshareForm
 from flask import render_template, escape, flash, redirect, Blueprint, request, url_for
 from flask_login import  login_user, logout_user, login_required, current_user
 import markdown
@@ -301,6 +301,7 @@ def delete_notes(id):
     #note = Note.query.get_or_404(id)
     note = Note.query.filter_by(id=id).first()
     flash("Note deleted", category="message")
+    # note.users.clear()
     current_user.notes.remove(note)
     db.session.commit()
     return redirect(url_for("views.noteslist"))
@@ -487,12 +488,12 @@ def delete_flashcards(id):
 @login_required
 def share_flashcard(id):
     '''
-            Allows users to share notes with each other and edit them 
+            The function allows the user to share flashcards with desired username
             Parameters:
                     Contains parameter 'id' passed in through a routing tag
-                    "/noteslist/share/<int:id>" with "methods of 'GET' and 'POST'
+                    "/flashcardslist/share/<int:id>" with "methods of 'GET' and 'POST'.
             Returns:
-                    render_template(): Renders the html template given parameters form, user, and note_to_share.
+                    returns render_template() passing html file (flashcards/share_flashcard.html) with arguments form and user.
     '''
     flashcard_to_share = FlashCard.query.filter_by(id=id).first()
     form = ShareForm()
@@ -513,12 +514,12 @@ def share_flashcard(id):
 @login_required
 def unshare_flashcard(id):
     '''
-            Allows the user to unshare a note which was previously shared with other users
+            The function allows the user to unshare flashcards with desired username
             Parameters:
                     Contains parameter 'id' passed in through a routing tag
-                    "/noteslist/unshare/<int:id>" with "methods of 'GET' and 'POST'
+                    "/flashcardslist/unshare/<int:id>" with "methods of 'GET' and 'POST'.
             Returns:
-                    render_template(): Renders the html template given parameters form, user, and note_to_unshare.
+                    returns render_template() passing html file (flashcards/unshare_flashcard.html) with arguments form and user.
     '''
     flashcard_to_unshare = Note.query.filter_by(id=id).first()
     form = UnshareForm()
@@ -546,6 +547,13 @@ def unshare_flashcard(id):
 @login_required
 # https://www.geeksforgeeks.org/how-to-create-a-countdown-timer-using-python/
 def countdown():
+    '''
+            Timer function routes the user to an HTML template (Timer/ptimer.html)
+            Parameters:
+                    No paramters but contains a routing tag with '/ptimer' and methods of 'GET' and 'POST'
+            Returns:
+                    render_template(): Renders the html template given parameters user (current_user).
+    '''
     return render_template("Timer/ptimer.html", user = current_user)
     
     

@@ -26,58 +26,105 @@
 
 ```
 CMPE-131-2_Term_Project-
-└── projectstart  
-    ├── myapp
-    │   ├── __init__.py
-    │   ├── __pycache__
-    │   │   ├── __init__.cpython-38.pyc
-    │   │   ├── __init__.cpython-39.pyc
-    │   │   ├── auth.cpython-39.pyc
-    │   │   ├── forms.cpython-38.pyc
-    │   │   ├── forms.cpython-39.pyc
-    │   │   ├── models.cpython-38.pyc
-    │   │   ├── models.cpython-39.pyc
-    │   │   ├── routes.cpython-38.pyc
-    │   │   └── routes.cpython-39.pyc
-    │   ├── app.db
-    │   ├── auth.py
-    │   ├── forms.py
-    │   ├── md
-    │   │   └── markdown
-    │   │       ├── Specification.md
-    │   │       ├── Specification.pdf
-    │   │       └── transcript-2.png
-    │   ├── models.py
-    │   ├── routes.py
-    │   └── templates
-    │       ├── Main
-    │       │   ├── main.html
-    │       │   └── work.html
-    │       ├── Timer
-    │       │   └── pomodorotimer.html
-    │       ├── authentication
-    │       │   ├── account.html
-    │       │   ├── log_out.html
-    │       │   ├── login.html
-    │       │   ├── sign_up.html
-    │       │   └── update.html
-    │       ├── base
-    │       │   └── base/base/base.html
-    │       ├── files
-    │       │   └── mdopen.html
-    │       ├── flashcards
-    │       │   ├── add_flashcard.html
-    │       │   ├── edit_flashcard.html
-    │       │   ├── flashcards.html
-    │       │   └── previewflashcards.html
-    │       ├── notes
-    │       │   ├── add_note.html
-    │       │   ├── edit_note.html
-    │       │   ├── notes.html
-    │       │   ├── previewnotes.html
-    │       │   ├── share_note.html
-    │       │   └── unshare_note.html
-    │       └── todos
-    │           └── todolist.html
-    └── run.py 
+C:.
+|   .DS_Store
+|   run.py
+|
+\---myapp
+    |   .DS_Store
+    |   app.db
+    |   auth.py
+    |   forms.py
+    |   models.py
+    |   routes.py
+    |   __init__.py
+    |
+    +---css
+    |       background.jpeg      
+    |
+    +---md
+    |   \---markdown
+    |           documentation.md 
+    |           forms.md
+    |           routes.md        
+    |           Specification.md 
+    |           Specification.pdf
+    |
+    +---static
+    |   |   .DS_Store
+    |   |
+    |   +---css
+    |   |       .DS_Store        
+    |   |       style.css        
+    |   |
+    |   \---images
+    |           .DS_Store        
+    |           FlashCards.png   
+    |           FlaskNotes.png   
+    |           orange.png       
+    |           orange2.jpeg     
+    |           orange3.jpeg     
+    |           ptimer.png       
+    |           SIGNUP.png       
+    |           Timer.png        
+    |           ToDoList.png
+    |           upload-file.png
+    |           Upload.png
+    |           YourAcc.png
+    |
+    +---templates
+    |   |   .DS_Store
+    |   |
+    |   +---authentication
+    |   |       account.html
+    |   |       login.html
+    |   |       log_out.html
+    |   |       sign_up.html
+    |   |       update.html
+    |   |
+    |   +---base
+    |   |       base.html
+    |   |
+    |   +---files
+    |   |       mdopen.html
+    |   |       upload.html
+    |   |
+    |   +---flashcards
+    |   |       add_flashcard.html
+    |   |       edit_flashcard.html
+    |   |       flashcards.html
+    |   |       previewflashcards.html
+    |   |       share_flashcard.html
+    |   |       unshare_flashcard.html
+    |   |
+    |   +---Main
+    |   |       .DS_Store
+    |   |       main.html
+    |   |
+    |   +---notes
+    |   |       add_note.html
+    |   |       edit_note.html
+    |   |       notes.html
+    |   |       previewnotes.html
+    |   |       share_note.html
+    |   |       unshare_note.html
+    |   |
+    |   +---Timer
+    |   |       ptimer.html
+    |   |
+    |   \---todos
+    |           share_note.html
+    |           share_todos.html
+    |           todolist.html
+    |
+    \---__pycache__
+            auth.cpython-39.pyc
+            forms.cpython-38.pyc
+            forms.cpython-39.pyc
+            models.cpython-38.pyc
+            models.cpython-39.pyc
+            routes.cpython-38.pyc
+            routes.cpython-39.pyc
+            __init__.cpython-38.pyc
+            __init__.cpython-39.pyc
 ```

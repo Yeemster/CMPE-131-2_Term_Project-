@@ -19,7 +19,7 @@
       {% for flashcards in flashcardslist %}
       <div class="col-12">
           <li class="list-group-item">
-            <div class='id'><p class='fs-4'> <b>{{flashcards.id}} </b>|  {{flashcards.title}}</div></p>
+            <div class='id'><p class='fs-4'> <b>{{flashcards.id}} </b>|  {{flashcards.question}}</div></p>
               <a href='/flashcardslist/delete/{{ flashcards.id }}'>
                 <button type="button" 
                 class="btn btn-primary" 
@@ -33,7 +33,7 @@
               <button type="button" 
               class="btn btn-primary" 
               style="background-color: darkslategray;">
-                Preview
+                The Answer
               </button>
             </a>
             <p>
