@@ -110,15 +110,3 @@
                     FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
     '''
 ```
-## TimeForm
-```
-'''
-    *In forms.py
-    Class: Defined as a TimeForm form 
-            variables: 
-                    countdown: TimeField for adding time in Minute : Second format
-                    submit: Submitfield for submiting data 
-            Parameters:
-                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
-    '''
-```

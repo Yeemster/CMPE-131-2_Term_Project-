@@ -36,3 +36,10 @@
       Return: None
 '''
 ```
+
+### 5. Notes (db.Table)
+```
+'''
+     This is an association table for many-to-many relationships and houses users, notes and flashcard ids
+'''
+```

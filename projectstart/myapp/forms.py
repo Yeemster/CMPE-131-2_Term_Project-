@@ -140,21 +140,4 @@ class FlashCardForm(FlaskForm):
     question = StringField("question", widget=TextArea())
     submit = SubmitField('Add')
 
-class TimeForm(FlaskForm):
-    '''
-    *In forms.py
-    Class: Defined as a TimeForm form 
-            variables: 
-                    countdown: TimeField for adding time in Minute : Second format
-                    submit: Submitfield for submiting data 
-            Parameters:
-                    FlaskForm, however WTF-Flask takes care of arguments at the time of object instantiation.
-    '''
-    submit = SubmitField('Start')
-    countdown = TimeField('Countdown', format = '%M:%S')
     
-class pomorodoTimerForm (FlaskForm):
-    study_time = IntegerField('Study Time', validators = [DataRequired()])
-    # break_time = IntegerField('Break Time', validators = [DataRequired()])
-    start_button = SubmitField('Start')
-    # reset_button = SubmitField('Reset')

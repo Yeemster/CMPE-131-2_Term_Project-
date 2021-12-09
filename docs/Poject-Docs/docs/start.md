@@ -12,13 +12,13 @@
 * `pip install flask-sqlalchemy ` - Install SQLalchemy for Flask
 * `pip install -u werkzeug` - Install Werkzeug for security
 * `pip install datetime` - Install Datetime
-* `pip install pyttsx3` - Install pyttsx3 (for sound output)
+
 
 # Initialize Database File
 1. Before starting, navigate to the projectstart file.
 1. `python3` Run python3 IDE 
 1. `from myapp import db` import db object
-1. `from myapp.models import User, Note, FlashCard, ToDo, notes` import tables from models including the association tabel 'notes'
+1. `from myapp.models import User, Notes, Note, FlashCard, ToDo` import tables from models including the association tabel 'Notes'
 1. `quit()` exit out of IDE 
 1. navigate to the projectstart file
 1. `python3 run.py` Using this you should be able to run the application
@@ -26,7 +26,7 @@
 
 ```
 CMPE-131-2_Term_Project-
-└── projectstart  # dddd
+└── projectstart  
     ├── myapp
     │   ├── __init__.py
     │   ├── __pycache__

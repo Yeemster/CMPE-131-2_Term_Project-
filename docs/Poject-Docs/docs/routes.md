@@ -208,7 +208,7 @@ allows links to user settings and import Markdown for rendering.
      Parameters:
             No paramters but contains a routing tag "/flashcardslist/add" with "methods of 'GET' and 'POST'
      Returns:
-            render_template(): Renders the html template given parameters form, mdform, and user.
+            render_template(): Renders the html template given parameters form, and user.
 '''
 ```
 
@@ -236,26 +236,38 @@ allows links to user settings and import Markdown for rendering.
 '''
 ```
 
+### 21. share_flashcards(id) - route('/flashcardslist/share/<int:id>')
+```
+'''
+            The function allows the user to share flashcards with desired username
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/flashcardslist/share/<int:id>" with "methods of 'GET' and 'POST'.
+            Returns:
+                    returns render_template() passing html file (flashcards/share_flashcard.html) with arguments form and user.
+'''
+```
+
+### 22. unshare_flashcards(id) - route('/flashcardslist/unshare/<int:id>')
+```
+'''
+            The function allows the user to unshare flashcards with desired username
+            Parameters:
+                    Contains parameter 'id' passed in through a routing tag
+                    "/flashcardslist/unshare/<int:id>" with "methods of 'GET' and 'POST'.
+            Returns:
+                    returns render_template() passing html file (flashcards/unshare_flashcard.html) with arguments form and user.
+'''
+```
 ## Timer Functions
 
-### 21. countdown(t)
+### 23. countdown() - route('/ptimer')
 ```
 '''
-            Countdown function takes int t and runs a countdown timer from t to 0. (In Progress)
-            Parameters:
-                    Contains paramters: (int) t 
-            Returns: (In Progress)
-                    render_template(): Renders the html template given parameters user and timer. 
-'''
-```
-
-### 22. timer() - route('/ptimer')
-```
-'''
-            Timer function reads the timer set by use, converts it into an integer and pass it to countdown
+            Timer function routes the user to an HTML template (Timer/ptimer.html)
             Parameters:
                     No paramters but contains a routing tag with '/ptimer' and methods of 'GET' and 'POST'
             Returns:
-                    render_template(): Renders the html template given parameters form and user.
+                    render_template(): Renders the html template given parameters user (current_user).
 '''
 ```
