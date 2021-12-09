@@ -5,19 +5,44 @@
 <link href = "{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
 </head>
 <body>
-	<div class="wrapper">
+
 		<h1> Welcome to Orange Work</h1>
 
-<img src = "{{url_for('static',filename='images/orange.png')}}" width=200>
-</div>
 
-<div class="background-image"></div>
+
 </body>
 
-<form action="http://127.0.0.1:5000/work">
+<form action="http://127.0.0.1:5000/upload">
     <input type="submit" value="Go to Work" />
 </form>
+<div class="Orange">
 
+<img src = "{{url_for('static',filename='images/orange.png')}}" width=400>
+</div>
+<br>
 
+<div class="UseCases">
+
+</p>
+<h3>Upload your markdown file and display it </h3>
+<img src = "{{url_for('static',filename='images/Upload.png')}}" style="width: 90%";>
+<br>
+</p>
+
+<img src = "{{url_for('static',filename='images/ToDoList.png')}}" style="width: 90%";>
+<br>
+</p>
+<img src = "{{url_for('static',filename='images/YourAcc.png')}}" style="width: 90%";>
+<br>
+</p>
+<img src = "{{url_for('static',filename='images/FlashCards.png')}}" style="width: 90%";>
+</p>
+<br>
+<img src = "{{url_for('static',filename='images/FlaskNotes.png')}}" style="width: 90%";>
+</p>
+<br>
+<img src = "{{url_for('static',filename='images/SIGNUP.png')}}" style="width: 90%";>
+</div>
+</p>
 
 {% endblock %}
