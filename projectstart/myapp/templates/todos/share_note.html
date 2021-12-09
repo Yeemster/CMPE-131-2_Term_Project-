@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<form action="/todoslist/share/{{todo_to_share.id}}" method="POST">
+    <div>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label( class="form-label") }} <br>
+            {{ form.username(class="form-control") }}
+        </p>
+        <button type="submit"><a href="/todoslist/share/{{todo_to_share.id}}"></a>Share</button>
+    </div>
+  </form>
+ 
+{% endblock %}

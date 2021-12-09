@@ -10,6 +10,20 @@ h1{
 
 
 
-img{
+/*img{
 	width: 300px;
+	
+}*/
+
+input{
+	margin-left: 600px;
+	margin-top: 10px;
+}
+
+.Orange{
+	width: 300px;
+}
+
+.UseCases{
+	width: 100%;
 }

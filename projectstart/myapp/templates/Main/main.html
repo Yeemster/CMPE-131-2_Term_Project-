@@ -5,19 +5,58 @@
 <link href = "{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
 </head>
 <body>
-	<div class="wrapper">
-		<h1> Welcome to Orange Work</h1>
+	<h1> Welcome to Orange Work</h1>
 
-<img src = "{{url_for('static',filename='images/orange.png')}}" width=200>
-</div>
-
-<div class="background-image"></div>
-</body>
-
-<form action="http://127.0.0.1:5000/work">
+<!--
+<form action="http://127.0.0.1:5000/upload">
     <input type="submit" value="Go to Work" />
 </form>
+-->
+<div class="Orange">
 
+<img src = "{{url_for('static',filename='images/orange.png')}}" width=400>
+</div>
+<br>
 
+<div class="UseCases">
 
+</p>
+<br>
+<h3 style="color: #0d4f31;">1) Upload your markdown file and display it </h3>
+<img src = "{{url_for('static',filename='images/upload-file.png')}}" style="width: 90%";>
+<br>
+</p>
+</p>
+<br>
+<h3 style="color: #0d4f31;">2) Add rank and items to a 'To Do' list </h3>
+<img src = "{{url_for('static',filename='images/ToDoList.png')}}" style="width: 90%";>
+<br>
+</p>
+</p>
+<br>
+<h3 style="color: #0d4f31;">3) Update or delete user account  </h3>
+<img src = "{{url_for('static',filename='images/YourAcc.png')}}" style="width: 90%";>
+<br>
+</p>
+<br>
+<h3 style="color: #0d4f31;">4) Add, edit, delete, share, or preview flash cards with markdown</h3>
+<img src = "{{url_for('static',filename='images/FlashCards.png')}}" style="width: 90%";>
+</p>
+<br>
+<br>
+<h3 style="color: #0d4f31;">5) Add, edit, delete, share, or preview notes cards with markdown</h3>
+<h3 style="color: #0d4f31;">   Can fills note with markdown file data. Can also be edited after addition</h3>
+<img src = "{{url_for('static',filename='images/FlaskNotes.png')}}" style="width: 90%";>
+</p>
+<br>
+<br>
+<h3 style="color: #0d4f31;">6) Sign in user with his/her account username and password</h3>
+<img src = "{{url_for('static',filename='images/SIGNUP.png')}}" style="width: 90%";>
+</p>
+<br>
+<h3 style="color: #0d4f31;">7) Stopwatch pomodoro timer with start, reset, pause, and refresh features</h3>
+<img src = "{{url_for('static',filename='images/ptimer.png')}}" style="width: 90%";>
+</div>
+</p>
+</body>
 {% endblock %}
